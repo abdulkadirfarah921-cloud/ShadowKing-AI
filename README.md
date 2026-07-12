@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ShadowKing AI v14</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ShadowKing AI v14.1</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
 :root { --bg: #050505; --card: #121212; --text: #EAEAEA; --orange: #FF8C00; --border: #222; }
@@ -11,8 +11,8 @@ header h1 { font-size: 24px; font-weight: 900; color: var(--orange); }
 .top-bar { display: flex; justify-content: space-between; padding: 8px 15px; background: var(--card); border-bottom: 1px solid var(--border); font-size: 13px; }
 .lang-select { background: #222; color: var(--text); border: 1px solid var(--border); padding: 5px 8px; border-radius: 6px; }
 .modes { display: flex; gap: 6px; padding: 10px; justify-content: center; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-.mode-btn { padding: 9px 12px; background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px; color: var(--text); cursor: pointer; font-weight: 700; font-size: 13px; }
-.mode-btn.active { background: var(--orange); color: black; }
+.mode-btn { padding: 9px 12px; background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px; color: var(--text); cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.2s; }
+.mode-btn.active { background: var(--orange); color: black; border-color: var(--orange); }
 .chat-box { flex: 1; overflow-y: auto; padding: 12px; max-width: 900px; margin: auto; width: 100%; }
 .msg { padding: 12px; line-height: 1.8; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; }
 .user { background: #0F0F0F; text-align: right; }
@@ -22,6 +22,7 @@ header h1 { font-size: 24px; font-weight: 900; color: var(--orange); }
 .input-area { padding: 12px; border-top: 1px solid var(--border); background: var(--card); }
 .input-wrap { max-width: 900px; margin: auto; position: relative; }
 input { width: 100%; padding: 14px 55px 14px 14px; border-radius: 20px; border: 1px solid var(--border); background: #1a1a1a; color: white; font-size: 14px; }
+input:focus{outline:none; border-color: var(--orange);}
 .send-btn { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); background: var(--orange); border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; font-size: 18px; color: black; }
 .loader { border: 3px solid #333; border-top: 3px solid var(--orange); border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; margin: 8px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -29,17 +30,17 @@ img.gen-img { max-width: 100%; border-radius: 10px; margin-top: 10px; }
 </style>
 </head>
 <body>
-<header><h1>👑 SHADOWKING AI v14</h1></header>
+<header><h1>👑 SHADOWKING AI v14.1</h1></header>
 <div class="top-bar"><span><b>🌍 اللغة:</b></span><select id="langSelect" class="lang-select"><option>العربية</option><option>English</option></select></div>
 <div class="modes">
-<button class="mode-btn active" onclick="setMode('chat', this)">💬 الدردشة</button>
-<button class="mode-btn" onclick="setMode('learn', this)">📚 التعلم</button>
-<button class="mode-btn" onclick="setMode('web', this)">🌐 Web Mode</button>
-<button class="mode-btn" onclick="setMode('image', this)">🎨 Image Mode</button>
-<button class="mode-btn" onclick="setMode('apk', this)">📱 APK Mode</button>
+<button class="mode-btn active" data-mode="chat">💬 الدردشة</button>
+<button class="mode-btn" data-mode="learn">📚 التعلم</button>
+<button class="mode-btn" data-mode="web">🌐 Web Mode</button>
+<button class="mode-btn" data-mode="image">🎨 Image Mode</button>
+<button class="mode-btn" data-mode="apk">📱 APK Mode</button>
 </div>
 <div class="chat-box" id="chatBox"><div class="msg bot"><h3>👑 ShadowKing</h3>وعليكم السلام ورحمة الله وبركاته ❤️ انا جاهز. اختار المود</div></div>
-<div class="input-area"><div class="input-wrap"><input type="text" id="userInput" placeholder="اكتب طلبك..."><button class="send-btn" onclick="sendMsg()">➤</button></div></div>
+<div class="input-area"><div class="input-wrap"><input type="text" id="userInput" placeholder="اكتب طلبك..."><button class="send-btn" id="sendBtn">➤</button></div></div>
 
 <script>
 const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
@@ -51,49 +52,72 @@ function addMessage(html, isUser=false) {
     document.getElementById('chatBox').innerHTML += `<div class="msg ${className}">${html}</div>`;
     document.getElementById('chatBox').scrollTop = 999;
 }
-function setMode(mode, element) { currentMode = mode; document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active')); element.classList.add('active'); }
+
+// تصليح اختيار المود
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentMode = this.getAttribute('data-mode');
+    });
+});
 
 async function sendMsg() {
-    const input = document.getElementById('userInput'); const msg = input.value.trim(); const lang = document.getElementById('langSelect').value; if(!msg) return;
-    addMessage(`<strong>انت:</strong> ${msg}`, true); input.value = '';
+    const input = document.getElementById('userInput');
+    const msg = input.value.trim();
+    const lang = document.getElementById('langSelect').value;
+    if(!msg) return;
+
+    addMessage(`<strong>انت:</strong> ${msg}`, true);
+    input.value = '';
     const loadingId = 'load' + Date.now();
     addMessage(`<div class="loader" id="${loadingId}"></div>`);
 
     const aiToUse = MODE_AI[currentMode];
-    let systemPrompt = `انت ShadowKing AI. رد بلغة ${lang} وبأدب.`;
+    let systemPrompt = `انت ShadowKing AI. رد بلغة ${lang} وبأدب وبشكل مفيد.`;
 
     if(currentMode === 'apk') systemPrompt += ` انت في وضع صنع تطبيقات. لو سلم رد السلام وقول "كيف اساعدك بتطبيقك؟"`;
     if(currentMode === 'web') systemPrompt += ` انت في وضع صنع مواقع.`;
-    if(currentMode === 'learn') systemPrompt += ` انت معلم. اسأل المستخدم شو بده يتعلم واشرح خطوة خطوة.`;
-    if(currentMode === 'image') systemPrompt += ` انت مصمم.`;
-    if(currentMode === 'chat') systemPrompt += ` انت دردشة فقط.`;
+    if(currentMode === 'learn') systemPrompt += ` انت معلم محترف. اسأل المستخدم شو بده يتعلم واشرح خطوة خطوة بأمثلة.`;
+    if(currentMode === 'image') systemPrompt += ` انت مصمم محترف.`;
+    if(currentMode === 'chat') systemPrompt += ` انت دردشة فقط. ادمج افضل اجوبة.`;
 
     try{
         let data;
         if(currentMode === 'apk'){
-            data = await (await fetch(`${SERVER_URL}/api/build-apk`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg, lang})).json();
+            const res = await fetch(`${SERVER_URL}/api/build-apk`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg, lang})});
+            data = await res.json();
             document.getElementById(loadingId).remove();
             addMessage(`<h3>👑 GPT</h3>${data.text}<br>${data.downloadUrl? `<a href="${data.downloadUrl}" class="btn-download" download>⬇️ تحميل التطبيق ZIP</a>`:''}`);
         }
         else if(currentMode === 'web'){
-            data = await (await fetch(`${SERVER_URL}/api/build-web`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg, lang})).json();
+            const res = await fetch(`${SERVER_URL}/api/build-web`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg, lang})});
+            data = await res.json();
             document.getElementById(loadingId).remove();
             addMessage(`<h3>👑 GPT</h3>${data.text}<br><a href="${data.downloadUrl}" class="btn-download" download>⬇️ تحميل الموقع ZIP</a>`);
         }
         else if(currentMode === 'image'){
-            data = await (await fetch(`${SERVER_URL}/api/generate-image`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg})).json();
+            const res = await fetch(`${SERVER_URL}/api/generate-image`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg})});
+            data = await res.json();
             document.getElementById(loadingId).remove();
             if(data.imageData) addMessage(`<h3>👑 GEMINI</h3><img src="data:${data.mimeType};base64,${data.imageData}" class="gen-img">`);
             else addMessage(`<h3>👑 GEMINI</h3>${data.text}`);
         }
         else{
             let fullPrompt = `${systemPrompt} السؤال: ${msg}`;
-            data = await (await fetch(`${SERVER_URL}/api/chat`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: fullPrompt, model: aiToUse})})).json();
+            const res = await fetch(`${SERVER_URL}/api/chat`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: fullPrompt, model: aiToUse})});
+            data = await res.json();
             document.getElementById(loadingId).remove();
             addMessage(`<h3>${aiToUse.toUpperCase()}</h3>${data.text.replace(/\n/g, '<br>')}`);
         }
-    }catch(e){ document.getElementById(loadingId).remove(); addMessage(`<h3>👑 ShadowKing</h3>اسف صار خطأ بسيط بالاتصال. جرب مرة ثانية ❤️`); }
+    }catch(e){
+        if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+        addMessage(`<h3>👑 ShadowKing</h3>اسف صار خطأ بسيط بالاتصال. جرب مرة ثانية ❤️`);
+    }
 }
+
+// تصليح زر الارسال
+document.getElementById('sendBtn').addEventListener('click', sendMsg);
 document.getElementById('userInput').addEventListener('keypress', e => { if(e.key === 'Enter') sendMsg(); });
 </script>
 </body>
