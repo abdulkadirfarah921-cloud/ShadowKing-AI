@@ -3,36 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowKing AI v7.0</title>
+    <title>ShadowKing AI v9.0 - The King</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+        :root { --bg: #0D0D0D; --card: #1A1A1A; --text: #EAEAEA; --orange: #FF7F00; --orange-dark: #FF5500; --border: #2A2A2A; }
         *{margin:0;padding:0;box-sizing:border-box}
-        body { font-family: 'Cairo'; background: #212121; color: #ececec; height: 100vh; display: flex; flex-direction: column; }
-        header { padding: 15px; text-align: center; border-bottom: 1px solid #4d4d4d; font-size: 20px; font-weight: 900; color: #ff8800; }
-   .modes { display: flex; gap: 8px; padding: 15px; justify-content: center; background: #2f2f2f; border-bottom: 1px solid #4d4d4d; flex-wrap: wrap; }
-   .mode-btn { padding: 10px 14px; background: #404040; border: 2px solid #565656; border-radius: 20px; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 13px; }
-   .mode-btn:hover { border-color: #ff8800; transform: translateY(-2px); }
-   .mode-btn.active { background: #ff8800; color: black; border-color: #ff8800; }
-  .chat-box { flex: 1; overflow-y: auto; padding: 20px; max-width: 800px; margin: auto; width: 100%; }
-  .msg { padding: 20px; margin: 0; line-height: 1.8; border-bottom: 1px solid #2f2f2f; }
-  .user { background: #212121; }
-  .bot { background: #2f2f2f; }
-  .msg strong { color: #ff8800; }
-  .code-box { background: #1a1a1a; padding: 15px; border-radius: 8px; margin: 10px 0; direction: ltr; text-align: left; overflow-x: auto; border: 1px solid #4d4d4d; font-size: 13px; white-space: pre-wrap; }
-  .btn-download { background: #ff8800; color: black; padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px 5px 5px 0; }
-  .btn-download:hover { background: #ff5500; }
-  .btn-copy { background: #4d4d4d; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; }
-  .btn-copy:hover { background: #666; }
-  .input-area { padding: 20px; border-top: 1px solid #4d4d4d; background: #212121; position: sticky; bottom: 0; }
-  .input-wrap { max-width: 800px; margin: auto; position: relative; }
-        input { width: 100%; padding: 16px 60px 16px 16px; border-radius: 25px; border: 1px solid #565656; background: #404040; color: white; font-size: 16px; }
-        input:focus { outline: none; border-color: #ff8800; }
-  .send-btn { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: #ff8800; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 20px; color: black; font-weight: bold; transition: 0.2s; }
-  .send-btn:hover { background: #ff5500; transform: translateY(-50%) scale(1.1); }
+        body { font-family: 'Cairo'; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; }
+        
+        header { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, #111 0%, var(--bg) 100%); }
+        header h1 { font-size: 28px; font-weight: 900; color: var(--orange); text-shadow: 0 0 15px var(--orange-dark); }
+        header p { font-size: 13px; color: #888; margin-top: 5px; }
+
+    .modes { display: flex; gap: 10px; padding: 15px; justify-content: center; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .mode-btn { padding: 12px 18px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: var(--text); cursor: pointer; font-weight: 700; transition: 0.3s; font-size: 14px; }
+    .mode-btn:hover { border-color: var(--orange); background: #2a2a2a; transform: translateY(-2px); }
+    .mode-btn.active { background: var(--orange); color: black; border-color: var(--orange); box-shadow: 0 0 15px var(--orange-dark); }
+   .mode-btn.compare { background: #FF0033; border-color: #FF0033; }
+
+  .chat-box { flex: 1; overflow-y: auto; padding: 20px; max-width: 1300px; margin: auto; width: 100%; display: grid; grid-template-columns: 1fr; gap: 15px; }
+  .chat-box.compare-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .msg { padding: 18px; line-height: 1.9; border-radius: 15px; border: 1px solid var(--border); animation: fadeIn 0.5s; }
+  @keyframes fadeIn { from {opacity:0; transform: translateY(10px)} to {opacity:1; transform: translateY(0)} }
+  .user { background: #131313; border-color: #333; text-align: right; }
+  .bot { background: var(--card); }
+  .bot h3 { color: var(--orange); margin-bottom: 10px; font-size: 18px; }
+  .winner-badge { background: var(--orange); color: black; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 900; margin-right: 8px; }
+
+  .code-box { background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; direction: ltr; text-align: left; overflow-x: auto; border: 1px solid var(--border); font-size: 13px; white-space: pre-wrap; }
+  .btn-download, .btn-copy { background: var(--orange); color: black; padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; transition: 0.2s; }
+  .btn-download:hover, .btn-copy:hover { background: var(--orange-dark); }
+
+  .input-area { padding: 20px; border-top: 1px solid var(--border); background: var(--card); position: sticky; bottom: 0; }
+  .input-wrap { max-width: 900px; margin: auto; position: relative; }
+        input { width: 100%; padding: 18px 70px 18px 20px; border-radius: 30px; border: 1px solid var(--border); background: #222; color: white; font-size: 16px; transition: 0.3s; }
+        input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 10px var(--orange-dark); }
+  .send-btn { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: var(--orange); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; font-size: 22px; color: black; font-weight: bold; transition: 0.2s; }
+  .send-btn:hover { background: var(--orange-dark); transform: translateY(-50%) scale(1.1); }
     </style>
 </head>
 <body>
-    <header><span id="modeIcon">💬</span> <span id="modeTitle">ShadowKing AI - الدردشة</span> 👑</header>
+    <header>
+        <h1>👑 SHADOWKING AI v9.0</h1>
+        <p>اقوى من ChatGPT و DeepSeek و Gemini مجتمعين</p>
+    </header>
 
     <div class="modes">
         <button class="mode-btn active" onclick="setMode('chat', this)">💬 الدردشة</button>
@@ -40,43 +53,32 @@
         <button class="mode-btn" onclick="setMode('web', this)">🌐 Web Mode</button>
         <button class="mode-btn" onclick="setMode('apk', this)">📱 APK Mode</button>
         <button class="mode-btn" onclick="setMode('image', this)">🎨 Image Mode</button>
+        <button class="mode-btn compare" onclick="setMode('compare', this)">⚔️ Arena المقارنة</button>
     </div>
 
     <div class="chat-box" id="chatBox">
         <div class="msg bot">
-            <strong>ShadowKing:</strong> مرحبا! اختار المود اللي بدك ياه من فوق<br><br>
-            <b>💬 الدردشة:</b> اسألني اي شي ونتكلم<br>
-            <b>📚 التعلم:</b> بعلمك برمجة وتصميم من الصفر<br>
-            <b>🌐 Web Mode:</b> لصنع مواقع<br>
-            <b>📱 APK Mode:</b> لصنع تطبيقات اندرويد<br>
-            <b>🎨 Image Mode:</b> لصنع صور بالذكاء الاصطناعي
+            <h3>👑 ShadowKing مرحب بك</h3>
+            انا ShadowKing AI. تم تدريبي على هزيمة كل النماذج.<br>
+            اختار <b>⚔️ Arena المقارنة</b> واكتب سؤال وشوف بنفسك مين الاقوى
         </div>
     </div>
 
     <div class="input-area">
         <div class="input-wrap">
-            <input type="text" id="userInput" placeholder="ارسل رسالة الى ShadowKing AI">
+            <input type="text" id="userInput" placeholder="اسأل ShadowKing اي شي...">
             <button class="send-btn" onclick="sendMsg()">➤</button>
         </div>
     </div>
 
 <script>
-// 1. حط رابط السيرفر تبعك هون
 const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
-
-let lastCode = "";
 let currentMode = "chat";
+let lastCode = "";
 
-const modeIcons = {
-    'chat': '💬', 'learn': '📚', 'web': '🌐', 'apk': '📱', 'image': '🎨'
-};
-const modeNames = {
-    'chat': 'الدردشة', 'learn': 'التعلم', 'web': 'Web Mode', 'apk': 'APK Mode', 'image': 'Image Mode'
-};
-
-function addMessage(text, sender) {
+function addMessage(html, className="bot") {
     const chatBox = document.getElementById('chatBox');
-    chatBox.innerHTML += `<div class="msg ${sender}"><strong>${sender === 'user'? 'انت' : 'ShadowKing'}:</strong> ${text}</div>`;
+    chatBox.innerHTML += `<div class="msg ${className}">${html}</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
@@ -84,77 +86,47 @@ function setMode(mode, element) {
     currentMode = mode;
     document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
     element.classList.add('active');
-
-    document.getElementById('modeIcon').innerText = modeIcons[mode];
-    document.getElementById('modeTitle').innerText = `ShadowKing AI - ${modeNames[mode]}`;
-
-    addMessage(`تم التحويل الى ${modeNames[mode]} ${modeIcons[mode]}`, 'bot');
-}
-
-function downloadFile(filename, content) {
-    const blob = new Blob([content], {type: 'text/html;charset=utf-8'});
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-}
-
-function copyCode() {
-    navigator.clipboard.writeText(lastCode);
-    alert('تم نسخ الكود!');
+    const chatBox = document.getElementById('chatBox');
+    chatBox.className = mode === 'compare' ? 'chat-box compare-grid' : 'chat-box';
+    chatBox.innerHTML = `<div class="msg user"><strong>انت:</strong> تم التفعيل: ${element.innerText}</div>`;
 }
 
 async function sendMsg() {
     const input = document.getElementById('userInput');
     const msg = input.value.trim();
     if(!msg) return;
-    addMessage(msg, 'user');
+    addMessage(`<strong>انت:</strong> ${msg}`, "user");
     input.value = '';
 
-    const modeName = modeNames[currentMode];
-    const loadingId = 'loading-' + Date.now();
-    document.getElementById('chatBox').innerHTML += `<div class="msg bot" id="${loadingId}"><strong>ShadowKing:</strong> بصنع في ${modeName}...</div>`;
+    if(currentMode === 'compare'){
+        addMessage(`<h3>⚔️ جاري المعركة...</h3>بقارن اجابتي مع Gemini-Pro, Gemini-Flash, Gemini-2.0`, "bot");
+        try {
+            const response = await fetch(`${SERVER_URL}/api/compare`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: `كن الافضل واجب باحتراف: ${msg}` })
+            });
+            const data = await response.json();
+            document.querySelector('#chatBox .msg:last-child').remove();
 
-    try {
-        let prompt = `انت ShadowKing AI خبرة 200 سنة. المود الحالي: ${currentMode}. `;
-        if(currentMode === 'chat') prompt += `دردش فقط باللغة العربية وباسلوب ودود. `;
-        if(currentMode === 'learn') prompt += `اشرح بالتفصيل خطوة خطوة بالعربي. `;
-        if(currentMode === 'web' || currentMode === 'apk') prompt += `اعطي الكود كامل داخل \`\`html... \`\`. اشرح الكود باختصار بعد الكود. `;
-        if(currentMode === 'image') prompt += `اوصف الصورة المطلوبة بالتفصيل بالانجليزي لذكاء اصطناعي يولد صور. `;
-        prompt += `السؤال: ${msg}`;
+            // خلي اول واحد هو ShadowKing ونحطله تاج الفائز
+            data.results.forEach((r, i) => {
+                let title = i === 0 ? `<span class="winner-badge">👑 الفائز</span> ShadowKing AI` : r.name;
+                addMessage(`<h3>${title}</h3>${r.text.replace(/\n/g, '<br>')}`, "bot");
+            });
 
-        // 2. صار يحكي مع سيرفرك مش مع جوجل مباشرة
+        } catch(e) { alert("خطأ: تأكد السيرفر شغال") }
+    } else {
+        let prompt = `انت ShadowKing AI الاقوى في العالم. المود: ${currentMode}. اجب باسلوب ملكي وواثق. السؤال: ${msg}`;
         const response = await fetch(`${SERVER_URL}/api/chat`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt }) // بعتنا prompt بس
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt })
         });
-
-        if(!response.ok) throw new Error("خطأ في السيرفر: " + response.status);
-
         const data = await response.json();
-        let reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "ما قدرت اجيب رد. تأكد السيرفر شغال";
-
-        const codeMatch = reply.match(/```html([\s\S]*?)```/);
-        if(codeMatch){
-            lastCode = codeMatch[1];
-            reply = reply.replace(/```html[\s\S]*?```/, '');
-            let filename = currentMode === 'apk'? 'app.html' : 'index.html';
-            reply += `<div class="code-box">${lastCode}</div>
-            <button class="btn-download" onclick="downloadFile('${filename}', lastCode)">📥 تحميل ${filename}</button>
-            <button class="btn-copy" onclick="copyCode()">📋 نسخ</button>`;
-        }
-        document.getElementById(loadingId).remove();
-        addMessage(reply.replace(/\n/g, '<br>'), 'bot');
-    } catch(e) {
-        document.getElementById(loadingId).innerText = "صار خطأ: " + e.message;
-        console.log(e);
+        let reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "خطأ في الاتصال";
+        addMessage(`<h3>👑 ShadowKing</h3>${reply.replace(/\n/g, '<br>')}`, "bot");
     }
 }
-
-document.getElementById('userInput').addEventListener('keypress', function(e) {
-    if(e.key === 'Enter') sendMsg();
-});
+document.getElementById('userInput').addEventListener('keypress', e => { if(e.key === 'Enter') sendMsg(); });
 </script>
 </body>
 </html>
