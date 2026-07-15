@@ -1,2 +1,2 @@
-# ShadowKing AI v14.1
+# ShadowKing AI v14.2
 موقع ذكاء اصطناعي متعدد المودات
