@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShadowKing AI Ultra 👑</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800;900&display=swap" rel="stylesheet">
+
+<!-- سطرين PWA عشان يصير تطبيق -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8B5CF6">
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Tajawal', sans-serif; }
 body {
@@ -27,14 +32,13 @@ body {
 }
 .mode-btn.active { background: linear-gradient(135deg, #8B5CF6, #EC4899); box-shadow: 0 0 30px rgba(139, 92, 246, 1); }
 
-/* التعديل المهم: القائمة تطلع فوق */
 .sub-modes {
   display: none; 
   grid-template-columns: repeat(3, 1fr); 
   gap: 10px; 
   margin: 10px 0; 
   padding: 15px; 
-  background: rgba(5,5,15,0.95); /* اسود اقوى */
+  background: rgba(5,5,15,0.95);
   border-radius: 20px; 
   border: 3px solid rgba(236,72,153,0.6); 
   flex-shrink: 0;
@@ -45,8 +49,8 @@ body {
 .sub-modes.show { display: grid; }
 
 .chat-box { 
-  flex: 1; /* يفضل كبير دايما */
-  min-height: 0; /* مهم جدا عشان flex يشتغل صح */
+  flex: 1;
+  min-height: 0;
   background: rgba(10, 10, 25, 0.85); 
   border-radius: 30px; padding: 25px; overflow-y: auto; 
   border: 3px solid rgba(139, 92, 246, 0.4); backdrop-filter: blur(20px); 
@@ -102,6 +106,11 @@ button.send { padding: 0 45px; border-radius: 20px; border: none; background: li
 const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
 let currentMode = 'chat';
 const chatBox = document.getElementById('chatBox');
+
+// تسجيل Service Worker عشان PWA
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
 
 function setMode(mode, btn) {
   currentMode = mode;
