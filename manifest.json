@@ -1,10 +1,11 @@
 {
   "name": "ShadowKing AI الملك",
   "short_name": "ShadowKing",
-  "start_url": "https://abdulkadirfarah921-cloud.github.io",
+  "start_url": "https://abdulkadirfarah921-cloud.github.io/ShadowKing-AI",
   "display": "standalone",
   "background_color": "#010108",
   "theme_color": "#8B5CF6",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2584/2584501.png",
