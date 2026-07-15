@@ -2,139 +2,143 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ShadowKing AI 👑</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Cairo', sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Tajawal', sans-serif; }
 body {
-  background: #000;
+  background: #050510;
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(120, 0, 255, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 200, 255, 0.3) 0%, transparent 40%);
   color: #fff;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  flex-direction: column;
 }
+
 .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  max-width: 900px;
   width: 100%;
-  max-width: 800px;
-  background: rgba(20, 20, 30, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(138, 43, 226, 0.3);
-  border-radius: 30px;
-  padding: 30px;
-  box-shadow: 0 0 50px rgba(138, 43, 226, 0.4);
+  margin: 0 auto;
 }
+
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  padding: 20px 0;
 }
+.crown {
+  font-size: 60px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px #8A2BE2);
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 .header h1 {
-  font-size: 2.5em;
+  font-size: 1.8em;
   font-weight: 900;
-  background: linear-gradient(90deg, #8A2BE2, #00D4FF, #FFD700);
+  margin-top: 10px;
+  background: linear-gradient(90deg, #A855F7, #06B6D4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
-  margin-bottom: 10px;
 }
+
 .controls {
   display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin: 15px 0;
 }
 select {
   flex: 1;
-  padding: 12px;
-  border-radius: 15px;
-  border: 1px solid rgba(138, 43, 226, 0.5);
-  background: rgba(0,0,0,0.4);
+  padding: 14px;
+  border-radius: 16px;
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  background: rgba(20, 20, 40, 0.8);
   color: #fff;
   font-size: 16px;
   outline: none;
+  backdrop-filter: blur(10px);
 }
+
 .chat-box {
-  height: 400px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 20px;
+  flex: 1;
+  background: rgba(15, 15, 30, 0.7);
+  border-radius: 25px;
   padding: 20px;
   overflow-y: auto;
-  margin-bottom: 20px;
-  border: 1px solid rgba(138, 43, 226, 0.2);
+  margin-bottom: 15px;
+  border: 2px solid rgba(168, 85, 247, 0.2);
+  backdrop-filter: blur(15px);
 }
 .msg {
-  margin: 15px 0;
-  padding: 15px 20px;
+  margin: 12px 0;
+  padding: 16px 20px;
   border-radius: 20px;
-  max-width: 80%;
-  animation: slideIn 0.3s ease;
+  max-width: 85%;
+  font-size: 17px;
+  line-height: 1.6;
+  animation: pop 0.4s ease;
 }
-@keyframes slideIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+@keyframes pop { from {opacity:0; transform: scale(0.9);} to {opacity:1; transform: scale(1);} }
 .user {
-  background: linear-gradient(135deg, #8A2BE2, #4B0082);
+  background: linear-gradient(135deg, #A855F7, #7C3AED);
   margin-right: auto;
-  border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
 }
 .ai {
-  background: rgba(0, 212, 255, 0.15);
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.1));
+  border: 2px solid rgba(6, 182, 212, 0.3);
   margin-left: auto;
-  border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 6px;
 }
+
 .input-area {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  padding-bottom: 10px;
 }
 input {
   flex: 1;
-  padding: 15px 20px;
-  border-radius: 15px;
-  border: 1px solid rgba(138, 43, 226, 0.5);
-  background: rgba(0,0,0,0.4);
+  padding: 18px 22px;
+  border-radius: 18px;
+  border: 2px solid rgba(168, 85, 247, 0.4);
+  background: rgba(20, 20, 40, 0.9);
   color: #fff;
-  font-size: 16px;
+  font-size: 17px;
   outline: none;
 }
 button {
-  padding: 15px 30px;
-  border-radius: 15px;
+  padding: 0 35px;
+  border-radius: 18px;
   border: none;
-  background: linear-gradient(135deg, #8A2BE2, #00D4FF);
+  background: linear-gradient(135deg, #A855F7, #06B6D4);
   color: #fff;
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 900;
+  font-size: 18px;
   cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+  transition: 0.2s;
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
 }
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(138, 43, 226, 0.8);
-}
-.loading { display: none; text-align: center; color: #00D4FF; }
+button:active { transform: scale(0.95); }
+
+.loading { text-align: center; color: #06B6D4; padding: 10px; display: none; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1>ShadowKing AI 👑</h1>
-    <p>الذكاء الاصطناعي الملك</p>
+    <div class="crown">👑</div>
+    <h1>الذكاء الاصطناعي الملك</h1>
   </div>
   
   <div class="controls">
-    <select id="lang">
-      <option value="ar">العربية</option>
-      <option value="en">English</option>
-    </select>
-    <select id="mode">
-      <option value="chat">دردشة</option>
-      <option value="code">برمجة</option>
-      <option value="image">صور</option>
-    </select>
+    <select id="mode"><option value="chat">دردشة</option></select>
+    <select id="lang"><option value="ar">العربية</option></select>
   </div>
 
   <div class="chat-box" id="chatBox">
@@ -144,20 +148,18 @@ button:hover {
   <div class="loading" id="loading">جاري التفكير...</div>
 
   <div class="input-area">
-    <input type="text" id="prompt" placeholder="اكتب رسالتك هنا...">
     <button onclick="sendMsg()">ارسال</button>
+    <input type="text" id="prompt" placeholder="اكتب رسالتك هنا...">
   </div>
 </div>
 
 <script>
-const SERVER_URL = "https://ai-proxy-qnen.onrender.com"; // <<<< مهم خليه ده
+const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
 const chatBox = document.getElementById('chatBox');
 const loading = document.getElementById('loading');
 
 async function sendMsg() {
   const prompt = document.getElementById('prompt').value;
-  const lang = document.getElementById('lang').value;
-  const mode = document.getElementById('mode').value;
   if(!prompt) return;
 
   chatBox.innerHTML += `<div class="msg user">${prompt}</div>`;
@@ -169,12 +171,12 @@ async function sendMsg() {
     const res = await fetch(SERVER_URL + "/api/chat", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({prompt, mode, lang})
+      body: JSON.stringify({prompt})
     });
     const data = await res.json();
     chatBox.innerHTML += `<div class="msg ai">${data.text}</div>`;
   } catch(e) {
-    chatBox.innerHTML += `<div class="msg ai">خطأ في الاتصال. اتاكد السيرفر شغال</div>`;
+    chatBox.innerHTML += `<div class="msg ai">خطأ: السيرفر ما رد. اتاكد من CORS في server.js</div>`;
   }
   loading.style.display = 'none';
   chatBox.scrollTop = chatBox.scrollHeight;
