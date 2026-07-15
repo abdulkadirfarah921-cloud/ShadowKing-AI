@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ShadowKing AI v14.1</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ShadowKing AI v14.2</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
 :root { --bg: #050505; --card: #121212; --text: #EAEAEA; --orange: #FF8C00; --border: #222; }
@@ -27,10 +27,11 @@ input:focus{outline:none; border-color: var(--orange);}
 .loader { border: 3px solid #333; border-top: 3px solid var(--orange); border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; margin: 8px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 img.gen-img { max-width: 100%; border-radius: 10px; margin-top: 10px; }
+code { background: #000; padding: 2px 6px; border-radius: 4px; color: var(--orange); }
 </style>
 </head>
 <body>
-<header><h1>👑 SHADOWKING AI v14.1</h1></header>
+<header><h1>👑 SHADOWKING AI v14.2</h1></header>
 <div class="top-bar"><span><b>🌍 اللغة:</b></span><select id="langSelect" class="lang-select"><option>العربية</option><option>English</option></select></div>
 <div class="modes">
 <button class="mode-btn active" data-mode="chat">💬 الدردشة</button>
@@ -43,17 +44,15 @@ img.gen-img { max-width: 100%; border-radius: 10px; margin-top: 10px; }
 <div class="input-area"><div class="input-wrap"><input type="text" id="userInput" placeholder="اكتب طلبك..."><button class="send-btn" id="sendBtn">➤</button></div></div>
 
 <script>
-const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
+const SERVER_URL = "https://qnen.onrender.com"; // غيرته للسيرفر الصح
 let currentMode = "chat";
-const MODE_AI = {'chat': 'shadow', 'learn': 'claude', 'web': 'gpt', 'image': 'gemini', 'apk': 'gpt'};
 
 function addMessage(html, isUser=false) {
     const className = isUser? 'user' : 'bot';
     document.getElementById('chatBox').innerHTML += `<div class="msg ${className}">${html}</div>`;
-    document.getElementById('chatBox').scrollTop = 999;
+    document.getElementById('chatBox').scrollTop = 999999;
 }
 
-// تصليح اختيار المود
 document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.addEventListener('click', function(){
         document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
@@ -73,50 +72,32 @@ async function sendMsg() {
     const loadingId = 'load' + Date.now();
     addMessage(`<div class="loader" id="${loadingId}"></div>`);
 
-    const aiToUse = MODE_AI[currentMode];
-    let systemPrompt = `انت ShadowKing AI. رد بلغة ${lang} وبأدب وبشكل مفيد.`;
+    let endpoint = '/api/chat';
+    let body = {prompt: msg, mode: currentMode, lang: lang};
 
-    if(currentMode === 'apk') systemPrompt += ` انت في وضع صنع تطبيقات. لو سلم رد السلام وقول "كيف اساعدك بتطبيقك؟"`;
-    if(currentMode === 'web') systemPrompt += ` انت في وضع صنع مواقع.`;
-    if(currentMode === 'learn') systemPrompt += ` انت معلم محترف. اسأل المستخدم شو بده يتعلم واشرح خطوة خطوة بأمثلة.`;
-    if(currentMode === 'image') systemPrompt += ` انت مصمم محترف.`;
-    if(currentMode === 'chat') systemPrompt += ` انت دردشة فقط. ادمج افضل اجوبة.`;
+    if(currentMode === 'apk') endpoint = '/api/build-apk';
+    if(currentMode === 'web') endpoint = '/api/build-web';
+    if(currentMode === 'image') endpoint = '/api/generate-image';
 
     try{
-        let data;
-        if(currentMode === 'apk'){
-            const res = await fetch(`${SERVER_URL}/api/build-apk`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg, lang})});
-            data = await res.json();
-            document.getElementById(loadingId).remove();
-            addMessage(`<h3>👑 GPT</h3>${data.text}<br>${data.downloadUrl? `<a href="${data.downloadUrl}" class="btn-download" download>⬇️ تحميل التطبيق ZIP</a>`:''}`);
-        }
-        else if(currentMode === 'web'){
-            const res = await fetch(`${SERVER_URL}/api/build-web`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg, lang})});
-            data = await res.json();
-            document.getElementById(loadingId).remove();
-            addMessage(`<h3>👑 GPT</h3>${data.text}<br><a href="${data.downloadUrl}" class="btn-download" download>⬇️ تحميل الموقع ZIP</a>`);
-        }
-        else if(currentMode === 'image'){
-            const res = await fetch(`${SERVER_URL}/api/generate-image`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: msg})});
-            data = await res.json();
-            document.getElementById(loadingId).remove();
-            if(data.imageData) addMessage(`<h3>👑 GEMINI</h3><img src="data:${data.mimeType};base64,${data.imageData}" class="gen-img">`);
-            else addMessage(`<h3>👑 GEMINI</h3>${data.text}`);
-        }
-        else{
-            let fullPrompt = `${systemPrompt} السؤال: ${msg}`;
-            const res = await fetch(`${SERVER_URL}/api/chat`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt: fullPrompt, model: aiToUse})});
-            data = await res.json();
-            document.getElementById(loadingId).remove();
-            addMessage(`<h3>${aiToUse.toUpperCase()}</h3>${data.text.replace(/\n/g, '<br>')}`);
+        const res = await fetch(`${SERVER_URL}${endpoint}`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body)});
+        const data = await res.json();
+        document.getElementById(loadingId).remove();
+        
+        if(currentMode === 'image' && data.imageData){
+            addMessage(`<h3>👑 GEMINI</h3><img src="data:${data.mimeType};base64,${data.imageData}" class="gen-img">`);
+        } else if(data.downloadUrl){
+            addMessage(`<h3>👑 ${currentMode.toUpperCase()}</h3>${data.text}<br><a href="${data.downloadUrl}" class="btn-download" download>⬇️ تحميل ZIP</a>`);
+        } else {
+            addMessage(`<h3>👑 SHADOWKING</h3>${data.text.replace(/\n/g, '<br>')}`);
         }
     }catch(e){
         if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-        addMessage(`<h3>👑 ShadowKing</h3>اسف صار خطأ بسيط بالاتصال. جرب مرة ثانية ❤️`);
+        addMessage(`<h3>👑 ShadowKing</h3>اسف صار خطأ بالاتصال. تاكد ان السيرفر شغال ❤️`);
+        console.error(e);
     }
 }
 
-// تصليح زر الارسال
 document.getElementById('sendBtn').addEventListener('click', sendMsg);
 document.getElementById('userInput').addEventListener('keypress', e => { if(e.key === 'Enter') sendMsg(); });
 </script>
