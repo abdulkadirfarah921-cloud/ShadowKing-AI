@@ -3,98 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShadowKing AI 👑</title>
+<title>ShadowKing AI Ultra 👑</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Tajawal', sans-serif; }
 body {
-  background: #03030a;
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.5) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.4) 0%, transparent 50%);
-  color: #fff;
-  height: 100vh;
-  display: flex;
+  background: #020210;
+  background-image: radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.6) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.5) 0%, transparent 50%);
+  color: #fff; height: 100vh; display: flex;
 }
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
+.container { flex: 1; display: flex; flex-direction: column; padding: 15px; max-width: 1200px; margin: 0 auto; }
+.header { text-align: center; padding: 20px 0; }
+.crown { font-size: 80px; animation: glow 2s infinite alternate; filter: drop-shadow(0 0 40px #F59E0B); }
+@keyframes glow { from {filter: drop-shadow(0 0 20px #F59E0B);} to {filter: drop-shadow(0 0 60px #8B5CF6);} }
+.header h1 { font-size: 2.5em; font-weight: 900; background: linear-gradient(90deg, #8B5CF6, #EC4899, #F59E0B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 20px 0; }
+.mode-btn {
+  padding: 15px; border-radius: 20px; background: rgba(139, 92, 246, 0.2);
+  border: 2px solid rgba(139, 92, 246, 0.4); color: #fff; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px);
 }
-.header { text-align: center; padding: 25px 0; }
-.crown { font-size: 70px; filter: drop-shadow(0 0 30px #F59E0B); animation: glow 2s ease-in-out infinite alternate; }
-@keyframes glow { from {filter: drop-shadow(0 0 20px #F59E0B);} to {filter: drop-shadow(0 0 40px #8B5CF6);} }
-.header h1 {
-  font-size: 2.2em;
-  font-weight: 900;
-  margin-top: 15px;
-  background: linear-gradient(90deg, #8B5CF6, #3B82F6, #F59E0B);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.controls { display: flex; gap: 15px; margin: 20px 0; }
-select {
-  flex: 1; padding: 16px; border-radius: 20px;
-  border: 2px solid rgba(139, 92, 246, 0.4);
-  background: rgba(10, 10, 25, 0.8); color: #fff; font-size: 17px;
-  backdrop-filter: blur(20px);
-}
-.chat-box {
-  flex: 1; background: rgba(10, 10, 25, 0.6);
-  border-radius: 30px; padding: 25px; overflow-y: auto;
-  border: 2px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(20px);
-  box-shadow: 0 0 50px rgba(139, 92, 246, 0.2);
-}
-.msg { margin: 18px 0; padding: 18px 24px; border-radius: 25px; max-width: 85%; font-size: 18px; line-height: 1.7; animation: pop 0.3s ease; }
+.mode-btn.active { background: linear-gradient(135deg, #8B5CF6, #EC4899); box-shadow: 0 0 30px rgba(139, 92, 246, 0.8); transform: scale(1.05); }
+
+.chat-box { flex: 1; background: rgba(10, 10, 25, 0.7); border-radius: 30px; padding: 25px; overflow-y: auto; border: 2px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(20px); }
+.msg { margin: 18px 0; padding: 20px 25px; border-radius: 25px; max-width: 85%; font-size: 18px; line-height: 1.8; animation: pop 0.3s ease; }
 @keyframes pop { from {opacity:0; transform: translateY(15px);} to {opacity:1; transform: translateY(0);} }
-.user { background: linear-gradient(135deg, #8B5CF6, #EC4899); margin-right: auto; border-bottom-right-radius: 8px; box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5); }
-.ai { background: rgba(59, 130, 246, 0.15); border: 2px solid rgba(59, 130, 246, 0.4); margin-left: auto; border-bottom-left-radius: 8px; }
+.user { background: linear-gradient(135deg, #8B5CF6, #EC4899); margin-right: auto; }
+.ai { background: rgba(59, 130, 246, 0.15); border: 2px solid rgba(59, 130, 246, 0.4); margin-left: auto; }
+
 .input-area { display: flex; gap: 15px; padding: 20px 0; }
-input {
-  flex: 1; padding: 20px 25px; border-radius: 20px;
-  border: 2px solid rgba(139, 92, 246, 0.5);
-  background: rgba(10, 10, 25, 0.9); color: #fff; font-size: 18px;
-}
-button {
-  padding: 0 45px; border-radius: 20px; border: none;
-  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
-  color: #fff; font-weight: 900; font-size: 20px; cursor: pointer;
-  transition: 0.2s; box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
-}
+input { flex: 1; padding: 20px 25px; border-radius: 20px; border: 2px solid rgba(139, 92, 246, 0.5); background: rgba(10, 10, 25, 0.9); color: #fff; font-size: 18px; }
+button { padding: 0 45px; border-radius: 20px; border: none; background: linear-gradient(135deg, #8B5CF6, #EC4899); color: #fff; font-weight: 900; font-size: 20px; cursor: pointer; transition: 0.2s; }
 button:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.9); }
+.download-btn { background: linear-gradient(135deg, #10B981, #06B6D4); margin-top: 10px; display: inline-block; padding: 10px 20px; border-radius: 15px; text-decoration: none; color: #fff; font-weight: 800; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header"><div class="crown">👑</div><h1>الذكاء الاصطناعي الملك</h1></div>
-  <div class="controls">
-    <select id="mode"><option>دردشة</option></select>
-    <select id="lang"><option>العربية</option></select>
+  
+  <div class="modes">
+    <button class="mode-btn active" onclick="setMode('chat', this)">💬 دردشة</button>
+    <button class="mode-btn" onclick="setMode('app', this)">📱 صنع تطبيق</button>
+    <button class="mode-btn" onclick="setMode('game3d', this)">🎮 لعبة 3D</button>
+    <button class="mode-btn" onclick="setMode('website', this)">🌐 صنع موقع</button>
+    <button class="mode-btn" onclick="setMode('image', this)">🖼️ صورة 4K</button>
+    <button class="mode-btn" onclick="setMode('video', this)">🎬 فيديو</button>
+    <button class="mode-btn" onclick="setMode('learn', this)">📚 تعلم</button>
   </div>
-  <div class="chat-box" id="chatBox"><div class="msg ai">مرحبا يا ملك 👑 كيف بقدر اساعدك اليوم؟</div></div>
+
+  <div class="chat-box" id="chatBox"><div class="msg ai">مرحبا يا ملك 👑 اختار مود واكتب اللي بدك اياه</div></div>
+
   <div class="input-area">
     <button onclick="sendMsg()">ارسال</button>
-    <input type="text" id="prompt" placeholder="اكتب رسالتك هنا...">
+    <input type="text" id="prompt" placeholder="مثال: اصنعلي تطبيق حاسبة وابعته zip">
   </div>
 </div>
 <script>
 const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
+let currentMode = 'chat';
 const chatBox = document.getElementById('chatBox');
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let text = "تم تفعيل مود: " + btn.innerText;
+  chatBox.innerHTML += `<div class="msg ai">${text}</div>`;
+}
+
 async function sendMsg() {
   const prompt = document.getElementById('prompt').value;
   if(!prompt) return;
   chatBox.innerHTML += `<div class="msg user">${prompt}</div>`;
   document.getElementById('prompt').value = '';
   chatBox.scrollTop = chatBox.scrollHeight;
+
   try {
-    const res = await fetch(SERVER_URL + "/api/chat", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({prompt})});
+    const res = await fetch(SERVER_URL + "/api/chat", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({prompt, mode: currentMode})});
     const data = await res.json();
-    chatBox.innerHTML += `<div class="msg ai">${data.text}</div>`; // هسا مش هيطلع undefined
-  } catch(e) { chatBox.innerHTML += `<div class="msg ai">خطأ في الاتصال بالملك</div>`; }
+    let aiResponse = `<div class="msg ai">${data.text}`;
+    
+    // لو المود تطبيق او موقع نضيف زر تحميل
+    if(currentMode === 'app' || currentMode === 'website'){
+      aiResponse += `<br><a href="#" class="download-btn">📦 تحميل الملفات ZIP</a>`;
+    }
+    aiResponse += `</div>`;
+    chatBox.innerHTML += aiResponse;
+  } catch(e) { chatBox.innerHTML += `<div class="msg ai">خطأ في الاتصال</div>`; }
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 document.getElementById('prompt').addEventListener('keypress', e => { if(e.key === 'Enter') sendMsg(); });
