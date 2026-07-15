@@ -2,189 +2,102 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShadowKing AI 👑</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Tajawal', sans-serif; }
 body {
-  background: #050510;
+  background: #03030a;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(120, 0, 255, 0.4) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(0, 200, 255, 0.3) 0%, transparent 40%);
+    radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.4) 0%, transparent 50%);
   color: #fff;
   height: 100vh;
   display: flex;
-  flex-direction: column;
 }
-
 .container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  max-width: 900px;
+  padding: 20px;
+  max-width: 1000px;
   width: 100%;
   margin: 0 auto;
 }
-
-.header {
-  text-align: center;
-  padding: 20px 0;
-}
-.crown {
-  font-size: 60px;
-  animation: float 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px #8A2BE2);
-}
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.header { text-align: center; padding: 25px 0; }
+.crown { font-size: 70px; filter: drop-shadow(0 0 30px #F59E0B); animation: glow 2s ease-in-out infinite alternate; }
+@keyframes glow { from {filter: drop-shadow(0 0 20px #F59E0B);} to {filter: drop-shadow(0 0 40px #8B5CF6);} }
 .header h1 {
-  font-size: 1.8em;
+  font-size: 2.2em;
   font-weight: 900;
-  margin-top: 10px;
-  background: linear-gradient(90deg, #A855F7, #06B6D4);
+  margin-top: 15px;
+  background: linear-gradient(90deg, #8B5CF6, #3B82F6, #F59E0B);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-.controls {
-  display: flex;
-  gap: 12px;
-  margin: 15px 0;
-}
+.controls { display: flex; gap: 15px; margin: 20px 0; }
 select {
-  flex: 1;
-  padding: 14px;
-  border-radius: 16px;
-  border: 2px solid rgba(168, 85, 247, 0.3);
-  background: rgba(20, 20, 40, 0.8);
-  color: #fff;
-  font-size: 16px;
-  outline: none;
-  backdrop-filter: blur(10px);
+  flex: 1; padding: 16px; border-radius: 20px;
+  border: 2px solid rgba(139, 92, 246, 0.4);
+  background: rgba(10, 10, 25, 0.8); color: #fff; font-size: 17px;
+  backdrop-filter: blur(20px);
 }
-
 .chat-box {
-  flex: 1;
-  background: rgba(15, 15, 30, 0.7);
-  border-radius: 25px;
-  padding: 20px;
-  overflow-y: auto;
-  margin-bottom: 15px;
-  border: 2px solid rgba(168, 85, 247, 0.2);
-  backdrop-filter: blur(15px);
+  flex: 1; background: rgba(10, 10, 25, 0.6);
+  border-radius: 30px; padding: 25px; overflow-y: auto;
+  border: 2px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(20px);
+  box-shadow: 0 0 50px rgba(139, 92, 246, 0.2);
 }
-.msg {
-  margin: 12px 0;
-  padding: 16px 20px;
-  border-radius: 20px;
-  max-width: 85%;
-  font-size: 17px;
-  line-height: 1.6;
-  animation: pop 0.4s ease;
-}
-@keyframes pop { from {opacity:0; transform: scale(0.9);} to {opacity:1; transform: scale(1);} }
-.user {
-  background: linear-gradient(135deg, #A855F7, #7C3AED);
-  margin-right: auto;
-  border-bottom-right-radius: 6px;
-  box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
-}
-.ai {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.1));
-  border: 2px solid rgba(6, 182, 212, 0.3);
-  margin-left: auto;
-  border-bottom-left-radius: 6px;
-}
-
-.input-area {
-  display: flex;
-  gap: 12px;
-  padding-bottom: 10px;
-}
+.msg { margin: 18px 0; padding: 18px 24px; border-radius: 25px; max-width: 85%; font-size: 18px; line-height: 1.7; animation: pop 0.3s ease; }
+@keyframes pop { from {opacity:0; transform: translateY(15px);} to {opacity:1; transform: translateY(0);} }
+.user { background: linear-gradient(135deg, #8B5CF6, #EC4899); margin-right: auto; border-bottom-right-radius: 8px; box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5); }
+.ai { background: rgba(59, 130, 246, 0.15); border: 2px solid rgba(59, 130, 246, 0.4); margin-left: auto; border-bottom-left-radius: 8px; }
+.input-area { display: flex; gap: 15px; padding: 20px 0; }
 input {
-  flex: 1;
-  padding: 18px 22px;
-  border-radius: 18px;
-  border: 2px solid rgba(168, 85, 247, 0.4);
-  background: rgba(20, 20, 40, 0.9);
-  color: #fff;
-  font-size: 17px;
-  outline: none;
+  flex: 1; padding: 20px 25px; border-radius: 20px;
+  border: 2px solid rgba(139, 92, 246, 0.5);
+  background: rgba(10, 10, 25, 0.9); color: #fff; font-size: 18px;
 }
 button {
-  padding: 0 35px;
-  border-radius: 18px;
-  border: none;
-  background: linear-gradient(135deg, #A855F7, #06B6D4);
-  color: #fff;
-  font-weight: 900;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+  padding: 0 45px; border-radius: 20px; border: none;
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  color: #fff; font-weight: 900; font-size: 20px; cursor: pointer;
+  transition: 0.2s; box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
 }
-button:active { transform: scale(0.95); }
-
-.loading { text-align: center; color: #06B6D4; padding: 10px; display: none; }
+button:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.9); }
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <div class="crown">👑</div>
-    <h1>الذكاء الاصطناعي الملك</h1>
-  </div>
-  
+  <div class="header"><div class="crown">👑</div><h1>الذكاء الاصطناعي الملك</h1></div>
   <div class="controls">
-    <select id="mode"><option value="chat">دردشة</option></select>
-    <select id="lang"><option value="ar">العربية</option></select>
+    <select id="mode"><option>دردشة</option></select>
+    <select id="lang"><option>العربية</option></select>
   </div>
-
-  <div class="chat-box" id="chatBox">
-    <div class="msg ai">مرحبا يا ملك 👑 كيف بقدر اساعدك اليوم؟</div>
-  </div>
-
-  <div class="loading" id="loading">جاري التفكير...</div>
-
+  <div class="chat-box" id="chatBox"><div class="msg ai">مرحبا يا ملك 👑 كيف بقدر اساعدك اليوم؟</div></div>
   <div class="input-area">
     <button onclick="sendMsg()">ارسال</button>
     <input type="text" id="prompt" placeholder="اكتب رسالتك هنا...">
   </div>
 </div>
-
 <script>
 const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
 const chatBox = document.getElementById('chatBox');
-const loading = document.getElementById('loading');
-
 async function sendMsg() {
   const prompt = document.getElementById('prompt').value;
   if(!prompt) return;
-
   chatBox.innerHTML += `<div class="msg user">${prompt}</div>`;
   document.getElementById('prompt').value = '';
-  loading.style.display = 'block';
   chatBox.scrollTop = chatBox.scrollHeight;
-
   try {
-    const res = await fetch(SERVER_URL + "/api/chat", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({prompt})
-    });
+    const res = await fetch(SERVER_URL + "/api/chat", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({prompt})});
     const data = await res.json();
-    chatBox.innerHTML += `<div class="msg ai">${data.text}</div>`;
-  } catch(e) {
-    chatBox.innerHTML += `<div class="msg ai">خطأ: السيرفر ما رد. اتاكد من CORS في server.js</div>`;
-  }
-  loading.style.display = 'none';
+    chatBox.innerHTML += `<div class="msg ai">${data.text}</div>`; // هسا مش هيطلع undefined
+  } catch(e) { chatBox.innerHTML += `<div class="msg ai">خطأ في الاتصال بالملك</div>`; }
   chatBox.scrollTop = chatBox.scrollHeight;
 }
-
-document.getElementById('prompt').addEventListener('keypress', e => {
-  if(e.key === 'Enter') sendMsg();
-});
+document.getElementById('prompt').addEventListener('keypress', e => { if(e.key === 'Enter') sendMsg(); });
 </script>
 </body>
 </html>
