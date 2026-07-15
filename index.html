@@ -6,7 +6,7 @@
 <title>ShadowKing AI Ultra 👑</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800;900&display=swap" rel="stylesheet">
 
-<!-- سطرين PWA عشان يصير تطبيق -->
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8B5CF6">
 
@@ -107,7 +107,7 @@ const SERVER_URL = "https://ai-proxy-qnen.onrender.com";
 let currentMode = 'chat';
 const chatBox = document.getElementById('chatBox');
 
-// تسجيل Service Worker عشان PWA
+// تسجيل Service Worker
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js');
 }
