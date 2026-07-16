@@ -1,73 +1,107 @@
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadowking AI</title>
+<style>
+  body { margin:0; background:#0a0a0a; color:#fff; font-family:'Cairo', sans-serif; overflow:hidden; }
+ .gold { color:#FFD700; }
+  #chat { height:100vh; padding:20px; overflow-y:auto; padding-bottom:80px; }
 
-  const firebaseConfig = { apiKey: "AIzaSyAg9Hmv_DcMw2XdvNzr-F1B8cTC9aF-JjA", authDomain: "shadowking-ai.firebaseapp.com", projectId: "shadowking-ai", storageBucket: "shadowking-ai.firebasestorage.app", messagingSenderId: "934957850087", appId: "1:934957850087:web:cc4798c7fe35fb4f95b142" };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  let currentMode = 'chat';
+  /* Sidebar من اليمين */
+ .sidebar { position:fixed; top:0; right:-320px; width:320px; height:100%; background:#111; transition:0.4s; z-index:100; padding:20px; border-left:2px solid #FFD700; overflow-y:auto; }
+ .sidebar.open { right:0; }
+ .side-btn { width:100%; padding:15px; margin:10px 0; background:#1a1a1a; border:1px solid #FFD700; color:#FFD700; border-radius:12px; font-size:16px; text-align:right; cursor:pointer; }
+ .side-btn:hover { background:#FFD700; color:#000; }
 
-  const AI_SERVER = "https://ai-proxy-qnen.onrender.com"; // سيرفرك
+  /* Bottom Sheet من تحت */
+ .bottom-sheet { position:fixed; bottom:-400px; left:0; width:100%; background:#111; transition:0.4s; z-index:100; border-top:2px solid #FFD700; border-radius:20px 20px 0 0; padding:20px; }
+ .bottom-sheet.open { bottom:0; }
+ .mode-btn { width:100%; padding:15px; margin:8px 0; background:#1a1a1a; border:1px solid #FFD700; color:#FFD700; border-radius:10px; font-size:16px; }
+ .drag-handle { width:50px; height:5px; background:#FFD700; border-radius:10px; margin:0 auto 15px; }
 
-  window.selectMode = (btn, mode) => {
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentMode = mode;
-    let msg = "تم تفعيل مود: " + btn.innerText + " ✅";
-    document.getElementById('chatBox').innerHTML = `<div class="message ai-msg">${msg}</div>`;
-  }
+  /* قائمة اللغات */
+ .lang-list { max-height:300px; overflow-y:auto; }
+</style>
+</head>
+<body>
 
-  async function callAI(prompt) {
-    const res = await fetch(`${AI_SERVER}/generate`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ prompt: prompt })
-    });
-    const data = await res.json();
-    return data.text;
-  }
+<div id="chat">
+  <h2 class="gold">Shadowking AI</h2>
+  <p id="welcome">مرحبا بك</p>
+</div>
 
-  function downloadZip(filename, files) {
-    let content = `Shadowking AI Generated\n========================\n\n`;
-    for(const [name, code] of Object.entries(files)){
-      content += `--- ملف: ${name} ---\n${code}\n\n`;
+<!-- Sidebar الإعدادات -->
+<div class="sidebar" id="sidebar">
+  <h3 class="gold">القائمة</h3>
+
+  <button class="side-btn" onclick="login()">1. تسجيل الدخول</button>
+  <button class="side-btn" onclick="openSettings()">2. الإعدادات</button>
+  <button class="side-btn" onclick="openLangs()">3. اللغات 🌍</button>
+  <button class="side-btn" onclick="logout()">تسجيل الخروج</button>
+
+  <!-- قائمة اللغات مخفية -->
+  <div id="langBox" style="display:none; margin-top:15px;">
+    <h4 class="gold">اختر اللغة</h4>
+    <div class="lang-list" id="langList"></div>
+  </div>
+</div>
+
+<!-- Bottom Sheet المودات -->
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="drag-handle"></div>
+  <h3 class="gold">اختر المود</h3>
+  <button class="mode-btn" onclick="selectMode('chat')">💬 دردشة عادية</button>
+  <button class="mode-btn" onclick="selectMode('app')">📱 صنع تطبيق</button>
+  <button class="mode-btn" onclick="selectMode('game')">🎮 صنع لعبة</button>
+  <button class="mode-btn" onclick="selectMode('code')">💻 كتابة كود</button>
+</div>
+
+<script>
+  let startX, startY;
+  const sidebar = document.getElementById('sidebar');
+  const bottomSheet = document.getElementById('bottomSheet');
+
+  // 1. اللغة التلقائية حسب الجهاز
+  const userLang = navigator.language || navigator.userLanguage;
+  document.documentElement.lang = userLang;
+  document.getElementById('welcome').innerText = userLang.startsWith('ar')? "مرحبا بك" : "Welcome";
+
+  // 2. السحب
+  document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; });
+  document.addEventListener('touchend', e => {
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
+    if(startX > window.innerWidth - 50 && endX < startX - 50) sidebar.classList.add('open'); // من اليمين
+    if(startY > window.innerHeight - 50 && endY < startY - 50) bottomSheet.classList.add('open'); // من تحت
+  });
+
+  // 3. قائمة اللغات - كل لغات العالم
+  const languages = {
+    "ar": "العربية", "en": "English", "fr": "Français", "es": "Español", "de": "Deutsch",
+    "tr": "Türkçe", "hi": "हिन्दी", "zh": "中文", "ja": "日本語", "ru": "Русский",
+    "pt": "Português", "it": "Italiano", "ko": "한국어", "ur": "اردو", "fa": "فارسی"
+    // تقدر تضيف باقي 200 لغة هنا
+  };
+  function openLangs(){
+    document.getElementById('langBox').style.display = 'block';
+    const list = document.getElementById('langList');
+    list.innerHTML = '';
+    for(let code in languages){
+      let btn = document.createElement('button');
+      btn.className = 'side-btn';
+      btn.innerText = languages[code];
+      btn.onclick = () => { document.documentElement.lang = code; alert("تم التغيير ل: " + languages[code]); }
+      list.appendChild(btn);
     }
-    const blob = new Blob([content], {type: 'text/plain'});
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename + ".txt";
-    link.click();
   }
 
-  window.sendMessage = async () => {
-    const input = document.getElementById('userInput');
-    const text = input.value.trim();
-    if (!text) return;
-
-    const chatBox = document.getElementById('chatBox');
-    chatBox.innerHTML += `<div class="message user-msg">[${currentMode}] ${text}</div>`;
-    input.value = '';
-    chatBox.scrollTop = chatBox.scrollHeight;
-    chatBox.innerHTML += `<div class="message ai-msg">جاري التوليد من السيرفر... 👑</div>`;
-
-    if(currentMode === 'app'){
-      const prompt = `انت مطور Flutter محترف. اكتب كود كامل لتطبيق: ${text}. ارجعلي الكود مقسم ب --- ملف: اسم الملف ---`;
-      const code = await callAI(prompt);
-      downloadZip(text.substring(0,10), { "main.dart": code });
-      chatBox.innerHTML += `<div class="message ai-msg">تم ✅ نزل الملف. افتحه وشوف الكود</div>`;
-
-    } else if(currentMode === 'game'){
-      const prompt = `انت مطور العاب HTML5. اكتب كود لعبة 2D كاملة: ${text}. في ملف index.html واحد`;
-      const code = await callAI(prompt);
-      downloadZip(text.substring(0,10), { "index.html": code });
-      chatBox.innerHTML += `<div class="message ai-msg">تم ✅ نزلت اللعبة. افتح index.html</div>`;
-
-    } else {
-      const code = await callAI(text);
-      chatBox.innerHTML += `<div class="message ai-msg">${code}</div>`;
-    }
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-
-  window.logout = () => signOut(auth).then(() => window.location.href = 'index.html');
+  function login(){ alert("تسجيل الدخول بجوجل"); sidebar.classList.remove('open'); }
+  function openSettings(){ alert("فتح الإعدادات"); }
+  function logout(){ alert("تسجيل خروج"); }
+  function selectMode(mode){ alert("تم اختيار: " + mode); bottomSheet.classList.remove('open'); }
 </script>
+
+</body>
+</html>
