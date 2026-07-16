@@ -1,158 +1,117 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShadowKing AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#070707; --bg2:#0F0F0F; --card:#111; --border:#222; 
-  --gold:#FFD700; --purple:#8B5CF6; --pink:#EC4899;
-}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif;}
-body{background:var(--bg);color:#EAEAEA;height:100vh;display:flex;overflow:hidden;}
-
-.sidebar{
-  width:280px;background:linear-gradient(180deg,#0A0A0A,#000);
-  border-left:1px solid var(--border);padding:25px 15px;
-  display:flex;flex-direction:column;gap:15px;
-}
-.logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900;color:var(--gold);justify-content:center;margin-bottom:10px;}
-.logo span{font-size:28px;}
-.mode{
-  display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:12px;
-  background:transparent;color:#AAA;cursor:pointer;font-weight:700;transition:0.2s;
-}
-.mode:hover{background:#1A1A1A;color:white;}
-.mode.active{
-  background:linear-gradient(90deg,var(--purple),var(--pink));
-  color:white;box-shadow:0 0 20px rgba(139,92,246,0.4);
-}
-
-.chat{
-  flex:1;display:flex;flex-direction:column;
-}
-.topbar{
-  padding:18px 30px;border-bottom:1px solid var(--border);
-  background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);
-}
-.topbar h3{color:var(--gold);font-weight:800;}
-
-.messages{
-  flex:1;overflow-y:auto;padding:30px;
-  background:radial-gradient(circle at 50% 0%, #1a0033 0%, var(--bg) 50%);
-}
-.msg-wrap{max-width:800px;margin:0 auto;width:100%;}
-.msg{
-  display:flex;gap:15px;margin-bottom:25px;align-items:flex-start;
-}
-.avatar{
-  width:40px;height:40px;border-radius:10px;
-  background:linear-gradient(135deg,var(--gold),#FF8C00);
-  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
-}
-.ai .avatar{background:linear-gradient(135deg,var(--purple),var(--pink));}
-.bubble{
-  background:var(--card);padding:16px 20px;border-radius:15px;
-  border:1px solid var(--border);line-height:1.9;font-size:16px;
-}
-.user .bubble{background:linear-gradient(135deg,#1a1a1a,#222);}
-
-.input-area{
-  padding:20px 30px;border-top:1px solid var(--border);
-  background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);
-}
-.input-box{
-  max-width:800px;margin:0 auto;display:flex;gap:12px;
-  background:var(--card);padding:8px;border-radius:16px;border:1px solid var(--border);
-}
-input{
-  flex:1;background:transparent;border:none;color:white;font-size:16px;outline:none;padding:10px 15px;
-}
-.send{
-  background:linear-gradient(135deg,var(--gold),#FF8C00);color:#000;
-  border:none;padding:12px 24px;border-radius:12px;font-weight:900;cursor:pointer;
-  transition:0.2s;
-}
-.send:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,215,0,0.4);}
-
-/* للموبايل */
-@media(max-width:768px){
-  .sidebar{position:absolute;z-index:10;height:100%;transform:translateX(100%);}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadowking AI - Login</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #111;
+      padding: 40px;
+      border-radius: 15px;
+      border: 2px solid #FFD700;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      width: 350px;
+      text-align: center;
+    }
+    h1 { color: #FFD700; margin-bottom: 20px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #FFD700;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { background: #fff; }
+    .google-btn { background: #fff; color: #000; }
+    #status { margin-top: 15px; color: #4CAF50; }
+  </style>
 </head>
 <body>
-
-<div class="sidebar">
-  <div class="logo"><span>👑</span> ShadowKing AI</div>
-  <div class="mode active" onclick="setMode('chat')">💬 دردشة</div>
-  <div class="mode" onclick="setMode('website')">🌐 صنع موقع</div>
-  <div class="mode" onclick="setMode('app')">📱 صنع تطبيق</div>
-  <div class="mode" onclick="setMode('game')">🎮 لعبة 3D</div>
-  <div class="mode" onclick="setMode('image')">🖼️ صورة 4K</div>
-  <div class="mode" onclick="setMode('video')">🎬 فيديو</div>
-  <div class="mode" onclick="setMode('learn')">📚 معلم</div>
-</div>
-
-<div class="chat">
-  <div class="topbar"><h3 id="modeTitle">الذكاء الاصطناعي الملك</h3></div>
-  <div class="messages" id="messages">
-    <div class="msg-wrap">
-      <div class="msg ai">
-        <div class="avatar">👑</div>
-        <div class="bubble">
-          مرحبا بك يا ملك <br>
-          انا ShadowKing AI. اقوى نموذج في العالم. <br>
-          كيف اخدمك اليوم؟
-        </div>
-      </div>
-    </div>
+  <div class="container">
+    <h1>Shadowking AI</h1>
+    
+    <input type="email" id="email" placeholder="الايميل">
+    <input type="password" id="password" placeholder="كلمة السر">
+    
+    <button onclick="signUp()">تسجيل جديد</button>
+    <button onclick="signIn()">تسجيل دخول</button>
+    
+    <hr style="border-color:#333; margin:20px 0;">
+    
+    <button class="google-btn" onclick="googleSignIn()">تسجيل دخول بجوجل</button>
+    
+    <div id="status"></div>
   </div>
-  <div class="input-area">
-    <div class="input-box">
-      <input type="text" id="userInput" placeholder="اسأل الملك عن اي شيء..." onkeypress="if(event.key==='Enter') sendMsg()">
-      <button class="send" onclick="sendMsg()">ارسال</button>
-    </div>
-  </div>
-</div>
 
-<script>
-let currentMode = 'chat';
-function setMode(mode){
-  currentMode=mode;
-  document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
-  event.target.classList.add('active');
-  const titles={chat:'الدردشة',website:'صنع المواقع',app:'صنع التطبيقات',game:'صنع الالعاب',image:'توليد الصور',video:'توليد الفيديو',learn:'المعلم الشخصي'};
-  document.getElementById('modeTitle').innerText = 'وضع: ' + titles;
-}
+  <script type="module">
+    // 1. Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-function addMsg(type,text){
-  const box=document.getElementById('messages');
-  box.innerHTML += `
-  <div class="msg-wrap">
-    <div class="msg ${type}">
-      <div class="avatar">${type==='ai'?'👑':'😎'}</div>
-      <div class="bubble">${text}</div>
-    </div>
-  </div>`;
-  box.scrollTop = box.scrollHeight;
-}
+    // 2. Your Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAg9Hmv_DcMw2XdvNzr-F1B8cTC9aF-JjA",
+      authDomain: "shadowking-ai.firebaseapp.com",
+      projectId: "shadowking-ai",
+      storageBucket: "shadowking-ai.firebasestorage.app",
+      messagingSenderId: "934957850087",
+      appId: "1:934957850087:web:cc4798c7fe35fb4f95b142"
+    };
 
-async function sendMsg(){
-  const input=document.getElementById('userInput');
-  const prompt=input.value; if(!prompt) return;
-  addMsg('user',prompt); input.value='';
-  addMsg('ai','جاري التفكير...');
+    // 3. Initialize
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    const status = document.getElementById('status');
 
-  const res=await fetch('https://ai-proxy-qnen.onrender.com/api/chat',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({prompt,mode:currentMode})
-  });
-  const data=await res.json();
-  document.querySelectorAll('.msg.ai .bubble').pop().innerText = data.text;
-}
-</script>
+    // 4. Functions
+    window.signUp = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => status.innerText = "تم التسجيل بنجاح ✅")
+        .catch(err => status.innerText = "خطأ: " + err.message);
+    }
+
+    window.signIn = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => status.innerText = "تم تسجيل الدخول ✅")
+        .catch(err => status.innerText = "خطأ: " + err.message);
+    }
+
+    window.googleSignIn = () => {
+      signInWithPopup(auth, provider)
+        .then(() => status.innerText = "تم تسجيل الدخول بجوجل ✅")
+        .catch(err => status.innerText = "خطأ: " + err.message);
+    }
+  </script>
 </body>
 </html>
