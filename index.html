@@ -7,7 +7,7 @@
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
   body { 
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    background: #000;
     color:#fff; 
     font-family: Arial, sans-serif;
     overflow:hidden;
@@ -23,6 +23,7 @@
     font-size:24px; font-weight:bold; color:#FFD700;
     text-shadow:0 0 15px #FFD700; 
     display:flex; align-items:center; gap:8px;
+    flex-direction: row-reverse; /* التاج يجي الاول */
   }
 .menu-btn { font-size:30px; color:#FFD700; cursor:pointer; }
 
@@ -68,6 +69,7 @@
     border:2px solid #FFD700; border-radius:15px; padding:16px 20px;
     margin:12px 0; display:flex; justify-content:space-between;
     align-items:center; color:#FFD700; font-weight:bold;
+    /* الافتراضي: الايقونة يمين والنص شمال */
   }
 .mode-btn:active { background:#FFD700; color:#000; }
 
@@ -93,8 +95,8 @@
 <body>
 
 <div class="header">
-  <h1>👑 Shadowking AI</h1>
   <div class="menu-btn" onclick="openSettings()">☰</div>
+  <h1>Shadowking AI 👑</h1>
 </div>
 
 <div class="welcome">
@@ -113,10 +115,10 @@
 <div id="modes">
   <div class="handle"></div>
   <h3>اختر المود</h3>
-  <div class="mode-btn" onclick="setMode('')">دردشة عادية <span>💬</span></div>
-  <div class="mode-btn" onclick="setMode('[app]')">صنع تطبيق <span>📱</span></div>
-  <div class="mode-btn" onclick="setMode('[game]')">صنع لعبة <span>🎮</span></div>
-  <div class="mode-btn" onclick="setMode('[code]')">كتابة كود <span>💻</span></div>
+  <div class="mode-btn" onclick="setMode('')"><span>💬</span> دردشة عادية</div>
+  <div class="mode-btn" onclick="setMode('[app]')"><span>📱</span> صنع تطبيق</div>
+  <div class="mode-btn" onclick="setMode('[game]')"><span>🎮</span> صنع لعبة</div>
+  <div class="mode-btn" onclick="setMode('[code]')"><span>💻</span> كتابة كود</div>
 </div>
 
 <!-- قائمة الاعدادات -->
