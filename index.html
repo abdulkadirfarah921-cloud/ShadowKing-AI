@@ -6,13 +6,7 @@
 <title>Shadowking AI 👑</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-  body { 
-    background: #000;
-    color:#fff; 
-    font-family: Arial, sans-serif;
-    overflow:hidden;
-    height:100vh;
-  }
+  body { background:#000; color:#fff; font-family: Arial; overflow:hidden; height:100vh; }
   
   /* الهيدر */
 .header { 
@@ -22,8 +16,6 @@
 .header h1 { 
     font-size:24px; font-weight:bold; color:#FFD700;
     text-shadow:0 0 15px #FFD700; 
-    display:flex; align-items:center; gap:8px;
-    flex-direction: row-reverse; /* التاج يجي الاول */
   }
 .menu-btn { font-size:30px; color:#FFD700; cursor:pointer; }
 
@@ -45,14 +37,14 @@
   }
 #inputBox input { 
     flex:1; padding:14px; background:#111; border:2px solid #FFD700; 
-    border-radius:15px; color:#FFD700; text-align:right;
+    border-radius:20px; color:#FFD700; text-align:right;
   }
 #inputBox button { 
     background:#FFD700; color:#000; border:none; padding:14px 20px; 
-    border-radius:15px; font-weight:bold;
+    border-radius:20px; font-weight:bold; font-size:15px;
   }
   
-  /* قائمة المودات */
+  /* قائمة المودات من تحت */
 #modes { 
     position:fixed; bottom:-500px; left:0; width:100%; 
     background:#0a0a0a; border-top:3px solid #FFD700;
@@ -69,21 +61,23 @@
     border:2px solid #FFD700; border-radius:15px; padding:16px 20px;
     margin:12px 0; display:flex; justify-content:space-between;
     align-items:center; color:#FFD700; font-weight:bold;
-    /* الافتراضي: الايقونة يمين والنص شمال */
   }
-.mode-btn:active { background:#FFD700; color:#000; }
 
-  /* قائمة الاعدادات */
+  /* القائمة الجانبية الملكية */
 #settings { 
-    position:fixed; top:0; left:-300px; width:280px; height:100%;
-    background:#0a0a0a; border-right:3px solid #FFD700;
+    position:fixed; top:0; right:-300px; width:280px; height:100%;
+    background:#0a0a0a; border-left:3px solid #FFD700;
     padding:20px; transition:0.4s; z-index:100;
   }
-#settings.show { left:0; }
-#settings h3 { color:#FFD700; border-bottom:2px solid #FFD700; padding-bottom:10px; margin-bottom:15px; }
+#settings.show { right:0; }
+#settings h3 { color:#FFD700; text-align:right; margin-bottom:20px; font-size:20px; }
 .setting-btn { 
-    background:#111; border:1px solid #FFD70055; padding:14px; 
-    margin:10px 0; border-radius:12px; color:#FFD700;
+    border:2px solid #FFD700; padding:16px 20px; margin:12px 0; 
+    border-radius:15px; color:#FFD700; font-weight:bold;
+    text-align:right;
+  }
+.setting-btn.logout { 
+    border-color:red; color:red;
   }
 #overlay { 
     position:fixed; top:0; left:0; width:100%; height:100%;
@@ -96,7 +90,7 @@
 
 <div class="header">
   <div class="menu-btn" onclick="openSettings()">☰</div>
-  <h1>Shadowking AI 👑</h1>
+  <h1>👑 Shadowking AI</h1>
 </div>
 
 <div class="welcome">
@@ -107,8 +101,8 @@
 <div id="chat"></div>
 
 <div id="inputBox">
-  <button onclick="send()">إرسال</button>
   <input id="msg" placeholder="اكتب رسالتك...">
+  <button onclick="send()">إرسال</button>
 </div>
 
 <!-- قائمة المودات -->
@@ -121,11 +115,13 @@
   <div class="mode-btn" onclick="setMode('[code]')"><span>💻</span> كتابة كود</div>
 </div>
 
-<!-- قائمة الاعدادات -->
+<!-- القائمة الملكية الجانبية -->
 <div id="settings">
-  <h3>الاعدادات</h3>
-  <div id="loginBtn" class="setting-btn" onclick="login()">تسجيل الدخول</div>
-  <div id="logoutBtn" class="setting-btn" onclick="logout()" style="display:none;">تسجيل الخروج</div>
+  <h3>القائمة الملكية</h3>
+  <div id="loginBtn" class="setting-btn" onclick="login()">1. تسجيل الدخول</div>
+  <div class="setting-btn" onclick="alert('الاعدادات')">2. الإعدادات</div>
+  <div class="setting-btn" onclick="alert('اللغات')">3. 🌍 اللغات</div>
+  <div id="logoutBtn" class="setting-btn logout" onclick="logout()" style="display:none;">تسجيل الخروج</div>
 </div>
 <div id="overlay" onclick="closeAll()"></div>
 
@@ -145,11 +141,15 @@ function openSettings(){document.getElementById('settings').classList.add('show'
 document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY;startX=e.touches[0].clientX;});
 document.addEventListener('touchend',e=>{
   let endY=e.changedTouches[0].clientY; let endX=e.changedTouches[0].clientX;
-  if(startY-endY>80 && startY>window.innerHeight-150){
+  let diffY = startY - endY;
+  let diffX = startX - endX;
+  // من تحت لفوق
+  if(diffY > 80 && startY > window.innerHeight-150){
     document.getElementById('modes').classList.add('show');
     document.getElementById('overlay').classList.add('show');
   }
-  if(endX-startX>80 && startX<50){openSettings();}
+  // من اليمين للشمال
+  if(diffX > 80 && startX > window.innerWidth-50){openSettings();}
 });
 function closeAll(){document.getElementById('modes').classList.remove('show');document.getElementById('settings').classList.remove('show');document.getElementById('overlay').classList.remove('show');}
 function setMode(m){document.getElementById('msg').value=m+' ';closeAll();}
