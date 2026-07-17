@@ -4,40 +4,133 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shadowking AI 👑</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-    * { box-sizing: border-box; }
-  body { margin:0; background:#000; color:#FFD700; font-family:Arial; overflow:hidden; }
-  h1 { text-align:center; padding:20px; text-shadow:0 0 10px #FFD700; }
+    * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+  body { 
+    margin:0; 
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%); 
+    color:#fff; 
+    overflow:hidden; 
+    height:100vh;
+  }
   
-  #chat { height:70vh; overflow-y:auto; padding:20px; }
- .msg { background:#111; padding:10px 15px; margin:10px 0; border-radius:15px; border:1px solid #FFD70033; }
+  /* الهيدر */
+.header { 
+    text-align:center; 
+    padding:25px 15px; 
+    font-size:28px; 
+    font-weight:900; 
+    color:#FFD700;
+    text-shadow:0 0 15px #FFD700;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    border-bottom:2px solid #FFD700;
+  }
+
+  /* صندوق الترحيب */
+.welcome-box {
+    margin:25px 20px;
+    padding:20px;
+    background: #111;
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    text-align:center;
+    font-size:15px;
+    line-height:1.8;
+    color:#fff;
+  }
+
+  /* الشات */
+  #chat { height:45vh; overflow-y:auto; padding:20px; }
+.msg { 
+    background: #1a1a1a; 
+    padding:12px 18px; 
+    margin:10px 0; 
+    border-radius:15px; 
+    border:1px solid #FFD70055;
+    color:#FFD700;
+  }
   
-  #inputBox { position:fixed; bottom:0; width:100%; background:#111; padding:10px; display:flex; gap:10px; border-top:2px solid #FFD700; }
-  #inputBox input { flex:1; padding:12px; border:2px solid #FFD700; border-radius:20px; background:#000; color:#FFD700; }
-  #inputBox button { background:#FFD700; color:#000; border:none; padding:12px 20px; border-radius:20px; font-weight:bold; cursor:pointer; }
+  /* صندوق الارسال */
+  #inputBox { 
+    position:fixed; bottom:0; width:100%; 
+    background: #000; 
+    padding:12px 15px; display:flex; gap:10px; 
+    border-top:2px solid #FFD700; 
+  }
+  #inputBox input { 
+    flex:1; padding:14px; border:2px solid #FFD700; 
+    border-radius:15px; background:#111; color:#FFD700; 
+    outline:none; font-size:15px;
+  }
+  #inputBox button { 
+    background:#FFD700; 
+    color:#000; border:none; padding:14px 22px; 
+    border-radius:15px; font-weight:900; cursor:pointer; 
+    font-size:15px;
+  }
   
-  /* قائمة المودات من تحت */
-  #modes { position:fixed; bottom:-250px; left:0; width:100%; background:#1a1a1a; transition:0.4s; padding:20px; border-radius:20px 20px 0 0; border-top:2px solid #FFD700; z-index:100; }
+  /* قائمة المودات من تحت - نفس الصورة التانية */
+  #modes { 
+    position:fixed; bottom:-450px; left:0; width:100%; 
+    background: #0a0a0a; 
+    transition:0.4s ease; 
+    padding:25px 20px; border-radius:30px 30px 0 0; 
+    border-top:3px solid #FFD700; 
+    z-index:100;
+  }
   #modes.show { bottom:0; }
- .mode-btn { background:#333; padding:15px; margin:10px 0; border-radius:15px; text-align:center; cursor:pointer; border:1px solid #FFD70055; }
- .mode-btn:hover { background:#FFD700; color:#000; }
+  #modes.handle { width:60px; height:5px; background:#FFD700; border-radius:10px; margin:0 auto 20px; }
+  #modes h3 { text-align:center; color:#FFD700; margin-bottom:20px; font-size:20px; }
+.mode-btn { 
+    background: #111; 
+    padding:18px 20px; margin:12px 0; border-radius:15px; 
+    text-align:right; cursor:pointer; border:2px solid #FFD700;
+    font-weight:700; font-size:16px; color:#FFD700;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.2s;
+  }
+.mode-btn:active { background:#FFD700; color:#000; transform: scale(0.98); }
 
   /* قائمة الاعدادات من اليسار */
-  #settings { position:fixed; top:0; left:-300px; width:280px; height:100%; background:#111; transition:0.4s; padding:20px; border-right:2px solid #FFD700; z-index:100; }
+  #settings { 
+    position:fixed; top:0; left:-320px; width:300px; height:100%; 
+    background: #0a0a0a; 
+    transition:0.4s; padding:25px; 
+    border-right:3px solid #FFD700; 
+    z-index:100;
+  }
   #settings.show { left:0; }
-  #settings h3 { border-bottom:1px solid #FFD700; padding-bottom:10px; }
- .setting-btn { background:#222; padding:12px; margin:10px 0; border-radius:10px; cursor:pointer; }
- .setting-btn:hover { background:#FFD700; color:#000; }
-  #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:#000aa; display:none; z-index:99; }
+  #settings h3 { color:#FFD700; border-bottom:2px solid #FFD700; padding-bottom:15px; margin-bottom:20px; }
+.setting-btn { 
+    background:#111; padding:15px; margin:12px 0; 
+    border-radius:12px; cursor:pointer; border:1px solid #FFD70055;
+    font-weight:700; color:#FFD700;
+  }
+.setting-btn:active { background:#FFD700; color:#000; }
+  
+  #overlay { 
+    position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:#000000cc; display:none; z-index:99;
+  }
   #overlay.show { display:block; }
 </style>
 </head>
 <body>
 
-<h1>Shadowking AI 👑</h1>
-<div id="chat">
-  <div class="msg">مرحبا. اسحب من تحت لاختيار المود</div>
+<div class="header">👑 Shadowking AI</div>
+
+<div class="welcome-box">
+  مرحبا انا Shadowking AI. اسحب من اليمين للإعدادات<br>
+  ومن تحت لاختيار المود
 </div>
+
+<div id="chat"></div>
 
 <div id="inputBox">
   <button onclick="send()">إرسال</button>
@@ -46,100 +139,55 @@
 
 <!-- قائمة المودات من تحت -->
 <div id="modes">
-  <h3>اختر المود 👑</h3>
-  <div class="mode-btn" onclick="setMode('[app]')">🌐 [app] انشاء موقع</div>
-  <div class="mode-btn" onclick="setMode('[game]')">🎮 [game] انشاء لعبة</div>
-  <div class="mode-btn" onclick="setMode('')">💬 دردشة عادية</div>
+  <div class="handle"></div>
+  <h3>👑 اختر المود</h3>
+  <div class="mode-btn" onclick="setMode('')">دردشة عادية <span>💬</span></div>
+  <div class="mode-btn" onclick="setMode('[app]')">صنع تطبيق <span>📱</span></div>
+  <div class="mode-btn" onclick="setMode('[game]')">صنع لعبة <span>🎮</span></div>
+  <div class="mode-btn" onclick="setMode('[code]')">كتابة كود <span>💻</span></div>
 </div>
 
 <!-- قائمة الاعدادات من اليسار -->
 <div id="settings">
-  <h3>الاعدادات</h3>
-  <div class="setting-btn" onclick="alert('الاعدادات قريبا')">⚙️ الاعدادات</div>
+  <h3>⚙️ الاعدادات</h3>
+  <div class="setting-btn" onclick="alert('قريبا')">🎨 الثيم</div>
   <div id="loginBtn" class="setting-btn" onclick="login()">🔑 تسجيل الدخول</div>
   <div id="logoutBtn" class="setting-btn" onclick="logout()" style="display:none;">🚪 تسجيل الخروج</div>
 </div>
 <div id="overlay" onclick="closeAll()"></div>
 
 <script>
-let startY = 0;
-let startX = 0;
-let isLoggedIn = localStorage.getItem('loggedIn') === 'true'; // بنحفظ حالة الدخول
+let startY = 0, startX = 0;
+let isLoggedIn = localStorage.getItem('loggedIn') === 'true';
 
-// تحديث الازرار حسب حالة الدخول
 function updateButtons(){
-  if(isLoggedIn){
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-  } else {
-    document.getElementById('loginBtn').style.display = 'block';
-    document.getElementById('logoutBtn').style.display = 'none';
-  }
+  document.getElementById('loginBtn').style.display = isLoggedIn? 'none' : 'block';
+  document.getElementById('logoutBtn').style.display = isLoggedIn? 'block' : 'none';
 }
 updateButtons();
 
-function login(){
-  isLoggedIn = true;
-  localStorage.setItem('loggedIn', 'true');
-  updateButtons();
-  closeAll();
-  alert('تم تسجيل الدخول بنجاح 👑');
-}
-function logout(){
-  isLoggedIn = false;
-  localStorage.setItem('loggedIn', 'false');
-  updateButtons();
-  closeAll();
-  alert('تم تسجيل الخروج');
-}
+function login(){ isLoggedIn=true; localStorage.setItem('loggedIn','true'); updateButtons(); closeAll(); alert('تم تسجيل الدخول 👑'); }
+function logout(){ isLoggedIn=false; localStorage.setItem('loggedIn','false'); updateButtons(); closeAll(); alert('تم تسجيل الخروج'); }
 
-// كشف السحب
-document.addEventListener('touchstart', e => {
-  startY = e.touches[0].clientY;
-  startX = e.touches[0].clientX;
-});
-
+document.addEventListener('touchstart', e => { startY = e.touches[0].clientY; startX = e.touches[0].clientX; });
 document.addEventListener('touchend', e => {
   let endY = e.changedTouches[0].clientY;
   let endX = e.changedTouches[0].clientX;
   let diffY = startY - endY;
   let diffX = endX - startX;
-
-  // سحب من تحت لفوق
-  if(diffY > 80 && startY > window.innerHeight - 150){
-    document.getElementById('modes').classList.add('show');
-    document.getElementById('overlay').classList.add('show');
-  }
-  // سحب من اليسار لليمين
-  if(diffX > 80 && startX < 50){
-    document.getElementById('settings').classList.add('show');
-    document.getElementById('overlay').classList.add('show');
-  }
+  // من تحت لفوق
+  if(diffY > 80 && startY > window.innerHeight - 150){ document.getElementById('modes').classList.add('show'); document.getElementById('overlay').classList.add('show'); }
+  // من اليسار لليمين
+  if(diffX > 80 && startX < 50){ document.getElementById('settings').classList.add('show'); document.getElementById('overlay').classList.add('show'); }
 });
-
-function closeAll(){
-  document.getElementById('modes').classList.remove('show');
-  document.getElementById('settings').classList.remove('show');
-  document.getElementById('overlay').classList.remove('show');
-}
-
-function setMode(mode){
-  document.getElementById('msg').value = mode + ' ';
-  closeAll();
-  document.getElementById('msg').focus();
-}
+function closeAll(){ document.getElementById('modes').classList.remove('show'); document.getElementById('settings').classList.remove('show'); document.getElementById('overlay').classList.remove('show'); }
+function setMode(mode){ document.getElementById('msg').value = mode + ' '; closeAll(); document.getElementById('msg').focus(); }
 
 async function send(){
-  let msg = document.getElementById('msg').value;
-  if(!msg) return;
+  let msg = document.getElementById('msg').value; if(!msg) return;
   document.getElementById('chat').innerHTML += `<div class="msg"><b>انت:</b> ${msg}</div>`;
   document.getElementById('msg').value = '';
-  
-  let res = await fetch('/api/chat', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({message: msg})
-  });
+  let res = await fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message: msg})});
   let data = await res.json();
   document.getElementById('chat').innerHTML += `<div class="msg"><b>الملك:</b> ${data.reply}</div>`;
   document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
