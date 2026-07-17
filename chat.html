@@ -10,34 +10,34 @@
   body::before{content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at 50% 50%, #FFD70022 0%, transparent 70%); animation:glow 4s ease-in-out infinite alternate; z-index:-1;}
   @keyframes glow{ from{opacity:0.3} to{opacity:0.7} }
 
- .header{padding:15px; text-align:center; border-bottom:1px solid #FFD700; background:#0a0a0a; position:relative;}
- .header h1{color:#FFD700; text-shadow:0 0 15px #FFD700; font-size:22px;}
- .menu-icon{position:absolute; right:15px; top:12px; font-size:28px; color:#FFD700; cursor:pointer;}
+.header{padding:15px; text-align:center; border-bottom:1px solid #FFD700; background:#0a0a0a; position:relative;}
+.header h1{color:#FFD700; text-shadow:0 0 15px #FFD700; font-size:22px;}
+.menu-icon{position:absolute; right:15px; top:12px; font-size:28px; color:#FFD700; cursor:pointer;}
 
   #chatBox{height:calc(100vh - 140px); overflow-y:auto; padding:20px;}
- .msg{background:#1a1a1a; border:1px solid #FFD700; border-radius:15px; padding:12px; margin:10px 0; max-width:80%; animation:fadeIn 0.3s;}
- .msg.you{margin-left:auto; background:#FFD70022; border-color:#FFD700;}
+.msg{background:#1a1a1a; border:1px solid #FFD700; border-radius:15px; padding:12px; margin:10px 0; max-width:85%; animation:fadeIn 0.3s; white-space:pre-wrap;}
+.msg.you{margin-left:auto; background:#FFD70022; border-color:#FFD700;}
   @keyframes fadeIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
 
- .inputArea{position:fixed; bottom:0; width:100%; padding:10px; background:#0a0a0a; border-top:1px solid #FFD700; display:flex;}
- .inputArea input{flex:1; padding:14px; background:#1a1a1a; border:1px solid #FFD700; border-radius:12px; color:#fff; outline:none;}
- .inputArea button{margin-right:8px; padding:0 20px; background:#FFD700; color:#000; border:none; border-radius:12px; font-weight:bold; cursor:pointer;}
+.inputArea{position:fixed; bottom:0; width:100%; padding:10px; background:#0a0a0a; border-top:1px solid #FFD700; display:flex;}
+.inputArea input{flex:1; padding:14px; background:#1a1a1a; border:1px solid #FFD700; border-radius:12px; color:#fff; outline:none;}
+.inputArea button{margin-right:8px; padding:0 20px; background:#FFD700; color:#000; border:none; border-radius:12px; font-weight:bold; cursor:pointer;}
 
- .sidebar{position:fixed; top:0; right:-320px; width:320px; height:100%; background:#0a0a0a; transition:0.4s; z-index:100; padding:20px; border-left:2px solid #FFD700; overflow-y:auto;}
- .sidebar.open{right:0;}
- .side-btn{width:100%; padding:14px; margin:8px 0; background:#111; border:1px solid #FFD700; color:#FFD700; border-radius:10px; text-align:right; cursor:pointer; font-size:15px;}
- .side-btn:hover{background:#FFD700; color:#000;}
+.sidebar{position:fixed; top:0; right:-320px; width:320px; height:100%; background:#0a0a0a; transition:0.4s; z-index:100; padding:20px; border-left:2px solid #FFD700; overflow-y:auto;}
+.sidebar.open{right:0;}
+.side-btn{width:100%; padding:14px; margin:8px 0; background:#111; border:1px solid #FFD700; color:#FFD700; border-radius:10px; text-align:right; cursor:pointer; font-size:15px;}
+.side-btn:hover{background:#FFD700; color:#000;}
 
- .bottomSheet{position:fixed; bottom:-400px; left:0; width:100%; background:#0a0a0a; transition:0.4s; z-index:100; border-top:2px solid #FFD700; border-radius:20px 20px 0 0; padding:20px;}
- .bottomSheet.open{bottom:0;}
- .drag{width:50px; height:5px; background:#FFD700; border-radius:10px; margin:0 auto 15px; cursor:pointer;}
+.bottomSheet{position:fixed; bottom:-400px; left:0; width:100%; background:#0a0a0a; transition:0.4s; z-index:100; border-top:2px solid #FFD700; border-radius:20px 20px 0 0; padding:20px;}
+.bottomSheet.open{bottom:0;}
+.drag{width:50px; height:5px; background:#FFD700; border-radius:10px; margin:0 auto 15px; cursor:pointer;}
 </style>
 </head>
 <body>
 
 <div class="header">
   <span class="menu-icon" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</span>
-  <h1>Shadowking AI 👑</h1>
+  <h1>👑 Shadowking AI</h1>
 </div>
 
 <div id="chatBox">
@@ -49,17 +49,15 @@
   <button onclick="sendMsg()">إرسال</button>
 </div>
 
-<!-- القائمة الجانبية -->
 <div class="sidebar" id="sidebar">
   <h3 style="color:#FFD700; margin-bottom:15px;">القائمة الملكية</h3>
-  <button class="side-btn" onclick="loginGoogle()">1. تسجيل الدخول</button>
+  <button class="side-btn" onclick="alert('مسجل دخول')">1. تسجيل الدخول</button>
   <button class="side-btn" onclick="alert('الإعدادات')">2. الإعدادات</button>
   <button class="side-btn" onclick="openLangs()">3. اللغات 🌍</button>
   <div id="langBox" style="display:none; margin-top:10px;"></div>
   <button class="side-btn" onclick="window.location='index.html'" style="margin-top:20px; border-color:red; color:red;">تسجيل الخروج</button>
 </div>
 
-<!-- المودات من تحت -->
 <div class="bottomSheet" id="bottomSheet">
   <div class="drag" onclick="document.getElementById('bottomSheet').classList.remove('open')"></div>
   <h3 style="color:#FFD700; text-align:center; margin-bottom:15px;">اختر المود</h3>
@@ -70,7 +68,7 @@
 </div>
 
 <script>
-  // اللغة التلقائية
+  let currentMode = 'chat';
   document.documentElement.lang = navigator.language.startsWith('ar')? 'ar' : 'en';
 
   // السحب من تحت
@@ -93,22 +91,47 @@
       }
     }
   }
-  function setLang(code){ document.documentElement.lang = code; alert("تم التغيير الى: " + languages[code]); }
+  function setLang(code){ document.documentElement.lang = code; alert("تم: " + languages[code]); }
 
-  // ارسال رسالة
-  function sendMsg(){
+  // اختيار المود
+  function selectMode(mode){
+    currentMode = mode;
+    document.getElementById('bottomSheet').classList.remove('open');
+    if(mode=='app') addMsg("قولي ايش التطبيق اللي بدك اصنعه؟ مثال: تطبيق حاسبة");
+    else if(mode=='game') addMsg("تحب لعبة ايش؟ مثال: لعبة XO");
+    else addMsg("تم التحويل لمود: " + mode);
+  }
+
+  // ارسال رسالة للسيرفر
+  async function sendMsg(){
     let txt = document.getElementById('userInput').value;
     if(txt=='') return;
-    document.getElementById('chatBox').innerHTML += `<div class="msg you">${txt}</div>`;
+    addMsg(txt, true);
     document.getElementById('userInput').value='';
-    document.getElementById('chatBox').scrollTop = 99999;
-    setTimeout(()=>{
-      document.getElementById('chatBox').innerHTML += `<div class="msg">انا Shadowking: ${txt}</div>`;
-      document.getElementById('chatBox').scrollTop = 99999;
-    }, 600);
+    addMsg("جاري التفكير... 👑");
+
+    try{
+      const res = await fetch("https://ai-proxy-qnen.onrender.com/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: "["+currentMode+"] " + txt})
+      });
+      const data = await res.json();
+      // امسح "جاري التفكير"
+      let msgs = document.querySelectorAll('.msg');
+      msgs[msgs.length-1].remove();
+      addMsg(data.reply || "مافي رد من السيرفر");
+    }catch(e){
+      let msgs = document.querySelectorAll('.msg');
+      msgs[msgs.length-1].remove();
+      addMsg("خطأ: السيرفر مش شغال. فعله من render.com");
+    }
   }
-  function selectMode(m){ alert("تم اختيار مود: "+m); document.getElementById('bottomSheet').classList.remove('open'); }
-  function loginGoogle(){ alert("تسجيل جوجل"); }
+
+  function addMsg(text, isYou=false){
+    document.getElementById('chatBox').innerHTML += `<div class="msg ${isYou?'you':''}">${text}</div>`;
+    document.getElementById('chatBox').scrollTop = 99999;
+  }
 </script>
 
 </body>
