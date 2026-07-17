@@ -1,206 +1,61 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadowking AI</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-    
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      background: radial-gradient(circle at top, #1a1a1a 0%, #000 100%);
-      color: #fff;
-      font-family: 'Cairo', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    
-    .container {
-      background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
-      padding: 40px 30px;
-      border-radius: 25px;
-      border: 2px solid #FFD700;
-      box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(0,0,0,0.5);
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      animation: glow 2s infinite alternate;
-    }
-    
-    @keyframes glow {
-      from { box-shadow: 0 0 40px rgba(255, 215, 0, 0.4); }
-      to { box-shadow: 0 0 60px rgba(255, 215, 0, 0.7); }
-    }
-    
-    .logo {
-      font-size: 32px;
-      font-weight: 900;
-      color: #FFD700;
-      text-shadow: 0 0 15px #FFD700;
-      margin-bottom: 30px;
-      letter-spacing: 2px;
-    }
-    
-    .top-buttons {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-    
-    .btn-top {
-      flex: 1;
-      padding: 15px;
-      border-radius: 15px;
-      border: 2px solid #FFD700;
-      background: #111;
-      color: #FFD700;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .btn-top:hover {
-      background: #FFD700;
-      color: #000;
-      transform: translateY(-3px);
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
-    }
-    
-    input {
-      width: 100%;
-      padding: 15px;
-      margin: 12px 0;
-      background: #0a0a0a;
-      border: 2px solid #333;
-      border-radius: 12px;
-      color: #fff;
-      font-size: 16px;
-      transition: 0.3s;
-    }
-    
-    input:focus {
-      border-color: #FFD700;
-      outline: none;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-    }
-    
-    .btn-main {
-      width: 100%;
-      padding: 15px;
-      margin: 12px 0;
-      background: linear-gradient(90deg, #FFD700, #FFA500);
-      color: #000;
-      border: none;
-      border-radius: 12px;
-      font-weight: 900;
-      font-size: 17px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    
-    .btn-main:hover {
-      transform: scale(1.03);
-      box-shadow: 0 5px 25px rgba(255, 215, 0, 0.6);
-    }
-    
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #FFD700, transparent);
-      margin: 25px 0;
-    }
-    
-    #status {
-      margin-top: 20px;
-      color: #4CAF50;
-      font-weight: 700;
-      min-height: 20px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Shadowking AI</title>
+<style>
+  body { margin:0; background:#0a0a0a; display:flex; justify-content:center; align-items:center; height:100vh; }
+  .box { background:#111; border:2px solid #FFD700; padding:30px; border-radius:20px; box-shadow:0 0 30px #FFD700; width:90%; max-width:400px; }
+  h1 { color:#FFD700; text-align:center; text-shadow:0 0 10px #FFD700; }
+  .btn { width:100%; padding:15px; margin:10px 0; background:linear-gradient(90deg,#FFD700,#FFA500); border:none; border-radius:12px; font-size:16px; font-weight:bold; cursor:pointer; }
+  input { width:100%; padding:12px; margin:8px 0; background:#222; border:1px solid #FFD700; border-radius:10px; color:#fff; }
+  
+  /* القائمة الجانبية */
+ .menu-icon { position:fixed; top:20px; right:20px; font-size:30px; color:#FFD700; cursor:pointer; z-index:200; }
+ .sidebar { position:fixed; top:0; right:-320px; width:320px; height:100%; background:#111; transition:0.4s; z-index:100; padding:20px; border-left:2px solid #FFD700; overflow-y:auto; }
+ .sidebar.open { right:0; }
+ .side-btn { width:100%; padding:15px; margin:10px 0; background:#1a1a1a; border:1px solid #FFD700; color:#FFD700; border-radius:12px; font-size:16px; text-align:right; cursor:pointer; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo">Shadowking AI</div>
-    
-    <div class="top-buttons">
-      <button class="btn-top" onclick="googleSignIn()">
-        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.3-6 7.5-11.3 7.5-6.9 0-12.5-5.6-12.5-12.5S17.1 10.5 24 10.5c3.1 0 5.9 1.1 8.1 3.1l6-6C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.4-4z"/></svg>
-        جوجل
-      </button>
-      
-      <button class="btn-top" onclick="document.getElementById('email').focus()">
-        📧 ايميل
-      </button>
-    </div>
-    
-    <input type="email" id="email" placeholder="الايميل">
-    <input type="password" id="password" placeholder="كلمة السر">
-    
-    <button class="btn-main" onclick="signUp()">تسجيل جديد</button>
-    <button class="btn-main" onclick="signIn()">تسجيل دخول</button>
-    
-    <div class="divider"></div>
-    
-    <div id="status"></div>
-  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<div class="menu-icon" onclick="sidebar.classList.toggle('open')">☰</div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAg9Hmv_DcMw2XdvNzr-F1B8cTC9aF-JjA",
-      authDomain: "shadowking-ai.firebaseapp.com",
-      projectId: "shadowking-ai",
-      storageBucket: "shadowking-ai.firebasestorage.app",
-      messagingSenderId: "934957850087",
-      appId: "1:934957850087:web:cc4798c7fe35fb4f95b142"
-    };
+<!-- القائمة -->
+<div class="sidebar" id="sidebar">
+  <h3 style="color:#FFD700">القائمة</h3>
+  <button class="side-btn" onclick="loginGoogle()">1. تسجيل الدخول بجوجل</button>
+  <button class="side-btn" onclick="alert('الاعدادات')">2. الإعدادات</button>
+  <button class="side-btn" onclick="openLangs()">3. اللغات 🌍</button>
+  <div id="langBox" style="display:none; margin-top:15px;"></div>
+</div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    const status = document.getElementById('status');
+<!-- صندوق تسجيل الدخول -->
+<div class="box">
+  <h1>Shadowking AI</h1>
+  <button class="btn" onclick="loginGoogle()">جوجل G</button>
+  <button class="btn" onclick="alert('ايميل')">ايميل 📧</button>
+  <input type="email" placeholder="الايميل">
+  <input type="password" placeholder="كلمة السر">
+  <button class="btn">تسجيل جديد</button>
+  <button class="btn">تسجيل دخول</button>
+</div>
 
-    window.signUp = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          status.innerText = "تم التسجيل بنجاح 👑"
-          window.location.href = 'chat.html';
-        })
-        .catch(err => status.innerText = "خطأ: " + err.message);
-    }
+<script>
+  // اللغة التلقائية
+  const lang = navigator.language;
+  if(lang.startsWith('en')) document.documentElement.lang = 'en';
+  
+  // اللغات
+  const languages = {"ar":"العربية","en":"English","tr":"Türkçe","fr":"Français","de":"Deutsch","es":"Español","hi":"हिन्दी","zh":"中文","ja":"日本語","ru":"Русский"};
+  function openLangs(){
+    document.getElementById('langBox').style.display='block';
+    let html='';
+    for(let code in languages){ html+=`<button class="side-btn" onclick="alert('${languages[code]}')">${languages[code]}</button>`; }
+    document.getElementById('langBox').innerHTML=html;
+  }
+  function loginGoogle(){ alert("تسجيل جوجل"); }
+</script>
 
-    window.signIn = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          status.innerText = "تم تسجيل الدخول 👑"
-          window.location.href = 'chat.html';
-        })
-        .catch(err => status.innerText = "خطأ: " + err.message);
-    }
-
-    window.googleSignIn = () => {
-      signInWithPopup(auth, provider)
-        .then(() => {
-          status.innerText = "تم تسجيل الدخول بجوجل 👑"
-          window.location.href = 'chat.html';
-        })
-        .catch(err => status.innerText = "خطأ: " + err.message);
-    }
-  </script>
 </body>
 </html>
