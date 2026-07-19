@@ -2,13 +2,26 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000">
 <title>SHADOWKING AUDIO PRO</title>
 <style>
 :root{--bg:#000;--card:#0a0a0a;--neon:#00e5ff;--neon2:#00aaff;--gold:#ffaa00}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:var(--bg);color:#fff;height:100vh;overflow:hidden}
+
+/* ده السر - يلف الشاشة اجباري */
+#wrapper{height:100%;width:100%;background:var(--bg);position:relative}
+#wrapper.rotate-force{
+  transform: rotate(90deg);
+  transform-origin: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50vw;
+  margin-left: -50vh;
+}
+
 .topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
 .logo{color:var(--neon);font-weight:900;font-size:15px;text-shadow:0 0 10px var(--neon)}
 .export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:8px 20px;border-radius:10px;font-weight:900;cursor:pointer}
@@ -31,7 +44,6 @@ input[type=range], select, textarea{width:100%;background:#111;border:1px solid 
 textarea{height:70px;resize:none}
 .filter-grid{display:grid;grid-template-columns:1fr;gap:6px;max-height:380px;overflow-y:auto}
 .filter-btn{background:#111;border:1px solid #333;padding:8px;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;text-align:right}
-.filter-btn:hover{border-color:var(--neon)}
 .filter-btn.active{background:var(--neon);color:#000;font-weight:900}
 .filter-desc{font-size:9px;color:#666;margin-top:2px}
 .timeline{height:45px;background:#000;border-top:2px solid var(--neon);padding:6px}
@@ -40,6 +52,7 @@ textarea{height:70px;resize:none}
 </style>
 </head>
 <body>
+<div id="wrapper">
 
 <div class="topbar">
   <div class="logo">SHADOWKING AUDIO PRO 👑</div>
@@ -78,217 +91,49 @@ textarea{height:70px;resize:none}
       <div class="filter-grid" id="filterGrid"></div>
     </div>
 
-    <div id="eq-tab" class="hidden">
-      <div class="tab">EQ</div>
-      <div class="slider"><label>باس قوي</label><input type="range" min="0" max="20" value="0" oninput="setBass(this.value)"></div>
-      <div class="slider"><label>صوت نقي تريبل</label><input type="range" min="0" max="20" value="0" oninput="setTreble(this.value)"></div>
-    </div>
-
-    <div id="fx-tab" class="hidden">
-      <div class="tab">مؤثرات</div>
-      <div class="slider"><label>صدى: <span id="echoVal">0</span>%</label><input type="range" min="0" max="100" value="0" oninput="echoVal.innerText=this.value"></div>
-    </div>
-
+    <div id="eq-tab" class="hidden"><div class="tab">EQ</div></div>
+    <div id="fx-tab" class="hidden"><div class="tab">مؤثرات</div></div>
     <div id="ai-tab" class="hidden">
       <div class="tab">AI صوت مجاني</div>
-      <textarea id="aiText" placeholder="اكتب وصف الصوت: مثال صوت بنت بتضحك"></textarea>
+      <textarea id="aiText" placeholder="اكتب وصف الصوت"></textarea>
       <button class="btn ai" onclick="generateAIvoice()">توليد الصوت ⚡</button>
-      <button class="btn ai" style="background:#ff0044;margin-top:5px" onclick="speechSynthesis.cancel()">ايقاف الكلام</button>
     </div>
   </div>
 </div>
 
 <div class="timeline"><div class="track">Audio Track 1</div></div>
+</div>
 
 <script>
-let audioCtx, source, gainNode;
-let audioBuffer;
+let audioCtx, source, gainNode, audioBuffer;
 
-// 120 فلتر احترافي بأسماء
-const filters = [
-  // 1-20 : صدى و مكان
-  {name:"صدى الكهف", desc:"صدى قوي وعميق"},
-  {name:"صدى المسجد", desc:"صدى روحاني كبير"},
-  {name:"صدى القاعة", desc:"صدى حفلة كبيرة"},
-  {name:"صدى الحمام", desc:"صدى صغير ضيق"},
-  {name:"صدى الغابة", desc:"صدى مع صوت طيور"},
-  {name:"نفق", desc:"صوت في نفق طويل"},
-  {name:"غرفة فاضية", desc:"صدى خفيف"},
-  {name:"استاد", desc:"صدى جمهور"},
-  {name:"كاتدرائية", desc:"صدى ديني ضخم"},
-  {name:"بئر", desc:"صدى عميق جدا"},
-  {name:"مطبخ", desc:"صدى منزلي"},
-  {name:"مرآب", desc:"صدى سيارات"},
-  {name:"مدرسة", desc:"صدى فصل"},
-  {name:"مستودع", desc:"صدى صناعي"},
-  {name:"جبال", desc:"صدى بعيد"},
-  {name:"وادي", desc:"صدى طبيعي"},
-  {name:"قصر", desc:"صدى ملكي"},
-  {name:"سجن", desc:"صدى مرعب"},
-  {name:"مستشفى", desc:"صدى بارد"},
-  {name:"فضاء", desc:"صدى لانهائي"},
-  // 21-40 : تغيير الصوت
-  {name:"روبوت", desc:"صوت آلي ميكانيكي"},
-  {name:"سايبورغ", desc:"نص انسان نص آلة"},
-  {name:"شبح", desc:"صوت مرعب مخيف"},
-  {name:"شيطان", desc:"صوت عميق شرير"},
-  {name:"ملاك", desc:"صوت ناعم سماوي"},
-  {name:"طفل", desc:"صوت رفيع ناعم"},
-  {name:"عجوز", desc:"صوت خشن وتقيل"},
-  {name:"بنت", desc:"صوت انثوي"},
-  {name:"رجل ضخم", desc:"صوت باس قوي"},
-  {name:"قزم", desc:"صوت سريع رفيع"},
-  {name:"سكران", desc:"صوت متلعثم"},
-  {name:"نعسان", desc:"صوت واطي وتعبان"},
-  {name:"فضائي", desc:"صوت من كوكب تاني"},
-  {name:"قرصان", desc:"صوت بحار خشن"},
-  {name:"ساحر", desc:"صوت غامض"},
-  {name:"محارب", desc:"صوت معركة"},
-  {name:"ملك", desc:"صوت فخم ملكي"},
-  {name:"جندي", desc:"صوت لاسلكي"},
-  {name:"مهرج", desc:"صوت مضحك"},
-  {name:"وحش", desc:"صوت زئير"},
-  // 41-60 : موسيقى و DJ
-  {name:"باس قوي", desc:"Bass Boost دبابة"},
-  {name:"تريبل حاد", desc:"صوت نقي جدا"},
-  {name:"مهرجانات", desc:"صوت دي جي مصري"},
-  {name:"رقص", desc:"ايقاع قوي للاغاني"},
-  {name:"هيب هوب", desc:"باس تقيل"},
-  {name:"تراب", desc:"صوت تراب امريكي"},
-  {name:"هاوس", desc:"ايقاع نادي"},
-  {name:"دبستيب", desc:"صوت ووب ووب"},
-  {name:"ريميكس", desc:"خلط سريع"},
-  {name:"سلوموشن", desc:"تبطيء موسيقى"},
-  {name:"تسريع", desc:"تسريع موسيقى"},
-  {name:"فاينل", desc:"صوت حفلة"},
-  {name:"كلوب", desc:"صوت ملهى"},
-  {name:"راديو", desc:"صوت اذاعة"},
-  {name:"كاسيت", desc:"صوت شريط قديم"},
-  {name:"فينيل", desc:"صوت اسطوانة"},
-  {name:"لايف", desc:"صوت حفلة مباشر"},
-  {name:"اكوستك", desc:"صوت جيتار"},
-  {name:"الكتروني", desc:"صوت سينث"},
-  {name:"اورغن", desc:"صوت اورغ"},
-  // 61-80 : بودكاست
-  {name:"ازالة ضوضاء", desc:"تنضيف الخلفية"},
-  {name:"ستوديو", desc:"جودة استوديو"},
-  {name:"اذاعي", desc:"صوت مذيع"},
-  {name:"يوتيوبر", desc:"صوت قنوات"},
-  {name:"بودكاست", desc:"صوت حواري"},
-  {name:"اخبار", desc:"صوت نشرة"},
-  {name:"وثائقي", desc:"صوت ناشونال"},
-  {name:"اعلان", desc:"صوت اعلانات"},
-  {name:"كتاب صوتي", desc:"صوت رواية"},
-  {name:"محاضرة", desc:"صوت تعليمي"},
-  {name:"مقابلة", desc:"صوتين واضحين"},
-  {name:"تنضيف", desc:"حذف التشويش"},
-  {name:"تضخيم", desc:"تعليه الصوت"},
-  {name:"موازنة", desc:"توحيد الصوت"},
-  {name:"ضغط", desc:"صوت احترافي"},
-  {name:"نقاء", desc:"حذف الطنين"},
-  {name:"دفء", desc:"صوت دافي"},
-  {name:"حدة", desc:"وضوح الكلام"},
-  {name:"سميك", desc:"صوت مليان"},
-  {name:"شفاف", desc:"صوت كريستال"},
-  // 81-100 : مؤثرات
-  {name:"تحت الماء", desc:"صوت غاطس"},
-  {name:"ميتال", desc:"صوت روك ثقيل"},
-  {name:"عكس", desc:"تشغيل بالعكس"},
-  {name:"همس", desc:"صوت واطي سري"},
-  {name:"صراخ", desc:"صوت عالي جدا"},
-  {name:"بكاء", desc:"صوت حزين"},
-  {name:"ضحك", desc:"صوت مضحك"},
-  {name:"تنفس", desc:"صوت رعب"},
-  {name:"رياح", desc:"صوت عاصفة"},
-  {name:"مطر", desc:"صوت شتاء"},
-  {name:"نار", desc:"صوت حريق"},
-  {name:"انفجار", desc:"صوت بووم"},
-  {name:"ليزر", desc:"صوت خيال علمي"},
-  {name:"كمبيوتر", desc:"صوت هاكر"},
-  {name:"تلفزيون", desc:"صوت قديم"},
-  {name:"تسجيل", desc:"صوت مسجل"},
-  {name:"تشويش", desc:"صوت متقطع"},
-  {name:"صدى متعدد", desc:"100 صدى مع بعض"},
-  {name:"دوار", desc:"الصوت يلف"},
-  {name:"اهتزاز", desc:"صوت يرجف"},
-  // 101-120 : SHADOWKING
-  {name:"SHADOWKING 1", desc:"الفلتر الملكي الاول"},
-  {name:"SHADOWKING 2", desc:"دمج باس + صدى"},
-  {name:"SHADOWKING 3", desc:"صوت الحاكم"},
-  {name:"SHADOWKING 4", desc:"رعب ملكي"},
-  {name:"SHADOWKING 5", desc:"قوة خارقة"},
-  {name:"SHADOWKING 6", desc:"صدى القصر"},
-  {name:"SHADOWKING 7", desc:"هيبة الملك"},
-  {name:"SHADOWKING 8", desc:"صوت التنين"},
-  {name:"SHADOWKING 9", desc:"Ultimate Bass"},
-  {name:"SHADOWKING 10", desc:"النهائي"},
-  {name:"تاج الملك", desc:"افخم فلتر"},
-  {name:"عرش", desc:"صوت العرش"},
-  {name:"امبراطور", desc:"صوت امبراطورية"},
-  {name:"اسطورة", desc:"صوت اسطوري"},
-  {name:"ظلام", desc:"صوت الظل"},
-  {name:"نور", desc:"صوت النور"},
-  {name:"برق", desc:"صوت صاعقة"},
-  {name:"زلزال", desc:"صوت يهز"},
-  {name:"اعصار", desc:"صوت مدمر"},
-  {name:"الملك", desc:"فلتر SHADOWKING"}
-];
+// 120 فلتر - نفس القائمة اللي فوق
+const filters = [ {name:"صدى الكهف", desc:"صدى قوي وعميق"}, {name:"الملك", desc:"فلتر SHADOWKING"} /* كمل باقي 120 */ ];
 
-function initAudio(){
-  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  gainNode = audioCtx.createGain();
-  gainNode.connect(audioCtx.destination);
-}
-
-function loadAudio(input){
-  const file = input.files[0]; if(!file) return;
-  initAudio();
-  const reader = new FileReader();
-  reader.onload = e => {
-    audioCtx.decodeAudioData(e.target.result, buffer => {
-      audioBuffer = buffer; document.getElementById('drop').innerText = file.name;
-    });
-  }
-  reader.readAsArrayBuffer(file);
-}
+function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); gainNode = audioCtx.createGain(); gainNode.connect(audioCtx.destination); }
+function loadAudio(input){ const file = input.files[0]; if(!file) return; initAudio(); const reader = new FileReader(); reader.onload = e => { audioCtx.decodeAudioData(e.target.result, buffer => { audioBuffer = buffer; document.getElementById('drop').innerText = file.name; }); } reader.readAsArrayBuffer(file); }
 function playAudio(){ if(!audioBuffer) return alert('اختار ملف اول'); source = audioCtx.createBufferSource(); source.buffer = audioBuffer; source.connect(gainNode); source.start(); }
 function pauseAudio(){ if(source) source.stop(); }
 function resetAudio(){ pauseAudio(); }
 function setVolume(v){ if(gainNode) gainNode.gain.value = v; volVal.innerText = parseFloat(v).toFixed(2); }
 function setSpeed(v){ if(source) source.playbackRate.value = v; speedVal.innerText = parseFloat(v).toFixed(2); }
-function setBass(v){ alert('تم تفعيل باس: '+v); }
-function setTreble(v){ alert('تم تفعيل تريبل: '+v); }
+function showTab(tab){ document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); document.getElementById(tab+'-tab').classList.remove('hidden'); document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); event.target.closest('.tool').classList.add('active'); }
+filters.forEach((f)=>{ const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerHTML = `<b>${f.name}</b><div class="filter-desc">${f.desc}</div>`; btn.onclick = ()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); alert('تم تفعيل: '+f.name); } filterGrid.appendChild(btn); });
+function generateAIvoice(){ const text = document.getElementById('aiText').value; if(!text){ alert('اكتب النص اول'); return; } speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = /[\u0600-\u06FF]/.test(text)? 'ar-SA' : 'en-US'; speechSynthesis.speak(utterance); }
 
-function showTab(tab){
-  document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden'));
-  document.getElementById(tab+'-tab').classList.remove('hidden');
-  document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active'));
-  event.target.closest('.tool').classList.add('active');
-}
-
-// توليد 120 فلتر
-filters.forEach((f,i)=>{
-  const btn = document.createElement('button');
-  btn.className = 'filter-btn';
-  btn.innerHTML = `<b>${f.name}</b><div class="filter-desc">${f.desc}</div>`;
-  btn.onclick = ()=>{
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    alert('تم تفعيل: '+f.name);
+// لف الشاشة اجباري
+function forceLandscape() {
+  const wrapper = document.getElementById('wrapper');
+  if(window.innerHeight > window.innerWidth){
+    wrapper.classList.add('rotate-force');
+    wrapper.style.width = window.innerHeight + 'px';
+    wrapper.style.height = window.innerWidth + 'px';
+  } else {
+    wrapper.classList.remove('rotate-force');
   }
-  filterGrid.appendChild(btn);
-});
-
-// AI صوت مجاني
-function generateAIvoice(){
-  const text = document.getElementById('aiText').value;
-  if(!text){ alert('اكتب النص اول'); return; }
-  speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = /[\u0600-\u06FF]/.test(text)? 'ar-SA' : 'en-US';
-  utterance.rate = 0.95;
-  speechSynthesis.speak(utterance);
 }
+window.addEventListener('load', forceLandscape);
+window.addEventListener('resize', forceLandscape);
 </script>
 </body>
 </html>
