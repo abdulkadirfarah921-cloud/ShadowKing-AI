@@ -3,131 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOWKING AI VOICE</title>
+<title>صنع صوت AI</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{
-  background: #000;
-  color:#fff;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.container{
-  width:100%;
-  max-width:450px;
-  background: #111;
-  border: 2px solid #FFC107;
-  border-radius:25px;
-  padding:30px 25px;
-  text-align:center;
-}
-
-.logo h1{
-  font-size:28px;
-  color:#FFC107;
-  margin-bottom:8px;
-  font-weight:900;
-}
-.logo p{
-  color:#aaa;
-  font-size:14px;
-  margin-bottom:25px;
-}
-
-.box{
-  background:#1a1a1a;
-  border-radius:15px;
-  padding:20px;
-  margin-bottom:20px;
-}
-
-.label{
-  color:#FFC107;
-  font-weight:700;
-  margin-bottom:12px;
-  font-size:16px;
-}
-
-input{
-  width:100%;
-  padding:15px;
-  background:#000;
-  border:2px solid #333;
-  border-radius:12px;
-  color:#fff;
-  font-size:16px;
-  text-align:right;
-  margin-bottom:15px;
-  outline:none;
-}
+body{background:#000;color:#FFC107;text-align:center;padding:40px}
+.container{max-width:450px;margin:0 auto;background:#111;border:2px solid #FFC107;border-radius:25px;padding:30px}
+h1{margin-bottom:20px}
+.box{background:#1a1a1a;border-radius:15px;padding:20px;margin-bottom:20px}
+.label{color:#FFC107;font-weight:700;margin-bottom:12px;font-size:16px}
+input{width:100%;padding:15px;background:#000;border:2px solid #333;border-radius:12px;color:#fff;font-size:16px;text-align:right;margin-bottom:15px;outline:none}
 input:focus{border-color:#FFC107}
-
-.btn{
-  width:100%;
-  padding:16px;
-  background:#FFC107;
-  border:none;
-  border-radius:12px;
-  color:#000;
-  font-weight:900;
-  font-size:16px;
-  cursor:pointer;
-  margin-bottom:12px;
-  transition:0.2s;
-}
+.btn{width:100%;padding:16px;background:#FFC107;border:none;border-radius:12px;color:#000;font-weight:900;font-size:16px;cursor:pointer;margin-bottom:12px}
 .btn:hover{background:#FFD700;transform:scale(1.02)}
-
-.btn-outline{
-  background:transparent;
-  color:#FFC107;
-  border:2px solid #FFC107;
-}
-.btn-outline:hover{
-  background:#FFC107;
-  color:#000;
-}
-
-.divider{
-  color:#555;
-  margin:15px 0;
-  font-weight:700;
-}
-
-.back{
-  background:#222;
-  color:#aaa;
-  border:none;
-}
+.btn-outline{background:transparent;color:#FFC107;border:2px solid #FFC107}
+.btn-outline:hover{background:#FFC107;color:#000}
+.divider{color:#555;margin:15px 0;font-weight:700}
+.back{background:#222;color:#aaa;border:none}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="logo">
-    <h1>👑 SHADOWKING</h1>
-    <p>استوديو الصوت بالذكاء الاصطناعي</p>
-  </div>
+<h1>🎙️ SHADOWKING AI</h1>
 
-  <!-- الخيار الاول: توليد -->
-  <div class="box">
-    <div class="label">🎙️ صنع صوت جديد بالذكاء الاصطناعي</div>
-    <input type="text" id="aiPrompt" placeholder="اكتب وصف الصوت: مثال صوت ملكي غاضب">
-    <button class="btn" onclick="makeAI()">⚡ توليد الصوت</button>
-  </div>
+<div class="box">
+<div class="label">صنع صوت جديد بالذكاء الاصطناعي</div>
+<input type="text" id="aiPrompt" placeholder="اكتب وصف الصوت: مثال صوت ملكي غاضب">
+<button class="btn" onclick="makeAI()">⚡ توليد الصوت</button>
+</div>
 
-  <div class="divider">او</div>
+<div class="divider">او</div>
 
-  <!-- الخيار التاني: عندك صوت -->
-  <div class="box">
-    <div class="label">🎚️ عندك صوت وتريد تعدله؟</div>
-    <button class="btn btn-outline" onclick="goToEditor()">فتح محر الصوت</button>
-  </div>
+<div class="box">
+<div class="label">عندك صوت وتريد تعدله؟</div>
+<button class="btn btn-outline" onclick="goToEditor()">فتح محر الصوت</button>
+</div>
 
-  <button class="btn back" onclick="location.href='index.html'">⬅️ الرجوع للرئيسية</button>
+<button class="btn back" onclick="location.href='index.html'">⬅️ الرجوع للرئيسية</button>
 </div>
 
 <script>
@@ -135,32 +47,29 @@ function makeAI(){
   const prompt = document.getElementById('aiPrompt').value;
   if(prompt.trim() == ''){alert('اكتب وصف الصوت اول'); return;}
 
-  // توليد صوت وهمي 5 ثواني
   const ctx = new AudioContext();
   const buffer = ctx.createBuffer(1, ctx.sampleRate * 5, ctx.sampleRate);
   const data = buffer.getChannelData(0);
   let freq = 180;
   if(prompt.includes('غاضب')) freq = 120;
   if(prompt.includes('ملكي')) freq = 100;
+  if(prompt.includes('طفل')) freq = 600;
   for(let i=0; i<buffer.length; i++){
-    data[i] = Math.sin(2*Math.PI*freq*i/ctx.sampleRate) * 0.3;
+    data[i] = Math.sin(2*Math.PI*freq*i/ctx.sampleRate) * 0.3 * Math.sin(Math.PI*i/buffer.length);
   }
 
   const wav = toWav(buffer);
   const url = URL.createObjectURL(new Blob([wav], {type:'audio/wav'}));
 
-  // نحفظه ونروح للمحر على طول
-  localStorage.setItem('audioType', 'ai');
   localStorage.setItem('audioData', url);
   localStorage.setItem('audioName', prompt);
 
   alert('تم توليد الصوت! سيتم نقلك للمحر الان');
-  window.location.href = 'مجلد هندسة اصوات/editor.html';
+  window.location.href = 'audio-editor.html';
 }
 
 function goToEditor(){
-  // نروح للمحر مباشرة بدون ما نولد شي
-  window.location.href = 'مجلد هندسة اصوات/editor.html';
+  window.location.href = 'audio-editor.html';
 }
 
 function toWav(buffer){
