@@ -2,18 +2,32 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="screen-orientation" content="landscape">
 <title>SHADOWKING AUDIO PRO</title>
 <style>
 :root{--bg:#000;--neon:#00e5ff;--neon2:#00aaff}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;touch-action:manipulation}
+html,body{background:#000;color:#fff;height:100%;width:100%;overflow:hidden}
 
-.topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
+/* الحل السحري: نلف المحتوى بس نخلي الاحداثيات مظبوطة */
+#wrapper{
+  width: 100vh;
+  height: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(90deg);
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+.topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon);width:100vw}
 .logo{color:var(--neon);font-weight:900;font-size:15px;text-shadow:0 0 10px var(--neon)}
 .export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:8px 20px;border-radius:10px;font-weight:900;cursor:pointer}
-.container{display:flex;height:calc(100vh - 50px - 45px)}
+.container{display:flex;height:calc(100vw - 50px - 45px);width:100vw}
 .sidebar-right{width:70px;background:#000;padding:8px 4px;border-left:2px solid var(--neon);display:flex;flex-direction:column;gap:8px}
 .tool{background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:10px 4px;text-align:center;font-size:9px;color:#aaa;cursor:pointer}
 .tool.active{background:var(--neon);color:#000;box-shadow:0 0 15px var(--neon)}
@@ -21,7 +35,7 @@ html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 .player-box{background:linear-gradient(90deg,var(--neon),var(--neon2));padding:7px 18px;border-radius:8px;color:#000;font-weight:900}
 .drop-zone{width:90%;height:120px;background:#0a0a0a;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;text-align:center;cursor:pointer}
 .controls{display:flex;gap:10px}
-.btn{background:var(--neon);color:#000;border:none;padding:10px 18px;border-radius:8px;font-weight:900;cursor:pointer;font-size:14px}
+.btn{background:var(--neon);color:#000;border:none;padding:10px 18px;border-radius:8px;font-weight:900;cursor:pointer;font-size:14px;touch-action:manipulation}
 .btn:active{transform:scale(0.95)}
 .btn.danger{background:#ff0044;color:#fff}
 .btn.ai{background:#ffaa00;color:#000;width:100%}
@@ -29,33 +43,23 @@ html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 .tab{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:8px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:10px;font-size:13px}
 .slider{margin-bottom:12px}
 .slider label{color:#aaa;font-size:10px;display:block;margin-bottom:3px}
-input[type=range], textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:6px;padding:6px;font-size:11px}
+input[type=range], textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:6px;padding:6px;font-size:11px;touch-action:pan-y}
 textarea{height:70px;resize:none}
 .filter-grid{display:grid;grid-template-columns:1fr;gap:6px;max-height:380px;overflow-y:auto}
 .filter-btn{background:#111;border:1px solid #333;padding:8px;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;text-align:right}
 .filter-btn.active{background:var(--neon);color:#000;font-weight:900}
 .filter-desc{font-size:9px;color:#666;margin-top:2px}
-.timeline{height:45px;background:#000;border-top:2px solid var(--neon);padding:6px}
+.timeline{height:45px;background:#000;border-top:2px solid var(--neon);padding:6px;width:100vw}
 .track{background:linear-gradient(90deg, var(--neon) 0%, var(--neon2) 100%);height:33px;border-radius:6px;display:flex;align-items:center;padding:0 10px;color:#000;font-weight:900;font-size:11px}
 .hidden{display:none}
-
-/* رسالة اجبار اللف */
-@media screen and (orientation:portrait){
-  body::before{
-    content:"لف الجوال بالعرض 👑";
-    position:fixed;top:0;left:0;width:100%;height:100%;
-    background:#000;z-index:9999;display:flex;
-    align-items:center;justify-content:center;
-    font-size:24px;color:var(--neon);font-weight:900;
-  }
-}
 </style>
 </head>
 <body>
 
+<div id="wrapper">
 <div class="topbar">
   <div class="logo">👑 SHADOWKING AUDIO PRO</div>
-  <button class="export-btn" onclick="alert('التصدير قريبا')">تصدير</button>
+  <button type="button" class="export-btn" onclick="alert('التصدير قريبا')">تصدير</button>
 </div>
 
 <div class="container">
@@ -101,10 +105,17 @@ textarea{height:70px;resize:none}
 </div>
 
 <div class="timeline"><div class="track">Audio Track 1</div></div>
+</div>
 
 <script>
-let audioCtx, source, gainNode, audioBuffer;
+// تصحيح مكان الضغط بعد اللف
+document.addEventListener('click', function(e) {
+  if(e.target.closest('button,.tool,.drop-zone, input')){
+    e.stopPropagation();
+  }
+}, true);
 
+let audioCtx, source, gainNode, audioBuffer;
 const filters = [
 {name:"صدى الكهف", desc:"صدى قوي وعميق"},{name:"صدى القصر", desc:"صدى ملكي"},
 {name:"روبوت", desc:"صوت آلي"},{name:"شيطان", desc:"صوت عميق شرير"},
