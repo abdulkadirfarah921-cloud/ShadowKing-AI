@@ -3,61 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استوديو هندسة الصوت - Shadowking</title>
+<title>استوديو هندسة الصوت</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#FFD700;font-family:Arial;min-height:100vh;padding:15px}
-.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700;padding-bottom:15px;margin-bottom:20px}
-.header h1{font-size:18px;text-align:center;flex:1}
-.back{font-size:24px;cursor:pointer}
-.export-btn{background:#FFD700;color:#000;border:none;padding:10px 20px;border-radius:10px;font-weight:bold;cursor:pointer}
-.box{border:2px solid #FFD700;border-radius:20px;padding:20px;margin-bottom:15px;background:#111;animation:fadeIn 0.5s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.box h2{margin-bottom:15px;text-align:center;font-size:16px}
-textarea{width:100%;height:100px;background:#000;border:2px solid #FFD700;color:#FFD700;padding:12px;border-radius:15px;resize:none;font-size:14px}
-.btn{background:#FFD700;color:#000;border:none;padding:15px;border-radius:15px;font-weight:bold;width:100%;font-size:16px;cursor:pointer;margin-top:10px;transition:0.3s}
-.btn:hover{transform:scale(1.03);box-shadow:0 0 20px #FFD700}
-.divider{text-align:center;margin:20px 0;font-size:20px}
+body{background:#000;color:#FFC107;text-align:center;padding:20px;font-family:Arial}
+.box{border:3px solid #FFC107;border-radius:20px;padding:20px;margin:20px 0;background:#111}
+input{width:90%;padding:15px;background:#000;border:2px solid #FFC107;border-radius:15px;color:#fff;font-size:16px;text-align:center;margin:15px 0}
+.btn{background:#FFC107;color:#000;border:none;padding:15px 30px;border-radius:15px;font-weight:900;font-size:16px;width:90%;cursor:pointer}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="back" onclick="window.location.href='index.html'">←</div>
-  <h1>استوديو هندسة الصوت 🎛️</h1>
-  <button class="export-btn" onclick="alert('صدر من داخل المحرر')">Export</button>
-</div>
+<h2>🎛️ استوديو هندسة الصوت</h2>
 
 <div class="box">
-  <h2>اصنع صوت بالذكاء الاصطناعي</h2>
-  <textarea id="prompt" placeholder="اكتب وصف الصوت: مثال صوت ملكي غاضب"></textarea>
-  <button class="btn" onclick="generateAndGo()">صنع الصوت 🎵</button>
+  <h3>اصنع صوت بالذكاء الاصطناعي</h3>
+  <input type="text" id="aiPrompt" placeholder="اكتب وصف الصوت: مثال صوت ملكي غاضب">
+  <button class="btn" onclick="makeAI()">🎵 صنع الصوت</button>
 </div>
 
-<div class="divider">او</div>
+<div>او</div>
 
 <div class="box">
-  <button class="btn" onclick="document.getElementById('fileInput').click()">عندك صوت تريد تعدله 📁</button>
-  <input type="file" id="fileInput" accept="audio/*" style="display:none" onchange="importAndGo(event)">
+  <button class="btn" onclick="document.getElementById('file').click()">📁 عندك صوت تريد تعدله</button>
+  <input type="file" id="file" accept="audio/*" style="display:none" onchange="goEdit(this)">
 </div>
 
 <script>
-function generateAndGo(){
-  const prompt = document.getElementById('prompt').value;
-  if(!prompt) return alert('اكتب وصف الصوت يا ملك');
-  localStorage.setItem('audioType','ai');
-  localStorage.setItem('audioPrompt',prompt);
-  window.location.href = 'editor.html';
+function makeAI(){
+  const prompt = document.getElementById('aiPrompt').value;
+  if(prompt.trim() == ''){alert('اكتب وصف الصوت اول'); return;}
+  
+  // نولد صوت وهمي 3 ثواني
+  const audioCtx = new AudioContext();
+  const duration = 3;
+  const sampleRate = audioCtx.sampleRate;
+  const frameCount = sampleRate * duration;
+  const buffer = audioCtx.createBuffer(1, frameCount, sampleRate);
+  const data = buffer.getChannelData(0);
+  
+  let freq = 180;
+  if(prompt.includes('غاضب')) freq = 140;
+  if(prompt.includes('ملكي')) freq = 110;
+  if(prompt.includes('طفل')) freq = 500;
+  
+  for(let i=0; i<frameCount; i++){
+    data[i] = Math.sin(2*Math.PI*freq*i/sampleRate) * 0.3 * Math.sin(Math.PI*i/frameCount);
+  }
+  
+  // نحوله لملف
+  const wav = bufferToWav(buffer);
+  const blob = new Blob([wav], {type: 'audio/wav'});
+  const url = URL.createObjectURL(blob);
+
+  localStorage.setItem('audioType', 'ai');
+  localStorage.setItem('audioData', url);
+  localStorage.setItem('audioName', prompt);
+  window.location.href = 'واجهة تعديل علصوت/editor.html';
 }
-function importAndGo(e){
-  const file = e.target.files[0];
-  if(!file) return;
+
+function bufferToWav(buffer) {
+  const len = buffer.length * 2 + 44;
+  const buf = new ArrayBuffer(len);
+  const view = new DataView(buf);
+  let pos = 0;
+  const set16 = d => {view.setInt16(pos, d, true); pos+=2};
+  const set32 = d => {view.setInt32(pos, d, true); pos+=4};
+  set32(0x46464952); set32(len-8); set32(0x45564157);
+  set32(0x20746d66); set32(16); set16(1); set16(1);
+  set32(buffer.sampleRate); set32(buffer.sampleRate*2);
+  set16(2); set16(16); set32(0x61746164); set32(len-pos-4);
+  const d = buffer.getChannelData(0);
+  for(let i=0;i<d.length;i++){let s=Math.max(-1,Math.min(1,d[i])); view.setInt16(pos, s<0?s*0x8000:s*0x7FFF, true); pos+=2;}
+  return view;
+}
+
+function goEdit(input){
+  const file = input.files[0];
   const reader = new FileReader();
-  reader.onload = function(evt){
-    localStorage.setItem('audioType','import');
-    localStorage.setItem('audioName',file.name);
-    localStorage.setItem('audioData',evt.target.result);
-    window.location.href = 'editor.html';
+  reader.onload = function(e){
+    localStorage.setItem('audioType', 'import');
+    localStorage.setItem('audioData', e.target.result);
+    localStorage.setItem('audioName', file.name);
+    window.location.href = 'واجهة تعديل علصوت/editor.html';
   }
   reader.readAsDataURL(file);
 }
