@@ -3,33 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#000">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="screen-orientation" content="landscape">
 <link rel="manifest" href="manifest.json">
 <title>SHADOWKING AUDIO PRO</title>
 <script>
-// لو المتصفح دعم API بنقلبه عرض
-if(screen.orientation && screen.orientation.lock){
-  screen.orientation.lock('landscape').catch(()=>{});
+// محاولة قفل العرض + اجبار اللف بالـ CSS
+function forceLandscape() {
+  // 1. محاولة API الرسمي
+  if(screen.orientation && screen.orientation.lock){
+    screen.orientation.lock('landscape').catch(()=>{});
+  }
+
+  // 2. لو فشل بنلف الصفحة كلها 90 درجة بالـ CSS
+  if(window.innerHeight > window.innerWidth){
+    document.body.classList.add('rotate-force');
+  } else {
+    document.body.classList.remove('rotate-force');
+  }
 }
+
+window.addEventListener('load', forceLandscape);
+window.addEventListener('resize', forceLandscape);
+window.addEventListener('orientationchange', forceLandscape);
 </script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-body{background:#0a0a0a;color:#fff;direction:rtl;overflow:hidden;height:100vh}
+body{background:#0a0a0a;color:#fff;direction:rtl;overflow:hidden;height:100vh;transition:0.3s}
+
+/* الحركة القوية: لف الصفحة غصب لو الجهاز طولي */
+body.rotate-force {
+  transform: rotate(90deg);
+  transform-origin: left top;
+  width: 100vh;
+  height: 100vw;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  overflow: hidden;
+}
+
 .topbar{background:#111;height:55px;display:flex;align-items:center;padding:0 15px;border-bottom:1px solid #222}
 .logo{color:#00e5ff;font-weight:900;font-size:15px}
-.export-btn{margin-right:auto;background:#00e5ff;color:#000;border:none;padding:10px 25px;border-radius:8px;font-weight:900;font-size:15px}
+.export-btn{margin-right:auto;background:#00e5ff;color:#000;border:none;padding:10px 25px;border-radius:8px;font-weight:900;font-size:15px;cursor:pointer}
 .container{display:flex;height:calc(100vh - 55px - 50px)}
-.sidebar-right{width:70px;background:#111;padding:10px 5px}
-.tool{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:12px 5px;margin-bottom:10px;text-align:center;font-size:11px;color:#aaa}
+body.rotate-force.container{height:calc(100vw - 55px - 50px)}
+.sidebar-right{width:70px;background:#111;padding:10px 5px;border-left:1px solid #222}
+.tool{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:12px 5px;margin-bottom:10px;text-align:center;font-size:11px;color:#aaa;cursor:pointer}
 .tool.active{background:#00e5ff;color:#000;border-color:#00e5ff}
 .player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 .player-box{background:#1a1a1a;padding:8px 20px;border-radius:8px;margin-bottom:20px;color:#fff}
-.drop-zone{width:80%;height:250px;background:#111;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#444;font-size:16px;margin-bottom:15px}
-audio{width:70%;border-radius:30px}
-.file-btn{margin-top:10px;background:#333;color:#fff;border:none;padding:10px 20px;border-radius:6px}
-.sidebar-left{width:120px;background:#111;padding:15px 10px}
+.drop-zone{width:80%;height:250px;background:#111;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#444;font-size:16px;margin-bottom:15px}
+audio{width:70%;border-radius:30px;filter:drop-shadow(0 0 10px #00e5ff)}
+.file-btn{margin-top:10px;background:#333;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer}
+.sidebar-left{width:130px;background:#111;padding:15px 10px;border-right:1px solid #222}
 .tab{background:#00e5ff;color:#000;padding:10px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:15px}
 .slider{margin-bottom:20px}
 .slider label{color:#aaa;font-size:12px;display:block;margin-bottom:5px}
