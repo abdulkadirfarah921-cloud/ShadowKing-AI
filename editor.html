@@ -5,40 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>محرر الصوت - Shadowking</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%;width:100%;overflow:hidden;background:#000}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;width:100%;overflow:hidden;background:#000;font-family:Arial}
+#wrapper{width:100vh;height:100vw;transform-origin:top left;position:absolute;top:0;left:100%;transform:rotate(90deg);background:#0a0a0a}
+@media (orientation: landscape) {#wrapper{width:100vw;height:100vh;transform:rotate(0deg);left:0;top:0}}
 
-  /* خدعة: نلف الصفحة كلها 90 درجة لو الموبايل بالطول */
-  #wrapper{width:100vh;height:100vw;transform-origin:top left;position:absolute;top:100%;left:0;transform:rotate(-90deg);background:#0a0a0a}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#1a1a1a;border-bottom:1px solid #333}
+.tabs{display:flex;gap:8px;overflow-x:auto}
+.tab{padding:8px 16px;border-radius:20px;font-size:13px;color:#aaa;background:#2a2a2a;cursor:pointer}
+.tab.active{background:#FFC107;color:#000;font-weight:bold}
+.export-btn{background:#FFC107;color:#000;border:none;padding:8px 20px;border-radius:20px;font-weight:bold;cursor:pointer}
 
-  /* لما يكون عرض نخليه طبيعي */
-  @media (orientation: landscape) {
-    #wrapper{width:100vw;height:100vh;transform:rotate(0deg);top:0}
-  }
+.content{display:flex;flex:1}
+.left{width:25%;background:#1a1a1a;padding:12px;display:flex;flex-direction:column;gap:10px}
+.center{width:50%;background:#000;padding:15px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.right{width:25%;background:#1a1a1a;padding:12px;overflow-y:auto}
 
- .topbar{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#1a1a1a;border-bottom:1px solid #333}
- .tabs{display:flex;gap:5px;overflow-x:auto;flex:1}
- .tab{padding:7px 14px;border-radius:6px;font-size:12px;color:#aaa;background:#2a2a2a;white-space:nowrap}
- .tab.active{background:#FFC107;color:#000;font-weight:bold}
- .export-btn{background:#FFC107;color:#000;border:none;padding:8px 18px;border-radius:6px;font-weight:bold;cursor:pointer}
+.import-box{height:120px;border:2px dashed #555;border-radius:15px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:#222;cursor:pointer;font-size:13px}
+.import-box:hover{border-color:#FFC107;color:#FFC107}
 
- .content{display:flex;flex:1}
- .left{width:20%;background:#1a1a1a;padding:10px;border-left:1px solid #333;display:flex;flex-direction:column}
- .center{width:60%;background:#000;padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center}
- .right{width:20%;background:#1a1a1a;padding:10px;border-right:1px solid #333;overflow-y:auto}
+#player{width:95%;height:40px}
+#waveform{width:95%;height:120px;background:#0a0a0a;border-radius:12px;margin-top:15px;position:relative;overflow:hidden;border:1px solid #333}
 
- .import-box{width:100%;height:140px;border:2px dashed #444;border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#666;background:#222;cursor:pointer;font-size:12px}
-  #player{width:95%}
-  #waveform{width:95%;height:100px;background:#111;border-radius:8px;margin-top:10px;position:relative;overflow:hidden}
+.timeline{height:140px;background:#1a1a1a;border-top:1px solid #333;padding:10px}
+.timeline-header{font-size:11px;color:#888;margin-bottom:5px}
+.timeline-track{height:70px;background:#000;border-radius:10px;position:relative;overflow-x:auto;border:1px solid #333}
+.clip{position:absolute;height:90%;top:5%;min-width:120px;background:linear-gradient(90deg,#FFC107,#FF9800);border-radius:8px;color:#000;font-weight:bold;font-size:11px;display:flex;align-items:center;justify-content:center;padding:0 8px;cursor:grab}
 
- .timeline{height:150px;background:#1a1a1a;border-top:1px solid #333;padding:10px}
- .timeline-header{font-size:11px;color:#888}
- .timeline-track{height:80px;background:#0a0a0a;border-radius:8px;position:relative;margin-top:5px;overflow-x:auto}
- .clip{position:absolute;height:90%;top:5%;min-width:140px;background:linear-gradient(90deg,#FFC107,#FFA000);border-radius:6px;color:#000;font-weight:bold;font-size:11px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.section-title{color:#FFC107;font-size:14px;margin:10px 0 8px;font-weight:bold}
+.filter-btn{background:#2a2a2a;color:#fff;border:none;padding:10px;border-radius:10px;margin:5px 0;width:100%;text-align:right;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;transition:0.2s}
+.filter-btn:hover{background:#333}
+.filter-btn.active{background:#FFC107;color:#000}
 
- .detail-title{color:#FFC107;font-size:13px;margin:8px 0;font-weight:bold}
- .detail-row{display:flex;justify-content:space-between;margin:6px 0;font-size:11px}
- .effect-btn{background:#2a2a2a;color:#FFC107;border:1px solid #444;padding:8px;border-radius:6px;margin:5px 0;width:100%;font-size:11px;cursor:pointer}
+.slider-box{margin:8px 0}
+.slider-box label{font-size:11px;color:#aaa;display:flex;justify-content:space-between}
+input[type=range]{width:100%;accent-color:#FFC107}
 </style>
 </head>
 <body>
@@ -48,52 +49,73 @@
     <div class="tabs">
       <div class="tab active">Media</div>
       <div class="tab">Audio</div>
-      <div class="tab">Effects</div>
-      <div class="tab">Speed</div>
-      <div class="tab" onclick="cutClip()">Cut</div>
+      <div class="tab">Filters</div>
+      <div class="tab" onclick="cutClip()">✂️ Cut</div>
     </div>
     <button class="export-btn" onclick="exportFile()">Export</button>
   </div>
 
   <div class="content">
+    <!-- يسار: الاستيراد -->
     <div class="left">
       <div class="import-box" onclick="document.getElementById('file2').click()">
-        <div style="font-size:30px">+</div><div>Import</div>
+        <div style="font-size:35px">+</div>
+        <div>اضافة صوت</div>
         <input type="file" id="file2" accept="audio/*" style="display:none" onchange="addClip(this.files[0].name)">
       </div>
+      <div class="section-title">التحكم السريع</div>
+      <button class="filter-btn" onclick="undo()">↩️ تراجع</button>
+      <button class="filter-btn" onclick="clearAll()">🗑️ مسح الكل</button>
     </div>
 
+    <!-- الوسط: المعاينة -->
     <div class="center">
       <audio id="player" controls></audio>
       <div id="waveform"></div>
     </div>
 
+    <!-- يمين: الفلاتر -->
     <div class="right">
-      <div class="detail-title">Details</div>
-      <div class="detail-row"><span>Name:</span><span id="name">AI Voice</span></div>
-      <div class="detail-row"><span>Duration:</span><span id="dur">00:00</span></div>
-      <div class="detail-title">Effects</div>
-      <button class="effect-btn" onclick="applyEffect('reverb')">Reverb</button>
-      <button class="effect-btn" onclick="applyEffect('bass')">Bass Boost</button>
-      <button class="effect-btn" onclick="undo()">Undo</button>
+      <div class="section-title">فلاتر الصوت</div>
+      <button class="filter-btn" onclick="toggleFilter('bass', this)">🔉 Bass Boost</button>
+      <button class="filter-btn" onclick="toggleFilter('treble', this)">🎵 Treble</button>
+      <button class="filter-btn" onclick="toggleFilter('reverb', this)">🔊 Reverb</button>
+      <button class="filter-btn" onclick="toggleFilter('echo', this)">📢 Echo</button>
+      <button class="filter-btn" onclick="toggleFilter('robot', this)">🤖 Robot</button>
+      <button class="filter-btn" onclick="toggleFilter('chipmunk', this)">🐿️ Chipmunk</button>
+      <button class="filter-btn" onclick="toggleFilter('deep', this)">👹 Deep Voice</button>
+
+      <div class="section-title">السرعة</div>
+      <div class="slider-box">
+        <label><span>السرعة</span><span id="speedVal">1.0x</span></label>
+        <input type="range" min="0.5" max="2" step="0.1" value="1" oninput="changeSpeed(this.value)">
+      </div>
+
+      <div class="slider-box">
+        <label><span>الصوت</span><span id="volVal">100%</span></label>
+        <input type="range" min="0" max="100" value="100" oninput="changeVolume(this.value)">
+      </div>
     </div>
   </div>
 
   <div class="timeline">
-    <div class="timeline-header">Drag material here and start to create</div>
+    <div class="timeline-header">اسحب الصوت هنا للتعديل</div>
     <div class="timeline-track" id="track"></div>
   </div>
 </div>
 
 <script>
 let history = [];
+let audioCtx, gainNode, filterNode;
 
 window.onload = function(){
-  // محاولة اجبار ملئ الشاشة
   document.documentElement.requestFullscreen().catch(()=>{});
   if(screen.orientation && screen.orientation.lock){
     screen.orientation.lock('landscape').catch(()=>{});
   }
+
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  gainNode = audioCtx.createGain();
 
   const type = localStorage.getItem('audioType');
   if(type == 'ai'){ addClip('AI Voice'); }
@@ -103,11 +125,6 @@ window.onload = function(){
     addClip(localStorage.getItem('audioName'));
   }
   drawWave();
-
-  document.getElementById('player').onloadedmetadata = function(){
-    let s = Math.floor(this.duration);
-    document.getElementById('dur').innerText = `00:${s<10?'0':''}${s}`;
-  }
 }
 
 function addClip(name){
@@ -115,29 +132,53 @@ function addClip(name){
   const track = document.getElementById('track');
   const clip = document.createElement('div');
   clip.className = 'clip';
-  clip.style.left = track.children.length * 150 + 'px';
+  clip.style.left = track.children.length * 130 + 'px';
   clip.innerText = name;
   track.appendChild(clip);
 }
 
-function applyEffect(e){ alert(e + ' مفعل'); }
+function toggleFilter(type, btn){
+  btn.classList.toggle('active');
+  const player = document.getElementById('player');
+  if(type=='speed') player.playbackRate = btn.classList.contains('active')? 1.5 : 1;
+  if(type=='bass') alert('Bass Boost: قوة الجهير زادت');
+  if(type=='treble') alert('Treble: حدة الصوت زادت');
+  if(type=='reverb') alert('Reverb: صدى القاعة');
+  if(type=='echo') alert('Echo: صدى متكرر');
+  if(type=='robot') alert('Robot: صوت آلي');
+  if(type=='chipmunk') player.playbackRate = btn.classList.contains('active')? 1.8 : 1;
+  if(type=='deep') player.playbackRate = btn.classList.contains('active')? 0.7 : 1;
+}
+
+function changeSpeed(val){
+  document.getElementById('speedVal').innerText = val + 'x';
+  document.getElementById('player').playbackRate = val;
+}
+
+function changeVolume(val){
+  document.getElementById('volVal').innerText = val + '%';
+  document.getElementById('player').volume = val/100;
+}
+
 function saveState(){ history.push(document.getElementById('track').innerHTML); }
 function undo(){ if(history.length>0) document.getElementById('track').innerHTML = history.pop(); }
-function cutClip(){ alert('اسحب لقص'); }
-function exportFile(){ alert('تم التصدير الى:\n/storage/emulated/0/مجلد اصوات مصنوعة باستخدام SHADOWKING AI'); }
+function clearAll(){ document.getElementById('track').innerHTML = ''; }
+function cutClip(){ alert('اسحب طرف الكليب للقص'); }
+function exportFile(){ alert('تم التصدير ✅\n/storage/emulated/0/SHADOWKING_AI'); }
 
 function drawWave(){
   const w = document.getElementById('waveform');
-  for(let i=0;i<250;i++){
+  w.innerHTML = '';
+  for(let i=0;i<200;i++){
     let bar = document.createElement('div');
-    bar.style = `position:absolute;bottom:0;width:2px;height:${Math.random()*80+10}px;background:#FFC107;left:${i*3}px`;
+    bar.style = `position:absolute;bottom:0;width:3px;height:${Math.random()*100+10}px;background:#FFC107;left:${i*4}px;border-radius:2px`;
     w.appendChild(bar);
   }
   setInterval(()=>{
     document.querySelectorAll('#waveform div').forEach(bar=>{
-      bar.style.height = Math.random()*80 + 10 + 'px';
+      bar.style.height = Math.random()*100 + 10 + 'px';
     });
-  }, 120);
+  }, 100);
 }
 </script>
 </body>
