@@ -2,76 +2,57 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>SHADOWKING</title>
+<title>صنع صوت AI</title>
 <style>
-body{background:#000;color:#FFC107;text-align:center;padding:50px;font-family:Arial}
-.box{border:3px solid #FFC107;border-radius:20px;padding:20px;margin:20px auto;max-width:500px}
-input{width:90%;padding:15px;background:#000;border:2px solid #FFC107;color:#fff;border-radius:10px}
-button{background:#FFC107;color:#000;border:none;padding:15px;border-radius:10px;font-weight:900;width:90%;cursor:pointer}
+body{background:#000;color:#FFC107;text-align:center;padding:40px}
+.box{border:3px solid #FFC107;border-radius:25px;padding:25px;margin:20px auto;background:rgba(20,20,20,0.9);max-width:500px}
+input{width:90%;padding:15px;background:#000;border:2px solid #FFC107;border-radius:15px;color:#fff;font-size:16px}
+.btn{background:#FFC107;color:#000;border:none;padding:18px;border-radius:15px;font-weight:900;width:90%;cursor:pointer;font-size:17px;margin:10px}
+.back{background:#333;color:#FFC107}
 </style>
 </head>
 <body>
 
-<h1>👑 SHADOWKING PRO</h1>
+<h1>🎙️ صنع صوت AI</h1>
 
 <div class="box">
-<h3>🎙️ اصنع صوت بالذكاء الاصطناعي</h3>
-<input type="text" id="aiPrompt" placeholder="مثال: صوت ملكي غاضب">
-<button onclick="makeAI()">⚡ صنع الصوت</button>
+<h3>اكتب وصف الصوت</h3>
+<input type="text" id="aiPrompt" placeholder="مثال: صوت ملكي غاضب قوي">
+<button class="btn" onclick="makeAI()">⚡ توليد الصوت</button>
 </div>
 
-<div>او</div>
-
-<div class="box">
-<button onclick="document.getElementById('file').click()">📁 عندك صوت تريد تعدله</button>
-<input type="file" id="file" accept="audio/*" style="display:none" onchange="importAudio(this)">
-</div>
+<button class="btn back" onclick="location.href='index.html'">⬅️ الرجوع</button>
 
 <script>
-// 1. توليد صوت وهمي
 function makeAI(){
   const prompt = document.getElementById('aiPrompt').value;
   if(prompt.trim() == ''){alert('اكتب وصف الصوت اول'); return;}
 
-  // نعمل صوت 5 ثواني
   const ctx = new AudioContext();
   const buffer = ctx.createBuffer(1, ctx.sampleRate * 5, ctx.sampleRate);
   const data = buffer.getChannelData(0);
 
-  let freq = 150;
+  let freq = 180;
   if(prompt.includes('غاضب')) freq = 120;
   if(prompt.includes('ملكي')) freq = 100;
+  if(prompt.includes('طفل')) freq = 600;
 
   for(let i=0; i<buffer.length; i++){
-    data[i] = Math.sin(2*Math.PI*freq*i/ctx.sampleRate) * 0.3;
+    data[i] = Math.sin(2*Math.PI*freq*i/ctx.sampleRate) * 0.3 * Math.sin(Math.PI*i/buffer.length);
   }
 
-  // نحوله لملف ونحفظه
   const wav = toWav(buffer);
   const url = URL.createObjectURL(new Blob([wav], {type:'audio/wav'}));
 
-  localStorage.setItem('audioType', 'ai');
-  localStorage.setItem('audioData', url);
-  localStorage.setItem('audioName', prompt);
+  // تحميل الملف
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'shadowking-voice.wav';
+  a.click();
 
-  // نروح للمحر
-  window.location.href = 'واجهة تعديل علصوت/editor.html';
+  alert('تم تحميل الصوت! هلا روح لصفحة هندسة الصوت عشان تعدله');
 }
 
-// 2. استيراد صوت
-function importAudio(input){
-  const file = input.files[0];
-  const reader = new FileReader();
-  reader.onload = function(e){
-    localStorage.setItem('audioType', 'import');
-    localStorage.setItem('audioData', e.target.result);
-    localStorage.setItem('audioName', file.name);
-    window.location.href = 'واجهة تعديل علصوت/editor.html';
-  }
-  reader.readAsDataURL(file);
-}
-
-// تحويل buffer الى wav
 function toWav(buffer){
   const len = buffer.length * 2 + 44;
   const buf = new ArrayBuffer(len);

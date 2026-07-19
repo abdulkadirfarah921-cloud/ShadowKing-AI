@@ -2,143 +2,82 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="mobile-web-app-capable" content="yes">
-<title>SHADOWKING ULTRA</title>
+<title>هندسة الصوت</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;width:100%;overflow:hidden;background:radial-gradient(circle at center,#1a001a 0%,#000 100%);font-family:'Cairo', sans-serif}
-
-#wrapper{width:100vh;height:100vw;transform-origin:top left;position:fixed;top:0;left:100%;transform:rotate(90deg);background:radial-gradient(circle at center,#1a001a 0%,#000 100%)}
-@media (orientation: landscape) {#wrapper{width:100vw;height:100vh;transform:rotate(0deg);left:0;position:relative}}
-
-.topbar{height:10%;display:flex;justify-content:space-between;align-items:center;padding:0 25px;background:linear-gradient(90deg,rgba(255,193,7,0.1) 0%,rgba(0,0,0,0.9) 50%,rgba(255,87,34,0.1) 100%);backdrop-filter:blur(30px);border-bottom:3px solid #FFC107}
-.logo{font-size:20px;font-weight:900;background:linear-gradient(90deg,#FFC107,#FF5722);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px #FFC107}
-.export-btn{background:linear-gradient(90deg,#FFC107,#FF5722);color:#000;border:none;padding:12px 30px;border-radius:30px;font-weight:900;font-size:15px;box-shadow:0 0 40px rgba(255,193,7,1);animation: glow 1.5s infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 40px #FFC107}50%{box-shadow:0 0 60px #FF5722}}
-
-.content{height:70%;display:flex;padding:15px;gap:15px}
-.side-bar{width:18%;background:rgba(20,20,20,0.9);border:2px solid #FFC107;border-radius:25px;padding:15px;display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(20px)}
-.center-area{width:64%;background:rgba(10,10,10,0.95);border:3px solid #FFC107;border-radius:30px;padding:25px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 0 50px rgba(255,193,7,0.3)}
-
-.vertical-btn{background:linear-gradient(180deg,#FFC107,#FF9800);color:#000;border:none;padding:20px 10px;border-radius:20px;font-weight:900;font-size:14px;writing-mode:vertical-lr;text-orientation:upright;box-shadow:0 0 25px #FFC107;cursor:pointer}
-
-.player-box{width:95%;height:60%;background:rgba(0,0,0,0.8);border-radius:25px;border:2px solid #FFC107;padding:20px;display:flex;align-items:center;gap:20px;box-shadow:inset 0 0 30px rgba(255,193,7,0.2)}
-.wave-vertical{width:25%;height:100%;background:linear-gradient(180deg,#FFC107,#FF5722);border-radius:15px;display:flex;flex-direction:column;gap:3px;padding:8px;overflow:hidden}
-.wave-bar{width:100%;height:4px;background:#000;border-radius:2px;animation: wave 0.5s infinite alternate}
-@keyframes wave{from{opacity:0.3}to{opacity:1}}
-.controls-vertical{width:70%;height:100%;background:rgba(20,20,20,0.9);border-radius:20px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:20px;border:1px solid #333}
-.time-display{color:#FFC107;font-size:22px;font-weight:900;text-shadow:0 0 15px #FFC107}
-.progress{width:8px;height:60%;background:#222;border-radius:10px;position:relative}
-.progress-bar{width:100%;height:0%;background:linear-gradient(180deg,#FFC107,#FF5722);border-radius:10px;position:absolute;bottom:0}
-
-.timeline{height:20%;background:rgba(15,15,15,0.95);border-top:3px solid #FFC107;padding:15px;backdrop-filter:blur(20px)}
-.timeline-header{color:#FFC107;font-size:14px;font-weight:900;margin-bottom:10px;text-align:center}
-.timeline-track{height:75%;background:rgba(0,0,0,0.8);border-radius:20px;border:2px dashed #FFC107;position:relative}
-
-.filter-section{background:rgba(0,0,0,0.6);border-radius:20px;padding:12px;border:1px solid #FFC107}
-.filter-title{color:#FFC107;font-size:13px;font-weight:900;margin-bottom:10px;text-align:center}
-.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.f-btn{background:rgba(255,193,7,0.1);color:#FFC107;border:2px solid #FFC107;padding:10px;border-radius:15px;font-size:10px;font-weight:700;cursor:pointer;transition:0.3s}
-.f-btn:hover{background:#FFC107;color:#000;transform:scale(1.1);box-shadow:0 0 20px #FFC107}
-.f-btn.active{background:linear-gradient(135deg,#FFC107,#FF5722);color:#000;box-shadow:0 0 30px #FFC107}
-
-.import-dashed{height:120px;border:3px dashed #FFC107;border-radius:20px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#FFC107;font-weight:900;cursor:pointer;background:rgba(255,193,7,0.05)}
-.import-dashed:hover{background:rgba(255,193,7,0.2)}
+body{background:#000;color:#FFC107;padding:20px;font-family:Arial}
+h1{text-align:center;text-shadow:0 0 20px #FFC107}
+.panel{border:2px solid #FFC107;border-radius:15px;padding:20px;margin:20px 0;background:rgba(20,20,20,0.9)}
+.btn{background:#FFC107;color:#000;border:none;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;margin:5px}
+input[type=range]{width:80%}
+audio{width:100%;margin:15px 0}
 </style>
 </head>
 <body>
 
-<div id="wrapper">
-  <div class="topbar">
-    <div class="logo">👑 SHADOWKING ULTRA</div>
-    <div style="display:flex;gap:10px">
-      <button style="padding:10px 20px;border-radius:20px;background:#222;color:#FFC107;border:1px solid #FFC107">AI</button>
-      <button style="padding:10px 20px;border-radius:20px;background:#222;color:#FFC107;border:1px solid #FFC107">FX</button>
-      <button style="padding:10px 20px;border-radius:20px;background:#222;color:#FFC107;border:1px solid #FFC107">Audio</button>
-      <button style="padding:10px 20px;border-radius:20px;background:linear-gradient(90deg,#FFC107,#FF9800);color:#000;font-weight:900">Media</button>
-    </div>
-    <button class="export-btn">⚡ Export</button>
-  </div>
+<h1>🎚️ استوديو هندسة الصوت</h1>
+<button class="btn" onclick="location.href='../index.html'">⬅️ الرجوع</button>
 
-  <div class="content">
-    <!-- يسار -->
-    <div class="side-bar">
-      <button class="vertical-btn">AI Voice</button>
-      <div class="filter-section">
-        <div class="filter-title">تحكم سريع</div>
-        <button class="f-btn">↩️ تراجع</button>
-        <button class="f-btn">↪️ اعادة</button>
-      </div>
-      <div style="color:#FFC107;font-size:11px;text-align:center;margin-top:auto">لنا مستقبل - طورناه</div>
-    </div>
+<div class="panel">
+  <h3>📁 استيراد صوت</h3>
+  <input type="file" id="fileInput" accept="audio/*" onchange="loadAudio(this)">
+</div>
 
-    <!-- الوسط -->
-    <div class="center-area">
-      <div class="filter-section" style="width:100%;margin-bottom:20px">
-        <div class="filter-title">🔥 فلاتر احترافية</div>
-        <div class="filter-grid">
-          <button class="f-btn">Treble 🎵</button>
-          <button class="f-btn">Echo 📢</button>
-          <button class="f-btn">Chip 🐿️</button>
-          <button class="f-btn">Radio 📻</button>
-          <button class="f-btn">Bass 🔉</button>
-          <button class="f-btn">Reverb 🔊</button>
-          <button class="f-btn">Robot 🤖</button>
-          <button class="f-btn">Deep 👹</button>
-        </div>
-      </div>
+<div class="panel">
+  <h3>▶️ التشغيل</h3>
+  <audio id="audioPlayer" controls></audio>
+</div>
 
-      <div class="player-box glow">
-        <div class="wave-vertical" id="waveV"></div>
-        <div class="controls-vertical">
-          <div class="time-display">0:00 / 0:00</div>
-          <div class="progress"><div class="progress-bar"></div></div>
-          <div style="font-size:25px">🔊</div>
-          <div>•••</div>
-        </div>
-      </div>
-    </div>
+<div class="panel">
+  <h3>🎛️ المؤثرات</h3>
+  <label>الصوت: <input type="range" id="volume" min="0" max="2" step="0.1" value="1" oninput="setVolume(this.value)"> <span id="volVal">1</span></label><br><br>
+  <label>السرعة: <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" oninput="setRate(this.value)"> <span id="rateVal">1</span></label><br><br>
+  <button class="btn" onclick="addReverb()">اضافة صدى</button>
+  <button class="btn" onclick="addRobot()">صوت روبوت</button>
+</div>
 
-    <!-- يمين -->
-    <div class="side-bar">
-      <div class="import-dashed" onclick="document.getElementById('file').click()">
-        <div style="font-size:50px">+</div>
-        <div>اضافة صوت</div>
-        <input type="file" id="file" accept="audio/*" style="display:none">
-      </div>
-      <div class="filter-title">تحكم سريع</div>
-      <button class="f-btn">تراجع ↩️</button>
-      <button class="f-btn">اعادة ↪️</button>
-      <div style="color:#FFC107;font-weight:900;text-align:right;margin-top:auto">SHADOWKING PRO 👑</div>
-    </div>
-  </div>
-
-  <div class="timeline">
-    <div class="timeline-header">🎬 التايم لاين</div>
-    <div class="timeline-track" id="track"></div>
-  </div>
+<div class="panel">
+  <h3>💾 التصدير</h3>
+  <button class="btn" onclick="exportAudio()">تصدير الصوت</button>
 </div>
 
 <script>
-// موجة عمودية متحركة نار
-function createWave(){
-  const w = document.getElementById('waveV');
-  w.innerHTML = '';
-  for(let i=0;i<40;i++){
-    let bar = document.createElement('div');
-    bar.className = 'wave-bar';
-    bar.style.animationDelay = i*0.05 + 's';
-    bar.style.height = Math.random()*80 + 10 + '%';
-    w.appendChild(bar);
-  }
-}
-createWave();
-setInterval(createWave, 600);
+let audioCtx, audioBuffer, source;
 
-document.documentElement.requestFullscreen().catch(()=>{});
-if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{});
+function loadAudio(input){
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById('audioPlayer').src = e.target.result;
+  }
+  reader.readAsDataURL(file);
+}
+
+function setVolume(v){
+  document.getElementById('volVal').innerText = v;
+  document.getElementById('audioPlayer').volume = v;
+}
+
+function setRate(r){
+  document.getElementById('rateVal').innerText = r;
+  document.getElementById('audioPlayer').playbackRate = r;
+}
+
+function addReverb(){
+  alert('تم اضافة صدى! ملاحظة: هذا مثال. للصدى الحقيقي نحتاج WebAudio API متقدم');
+}
+
+function addRobot(){
+  alert('تم تفعيل صوت الروبوت!');
+}
+
+function exportAudio(){
+  const a = document.getElementById('audioPlayer');
+  if(!a.src){alert('ارفع صوت اول'); return;}
+  const link = document.createElement('a');
+  link.href = a.src;
+  link.download = 'edited-audio.wav';
+  link.click();
+}
 </script>
 </body>
 </html>
