@@ -4,188 +4,141 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#000">
-<title>SHADOWKING PRO</title>
+<title>SHADOWKING ULTRA</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;width:100%;overflow:hidden;background:#000;font-family:'Cairo', sans-serif}
+html,body{height:100%;width:100%;overflow:hidden;background:radial-gradient(circle at center,#1a001a 0%,#000 100%);font-family:'Cairo', sans-serif}
 
-/* نظام اللف الاجباري للعرض */
-#wrapper{width:100vh;height:100vw;transform-origin:top left;position:fixed;top:0;left:100%;transform:rotate(90deg);background:linear-gradient(135deg,#000 0%,#1a001a 100%)}
-@media (orientation: landscape) {
-  #wrapper{width:100vw;height:100vh;transform:rotate(0deg);left:0;top:0;position:relative}
-}
+#wrapper{width:100vh;height:100vw;transform-origin:top left;position:fixed;top:0;left:100%;transform:rotate(90deg);background:radial-gradient(circle at center,#1a001a 0%,#000 100%)}
+@media (orientation: landscape) {#wrapper{width:100vw;height:100vh;transform:rotate(0deg);left:0;position:relative}}
 
-.glow{box-shadow:0 0 30px rgba(255,193,7,0.7)}
-.anim{animation: pulse 1.2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.topbar{height:10%;display:flex;justify-content:space-between;align-items:center;padding:0 25px;background:linear-gradient(90deg,rgba(255,193,7,0.1) 0%,rgba(0,0,0,0.9) 50%,rgba(255,87,34,0.1) 100%);backdrop-filter:blur(30px);border-bottom:3px solid #FFC107}
+.logo{font-size:20px;font-weight:900;background:linear-gradient(90deg,#FFC107,#FF5722);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px #FFC107}
+.export-btn{background:linear-gradient(90deg,#FFC107,#FF5722);color:#000;border:none;padding:12px 30px;border-radius:30px;font-weight:900;font-size:15px;box-shadow:0 0 40px rgba(255,193,7,1);animation: glow 1.5s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 40px #FFC107}50%{box-shadow:0 0 60px #FF5722}}
 
-.topbar{height:9%;display:flex;justify-content:space-between;align-items:center;padding:0 20px;background:rgba(10,10,10,0.98);backdrop-filter:blur(25px);border-bottom:3px solid #FFC107}
-.logo{font-size:17px;font-weight:900;color:#FFC107;text-shadow:0 0 20px #FFC107}
-.tabs{display:flex;gap:10px}
-.tab{padding:9px 18px;border-radius:25px;font-size:12px;color:#aaa;background:rgba(255,255,255,0.06);cursor:pointer;border:1px solid #333;transition:0.3s}
-.tab.active{background:linear-gradient(90deg,#FFC107,#FF9800);color:#000;font-weight:900;border-color:#FFC107;box-shadow:0 0 25px #FFC107}
-.export-btn{background:linear-gradient(90deg,#FFC107,#FF5722);color:#000;border:none;padding:10px 25px;border-radius:25px;font-weight:900;cursor:pointer;font-size:14px;box-shadow:0 0 30px rgba(255,193,7,0.9)}
+.content{height:70%;display:flex;padding:15px;gap:15px}
+.side-bar{width:18%;background:rgba(20,20,20,0.9);border:2px solid #FFC107;border-radius:25px;padding:15px;display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(20px)}
+.center-area{width:64%;background:rgba(10,10,10,0.95);border:3px solid #FFC107;border-radius:30px;padding:25px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 0 50px rgba(255,193,7,0.3)}
 
-.content{height:71%;display:flex;gap:12px;padding:12px}
-.glass{background:rgba(15,15,15,0.8);backdrop-filter:blur(25px);border:2px solid rgba(255,193,7,0.4);border-radius:20px}
-.left{width:23%;padding:15px;display:flex;flex-direction:column;gap:12px}
-.center{width:54%;padding:20px;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.right{width:23%;padding:15px;overflow-y:auto}
+.vertical-btn{background:linear-gradient(180deg,#FFC107,#FF9800);color:#000;border:none;padding:20px 10px;border-radius:20px;font-weight:900;font-size:14px;writing-mode:vertical-lr;text-orientation:upright;box-shadow:0 0 25px #FFC107;cursor:pointer}
 
-.import-box{height:30%;border:3px dashed #FFC107;border-radius:20px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#FFC107;background:rgba(255,193,7,0.1);cursor:pointer;font-size:14px;font-weight:900;transition:0.3s}
-.import-box:hover{background:rgba(255,193,7,0.25);transform:scale(1.05)}
+.player-box{width:95%;height:60%;background:rgba(0,0,0,0.8);border-radius:25px;border:2px solid #FFC107;padding:20px;display:flex;align-items:center;gap:20px;box-shadow:inset 0 0 30px rgba(255,193,7,0.2)}
+.wave-vertical{width:25%;height:100%;background:linear-gradient(180deg,#FFC107,#FF5722);border-radius:15px;display:flex;flex-direction:column;gap:3px;padding:8px;overflow:hidden}
+.wave-bar{width:100%;height:4px;background:#000;border-radius:2px;animation: wave 0.5s infinite alternate}
+@keyframes wave{from{opacity:0.3}to{opacity:1}}
+.controls-vertical{width:70%;height:100%;background:rgba(20,20,20,0.9);border-radius:20px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:20px;border:1px solid #333}
+.time-display{color:#FFC107;font-size:22px;font-weight:900;text-shadow:0 0 15px #FFC107}
+.progress{width:8px;height:60%;background:#222;border-radius:10px;position:relative}
+.progress-bar{width:100%;height:0%;background:linear-gradient(180deg,#FFC107,#FF5722);border-radius:10px;position:absolute;bottom:0}
 
-.player-card{width:100%;background:rgba(0,0,0,0.7);border-radius:20px;padding:20px;border:3px solid #FFC107}
-#player{width:100%;height:45px;filter:invert(1) hue-rotate(180deg)}
-#waveform{width:100%;height:50%;background:linear-gradient(180deg,#000 0%,#1a0a00 100%);border-radius:15px;margin-top:20px;position:relative;overflow:hidden;border:2px solid #FFC107}
+.timeline{height:20%;background:rgba(15,15,15,0.95);border-top:3px solid #FFC107;padding:15px;backdrop-filter:blur(20px)}
+.timeline-header{color:#FFC107;font-size:14px;font-weight:900;margin-bottom:10px;text-align:center}
+.timeline-track{height:75%;background:rgba(0,0,0,0.8);border-radius:20px;border:2px dashed #FFC107;position:relative}
 
-.timeline{height:20%;background:rgba(10,10,10,0.98);backdrop-filter:blur(25px);border-top:3px solid #FFC107;padding:12px}
-.timeline-header{font-size:12px;color:#FFC107;font-weight:900;margin-bottom:8px}
-.timeline-track{height:75%;background:rgba(0,0,0,0.7);border-radius:15px;position:relative;overflow-x:auto;border:2px solid #FFC107}
-.clip{position:absolute;height:88%;top:6%;min-width:130px;background:linear-gradient(90deg,#FFC107,#FF5722);border-radius:12px;color:#000;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;padding:0 10px;cursor:grab;box-shadow:0 0 25px rgba(255,193,7,0.7)}
-
-.section-title{color:#FFC107;font-size:15px;margin:12px 0 10px;font-weight:900;text-shadow:0 0 15px #FFC107}
+.filter-section{background:rgba(0,0,0,0.6);border-radius:20px;padding:12px;border:1px solid #FFC107}
+.filter-title{color:#FFC107;font-size:13px;font-weight:900;margin-bottom:10px;text-align:center}
 .filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.filter-btn{background:rgba(255,255,255,0.08);color:#fff;border:2px solid rgba(255,193,7,0.5);padding:12px;border-radius:15px;text-align:center;cursor:pointer;font-size:11px;font-weight:900;transition:0.3s}
-.filter-btn:hover{background:rgba(255,193,7,0.2);transform:translateY(-3px)}
-.filter-btn.active{background:linear-gradient(135deg,#FFC107,#FF5722);color:#000;border-color:#FFC107;box-shadow:0 0 30px #FFC107}
+.f-btn{background:rgba(255,193,7,0.1);color:#FFC107;border:2px solid #FFC107;padding:10px;border-radius:15px;font-size:10px;font-weight:700;cursor:pointer;transition:0.3s}
+.f-btn:hover{background:#FFC107;color:#000;transform:scale(1.1);box-shadow:0 0 20px #FFC107}
+.f-btn.active{background:linear-gradient(135deg,#FFC107,#FF5722);color:#000;box-shadow:0 0 30px #FFC107}
 
-.slider-box{margin:10px 0;padding:10px;background:rgba(0,0,0,0.5);border-radius:12px;border:1px solid #333}
-.slider-box label{font-size:12px;color:#FFC107;display:flex;justify-content:space-between;font-weight:900}
-input[type=range]{width:100%;accent-color:#FFC107;height:6px;border-radius:10px}
+.import-dashed{height:120px;border:3px dashed #FFC107;border-radius:20px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#FFC107;font-weight:900;cursor:pointer;background:rgba(255,193,7,0.05)}
+.import-dashed:hover{background:rgba(255,193,7,0.2)}
 </style>
 </head>
 <body>
 
 <div id="wrapper">
   <div class="topbar">
-    <div class="logo glow">👑 SHADOWKING PRO</div>
-    <div class="tabs">
-      <div class="tab active">Media</div>
-      <div class="tab">Audio</div>
-      <div class="tab">FX</div>
-      <div class="tab">AI</div>
+    <div class="logo">👑 SHADOWKING ULTRA</div>
+    <div style="display:flex;gap:10px">
+      <button style="padding:10px 20px;border-radius:20px;background:#222;color:#FFC107;border:1px solid #FFC107">AI</button>
+      <button style="padding:10px 20px;border-radius:20px;background:#222;color:#FFC107;border:1px solid #FFC107">FX</button>
+      <button style="padding:10px 20px;border-radius:20px;background:#222;color:#FFC107;border:1px solid #FFC107">Audio</button>
+      <button style="padding:10px 20px;border-radius:20px;background:linear-gradient(90deg,#FFC107,#FF9800);color:#000;font-weight:900">Media</button>
     </div>
-    <button class="export-btn anim" onclick="exportFile()">Export ⚡</button>
+    <button class="export-btn">⚡ Export</button>
   </div>
 
   <div class="content">
-    <div class="left glass">
-      <div class="import-box" onclick="document.getElementById('file2').click()">
-        <div style="font-size:45px">➕</div>
+    <!-- يسار -->
+    <div class="side-bar">
+      <button class="vertical-btn">AI Voice</button>
+      <div class="filter-section">
+        <div class="filter-title">تحكم سريع</div>
+        <button class="f-btn">↩️ تراجع</button>
+        <button class="f-btn">↪️ اعادة</button>
+      </div>
+      <div style="color:#FFC107;font-size:11px;text-align:center;margin-top:auto">لنا مستقبل - طورناه</div>
+    </div>
+
+    <!-- الوسط -->
+    <div class="center-area">
+      <div class="filter-section" style="width:100%;margin-bottom:20px">
+        <div class="filter-title">🔥 فلاتر احترافية</div>
+        <div class="filter-grid">
+          <button class="f-btn">Treble 🎵</button>
+          <button class="f-btn">Echo 📢</button>
+          <button class="f-btn">Chip 🐿️</button>
+          <button class="f-btn">Radio 📻</button>
+          <button class="f-btn">Bass 🔉</button>
+          <button class="f-btn">Reverb 🔊</button>
+          <button class="f-btn">Robot 🤖</button>
+          <button class="f-btn">Deep 👹</button>
+        </div>
+      </div>
+
+      <div class="player-box glow">
+        <div class="wave-vertical" id="waveV"></div>
+        <div class="controls-vertical">
+          <div class="time-display">0:00 / 0:00</div>
+          <div class="progress"><div class="progress-bar"></div></div>
+          <div style="font-size:25px">🔊</div>
+          <div>•••</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- يمين -->
+    <div class="side-bar">
+      <div class="import-dashed" onclick="document.getElementById('file').click()">
+        <div style="font-size:50px">+</div>
         <div>اضافة صوت</div>
-        <input type="file" id="file2" accept="audio/*" style="display:none" onchange="addClip(this.files[0].name)">
+        <input type="file" id="file" accept="audio/*" style="display:none">
       </div>
-      <div class="section-title">تحكم سريع</div>
-      <button class="filter-btn" onclick="undo()">↩️ تراجع</button>
-      <button class="filter-btn" onclick="redo()">↪️ اعادة</button>
-      <button class="filter-btn" onclick="clearAll()">🗑️ مسح الكل</button>
-    </div>
-
-    <div class="center">
-      <div class="player-card glow">
-        <audio id="player" controls></audio>
-        <div id="waveform"></div>
-      </div>
-    </div>
-
-    <div class="right glass">
-      <div class="section-title">🔥 فلاتر احترافية</div>
-      <div class="filter-grid">
-        <button class="filter-btn" onclick="toggleFilter('bass',this)">🔉 Bass</button>
-        <button class="filter-btn" onclick="toggleFilter('treble',this)">🎵 Treble</button>
-        <button class="filter-btn" onclick="toggleFilter('reverb',this)">🔊 Reverb</button>
-        <button class="filter-btn" onclick="toggleFilter('echo',this)">📢 Echo</button>
-        <button class="filter-btn" onclick="toggleFilter('robot',this)">🤖 Robot</button>
-        <button class="filter-btn" onclick="toggleFilter('chipmunk',this)">🐿️ Chip</button>
-        <button class="filter-btn" onclick="toggleFilter('deep',this)">👹 Deep</button>
-        <button class="filter-btn" onclick="toggleFilter('radio',this)">📻 Radio</button>
-      </div>
-
-      <div class="section-title">⚙️ تحكم دقيق</div>
-      <div class="slider-box">
-        <label><span>السرعة</span><span id="speedVal">1.0x</span></label>
-        <input type="range" min="0.5" max="2" step="0.1" value="1" oninput="changeSpeed(this.value)">
-      </div>
-      <div class="slider-box">
-        <label><span>الصوت</span><span id="volVal">100%</span></label>
-        <input type="range" min="0" max="100" value="100" oninput="changeVolume(this.value)">
-      </div>
+      <div class="filter-title">تحكم سريع</div>
+      <button class="f-btn">تراجع ↩️</button>
+      <button class="f-btn">اعادة ↪️</button>
+      <div style="color:#FFC107;font-weight:900;text-align:right;margin-top:auto">SHADOWKING PRO 👑</div>
     </div>
   </div>
 
-  <div class="timeline glass">
-    <div class="timeline-header">🎬 التايم لاين - اسحب هنا</div>
+  <div class="timeline">
+    <div class="timeline-header">🎬 التايم لاين</div>
     <div class="timeline-track" id="track"></div>
   </div>
 </div>
 
 <script>
-let history = []; let future = [];
-
-window.onload = function(){
-  // دخول ملئ شاشة تلقائي بعد ثانية
-  setTimeout(()=>{
-    document.documentElement.requestFullscreen().catch(()=>{});
-  }, 1000);
-
-  // قفل العرض
-  if(screen.orientation && screen.orientation.lock){
-    screen.orientation.lock('landscape').catch(()=>{});
-  }
-
-  const type = localStorage.getItem('audioType');
-  if(type == 'ai'){ addClip('AI Voice'); }
-  if(type == 'import'){
-    document.getElementById('player').src = localStorage.getItem('audioData');
-    addClip(localStorage.getItem('audioName'));
-  }
-  drawWave();
-}
-
-// لو ضغط في اي مكان يدخل ملئ شاشة
-document.addEventListener('click', ()=>{
-  document.documentElement.requestFullscreen().catch(()=>{});
-}, {once:true});
-
-function addClip(name){
-  saveState();
-  const track = document.getElementById('track');
-  const clip = document.createElement('div');
-  clip.className = 'clip';
-  clip.style.left = track.children.length * 140 + 'px';
-  clip.innerText = name;
-  track.appendChild(clip);
-}
-
-function toggleFilter(type, btn){
-  btn.classList.toggle('active');
-  const player = document.getElementById('player');
-  if(type=='chipmunk') player.playbackRate = btn.classList.contains('active')? 1.8 : 1;
-  if(type=='deep') player.playbackRate = btn.classList.contains('active')? 0.6 : 1;
-}
-
-function changeSpeed(val){document.getElementById('speedVal').innerText = val + 'x';document.getElementById('player').playbackRate = val;}
-function changeVolume(val){document.getElementById('volVal').innerText = val + '%';document.getElementById('player').volume = val/100;}
-
-function saveState(){ history.push(document.getElementById('track').innerHTML); future = []; }
-function undo(){ if(history.length>0){ future.push(document.getElementById('track').innerHTML); document.getElementById('track').innerHTML = history.pop(); } }
-function redo(){ if(future.length>0){ history.push(document.getElementById('track').innerHTML); document.getElementById('track').innerHTML = future.pop(); } }
-function clearAll(){ saveState(); document.getElementById('track').innerHTML = ''; }
-function exportFile(){ alert('تم التصدير بنجاح 🔥\n/storage/emulated/0/SHADOWKING_PRO'); }
-
-function drawWave(){
-  const w = document.getElementById('waveform'); w.innerHTML = '';
-  for(let i=0;i<170;i++){
+// موجة عمودية متحركة نار
+function createWave(){
+  const w = document.getElementById('waveV');
+  w.innerHTML = '';
+  for(let i=0;i<40;i++){
     let bar = document.createElement('div');
-    bar.style = `position:absolute;bottom:0;width:5px;height:${Math.random()*110+15}px;background:linear-gradient(180deg,#FFC107,#FF5722);left:${i*5.8}px;border-radius:5px;box-shadow:0 0 12px #FFC107`;
+    bar.className = 'wave-bar';
+    bar.style.animationDelay = i*0.05 + 's';
+    bar.style.height = Math.random()*80 + 10 + '%';
     w.appendChild(bar);
   }
-  setInterval(()=>{document.querySelectorAll('#waveform div').forEach(bar=>{bar.style.height = Math.random()*110 + 15 + 'px';});}, 60);
 }
+createWave();
+setInterval(createWave, 600);
+
+document.documentElement.requestFullscreen().catch(()=>{});
+if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{});
 </script>
 </body>
 </html>
