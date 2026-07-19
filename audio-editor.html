@@ -3,220 +3,284 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استوديو هندسة الصوت</title>
-<script>
-// يقلب غصب على اليمين اول ما الصفحة تحمل
-window.onload = function(){
-  setTimeout(() => {
-    window.location.href = 'index.html';
-  }, 1500); // ينتظر 1.5 ثانية ويقلب
-}
-</script>
+<title>SHADOWKING AUDIO PRO</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Arial'}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{
-  background:#000;
-  color:#FFC107;
-  padding:15px;
-  direction:rtl;
-}
-
-h1{
-  text-align:center;
-  color:#FFC107;
-  font-size:24px;
-  margin:15px 0;
-  text-shadow:0 0 15px #FFC107;
-}
-
-.panel{
-  background:#0a0a0a;
-  border:2px solid #FFC107;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:15px;
-  animation: slideIn 0.3s ease-out; /* 60fps animation */
-}
-
-@keyframes slideIn{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.panel-title{
-  text-align:center;
-  font-size:18px;
-  font-weight:900;
-  margin-bottom:15px;
-  color:#FFC107;
-}
-
-.file-input{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-.file-input span{color:#aaa;font-size:14px}
-.file-input input[type=file]{display:none}
-.file-btn{
-  background:#333;
+  background:#0f0f0f;
   color:#fff;
-  padding:10px 15px;
-  border-radius:8px;
-  border:1px solid #555;
-  cursor:pointer;
+  direction:rtl;
+  overflow:hidden;
+  height:100vh;
 }
 
-.file-desc{
-  margin-top:15px;
-  color:#999;
-  font-size:14px;
-  text-align:center;
-}
-
-audio{
-  width:100%;
-  border-radius:15px;
-  background:#222;
-}
-
-.slider-box{
+/* الشريط العلوي */
+.topbar{
+  background:#1a1a1a;
+  height:50px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin:15px 0;
+  padding:0 15px;
+  border-bottom:1px solid #333;
 }
-.slider-box label{color:#FFC107;font-weight:700}
-.slider-box span{color:#FFC107;font-weight:900;width:30px;text-align:center}
-input[type=range]{
-  width:70%;
-  accent-color:#FFC107;
-  transition: all 0.016s; /* 60fps */
-}
-
-.btn-group{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
-.btn{
-  flex:1;
-  background:#FFC107;
+.logo{font-weight:900;color:#00d4ff;font-size:16px}
+.top-btn{margin-right:20px;color:#ccc;cursor:pointer;font-size:14px}
+.top-btn:hover{color:#00d4ff}
+.export-btn{
+  margin-right:auto;
+  background:#00d4ff;
   color:#000;
   border:none;
-  padding:14px;
-  border-radius:12px;
+  padding:8px 20px;
+  border-radius:6px;
   font-weight:900;
-  font-size:15px;
   cursor:pointer;
-  transition:0.16s; /* 60fps */
-}
-.btn:hover{background:#FFD700}
-
-.export-btn{
-  width:100%;
-  margin-top:10px;
 }
 
-.redirect-msg{
+/* التخطيط 3 اعمدة */
+.container{
+  display:flex;
+  height:calc(100vh - 50px - 120px);
+}
+
+/* العمود الايسر - الادوات */
+.sidebar-left{
+  width:220px;
+  background:#1a1a1a;
+  border-left:1px solid #333;
+  padding:10px;
+  overflow-y:auto;
+}
+.tool-btn{
+  background:#262626;
+  color:#fff;
+  border:1px solid #333;
+  padding:12px;
+  margin-bottom:8px;
+  border-radius:8px;
+  cursor:pointer;
   text-align:center;
-  color:#FFC107;
-  font-size:16px;
-  margin-top:10px;
-  animation: blink 1s infinite;
+  font-size:13px;
 }
-@keyframes blink{
- 0%,100%{opacity:1}
- 50%{opacity:0.3}
+.tool-btn.active{
+  background:#00d4ff;
+  color:#000;
+  border-color:#00d4ff;
+}
+
+/* العمود الاوسط - المشغل */
+.player{
+  flex:1;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  padding:20px;
+}
+.player-title{
+  background:#262626;
+  padding:8px 15px;
+  border-radius:6px;
+  margin-bottom:15px;
+  font-size:14px;
+}
+.audio-wave{
+  width:90%;
+  height:200px;
+  background:#1a1a1a;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#555;
+}
+audio{
+  width:90%;
+  margin-top:15px;
+}
+
+/* العمود الايمن - التعديلات */
+.sidebar-right{
+  width:300px;
+  background:#1a1a1a;
+  border-right:1px solid #333;
+  padding:15px;
+  overflow-y:auto;
+}
+.tab-header{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+.tab{
+  padding:8px 12px;
+  background:#262626;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
+.tab.active{background:#00d4ff;color:#000}
+
+.slider-item{
+  margin-bottom:20px;
+}
+.slider-item label{
+  display:block;
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:8px;
+}
+.slider-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.slider-row input[type=range]{
+  flex:1;
+  accent-color:#00d4ff;
+}
+.slider-row span{
+  color:#00d4ff;
+  font-weight:900;
+  width:30px;
+  text-align:center;
+}
+
+/* التايم لاين تحت */
+.timeline{
+  height:120px;
+  background:#0a0a0a;
+  border-top:2px solid #333;
+  padding:10px;
+  overflow-x:auto;
+}
+.track{
+  background:#1e3a5f;
+  height:40px;
+  border-radius:4px;
+  margin-bottom:8px;
+  padding:5px;
+  color:#fff;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+}
+.waveform{
+  height:30px;
+  background:linear-gradient(90deg, #00d4ff 0%, #0088aa 100%);
+  border-radius:3px;
+  margin-right:10px;
+}
 </style>
 </head>
 <body>
 
-<h1>استوديو هندسة الصوت 🎚️</h1>
-<p class="redirect-msg">سيتم التحويل للصفحة الرئيسية بعد 1.5 ثانية ➡️</p>
-
-<!-- 1. استيراد -->
-<div class="panel">
-  <div class="panel-title">استيراد صوت 📁</div>
-  <div class="file-input">
-    <span id="fileName">لم يتم اختيار اي ملف</span>
-    <label class="file-btn" for="fileInput">اختيار ملف</label>
-  </div>
-  <input type="file" id="fileInput" accept="audio/*" onchange="loadAudio(this)">
-  <div class="file-desc" id="fileDesc">الصوت: </div>
+<!-- الشريط العلوي -->
+<div class="topbar">
+  <div class="logo">SHADOWKING AUDIO PRO</div>
+  <div class="top-btn">ملف</div>
+  <div class="top-btn">تحرير</div>
+  <div class="top-btn">مؤثرات</div>
+  <button class="export-btn" onclick="exportAudio()">تصدير</button>
 </div>
 
-<!-- 2. التشغيل -->
-<div class="panel">
-  <div class="panel-title">التشغيل ▶️</div>
-  <audio id="audioPlayer" controls></audio>
+<div class="container">
+  <!-- العمود الايسر -->
+  <div class="sidebar-left">
+    <div class="tool-btn active">📁 استيراد</div>
+    <div class="tool-btn">🎵 مكتبة الاصوات</div>
+    <div class="tool-btn">✨ مؤثرات</div>
+    <div class="tool-btn">🎚️ EQ</div>
+    <div class="tool-btn">🔊 ضغط</div>
+    <div class="tool-btn">🎛️ مزج</div>
+  </div>
+
+  <!-- المشغل -->
+  <div class="player">
+    <div class="player-title">Player</div>
+    <div class="audio-wave" id="wave">اسحب الصوت هنا</div>
+    <audio id="audioPlayer" controls></audio>
+    <input type="file" id="fileInput" accept="audio/*" onchange="loadAudio(this)" style="margin-top:10px">
+  </div>
+
+  <!-- العمود الايمن -->
+  <div class="sidebar-right">
+    <div class="tab-header">
+      <div class="tab active">Basic</div>
+      <div class="tab">EQ</div>
+      <div class="tab">Effects</div>
+    </div>
+
+    <div class="slider-item">
+      <label>الصوت</label>
+      <div class="slider-row">
+        <span id="volVal">1.00</span>
+        <input type="range" id="volume" min="0" max="2" step="0.01" value="1" oninput="setVolume(this.value)">
+      </div>
+    </div>
+
+    <div class="slider-item">
+      <label>السرعة</label>
+      <div class="slider-row">
+        <span id="rateVal">1.00</span>
+        <input type="range" id="rate" min="0.5" max="2" step="0.01" value="1" oninput="setRate(this.value)">
+      </div>
+    </div>
+
+    <div class="slider-item">
+      <label>طبقة الصوت</label>
+      <div class="slider-row">
+        <span id="pitchVal">0</span>
+        <input type="range" id="pitch" min="-12" max="12" step="1" value="0" oninput="setPitch(this.value)">
+      </div>
+    </div>
+
+    <div class="slider-item">
+      <label>الباس</label>
+      <div class="slider-row">
+        <span id="bassVal">0</span>
+        <input type="range" id="bass" min="0" max="20" step="1" value="0" oninput="setBass(this.value)">
+      </div>
+    </div>
+
+    <div class="slider-item">
+      <label>الصدى</label>
+      <div class="slider-row">
+        <span id="reverbVal">0</span>
+        <input type="range" id="reverb" min="0" max="100" step="1" value="0">
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- 3. المؤثرات - كل حاجة محتاجها صانع الاصوات -->
-<div class="panel">
-  <div class="panel-title">المؤثرات 🎛️</div>
-
-  <div class="slider-box">
-    <span id="volVal">1.00</span>
-    <input type="range" id="volume" min="0" max="2" step="0.01" value="1" oninput="setVolume(this.value)">
-    <label>:الصوت</label>
+<!-- التايم لاين -->
+<div class="timeline">
+  <div class="track">
+    <div class="waveform" style="width:400px"></div>
+    <span>Audio Track 1</span>
   </div>
-
-  <div class="slider-box">
-    <span id="rateVal">1.00</span>
-    <input type="range" id="rate" min="0.5" max="2" step="0.01" value="1" oninput="setRate(this.value)">
-    <label>:السرعة</label>
+  <div class="track" style="background:#2a4d73">
+    <div class="waveform" style="width:300px;background:linear-gradient(90deg, #ff00ff 0%, #aa0088 100%)"></div>
+    <span>Music Track</span>
   </div>
-
-  <div class="slider-box">
-    <span id="pitchVal">0</span>
-    <input type="range" id="pitch" min="-12" max="12" step="1" value="0" oninput="setPitch(this.value)">
-    <label>:طبقة الصوت</label>
-  </div>
-
-  <div class="slider-box">
-    <span id="bassVal">0</span>
-    <input type="range" id="bass" min="0" max="20" step="1" value="0" oninput="setBass(this.value)">
-    <label>:تعزيز الباس</label>
-  </div>
-
-  <div class="btn-group">
-    <button class="btn" onclick="addReverb()">اضافة صدى</button>
-    <button class="btn" onclick="addRobot()">صوت روبوت</button>
-  </div>
-  <div class="btn-group">
-    <button class="btn" onclick="addNoise()">ازالة ضجيج</button>
-    <button class="btn" onclick="addEcho()">صدى متكرر</button>
-  </div>
-</div>
-
-<!-- 4. التصدير -->
-<div class="panel">
-  <div class="panel-title">التصدير 💾</div>
-  <button class="btn export-btn" onclick="exportAudio()">تحميل الصوت المعدل</button>
 </div>
 
 <script>
-// تحميل الصوت المحفوظ من صفحة التوليد
-window.addEventListener('load', function(){
-  const savedAudio = localStorage.getItem('audioData');
-  const savedName = localStorage.getItem('audioName');
-  if(savedAudio){
-    document.getElementById('audioPlayer').src = savedAudio;
-    document.getElementById('fileDesc').innerText = 'الصوت: ' + savedName;
-    document.getElementById('fileName').innerText = savedName + '.wav';
-  }
-})
+// 60fps
+let lastTime = 0;
+function animate(time){
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
 
 function loadAudio(input){
   const file = input.files[0];
   if(!file) return;
-  document.getElementById('fileName').innerText = file.name;
   const reader = new FileReader();
   reader.onload = function(e){
     document.getElementById('audioPlayer').src = e.target.result;
-    document.getElementById('fileDesc').innerText = 'الصوت: ' + file.name;
+    document.getElementById('wave').innerText = file.name;
   }
   reader.readAsDataURL(file);
 }
@@ -231,18 +295,8 @@ function setRate(r){
   document.getElementById('audioPlayer').playbackRate = r;
 }
 
-function setPitch(p){
-  document.getElementById('pitchVal').innerText = p;
-}
-
-function setBass(b){
-  document.getElementById('bassVal').innerText = b;
-}
-
-function addReverb(){alert('تم تفعيل الصدى!')}
-function addRobot(){alert('تم تفعيل صوت الروبوت!')}
-function addNoise(){alert('تمت ازالة الضجيج!')}
-function addEcho(){alert('تم تفعيل الصدى المتكرر!')}
+function setPitch(p){document.getElementById('pitchVal').innerText = p;}
+function setBass(b){document.getElementById('bassVal').innerText = b;}
 
 function exportAudio(){
   const a = document.getElementById('audioPlayer');
