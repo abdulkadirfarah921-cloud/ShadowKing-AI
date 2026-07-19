@@ -1,14 +1,15 @@
 {
-  "name": "ShadowKing AI الملك",
+  "name": "ShadowKing AI",
   "short_name": "ShadowKing",
-  "start_url": "https://abdulkadirfarah921-cloud.github.io/ShadowKing-AI",
-  "display": "standalone",
-  "background_color": "#010108",
-  "theme_color": "#8B5CF6",
+  "description": "AI Audio Studio",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#000000",
+  "theme_color": "#00e5ff",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2584/2584501.png",
+      "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
