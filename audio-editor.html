@@ -9,15 +9,15 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 html,body{background:#000;color:#fff;height:100%;width:100%;overflow:hidden}
 
-/* اللف الغصب */
+/* اللف الغصب الصح */
 .rotate-container{
-  width:100vh;
-  height:100vw;
-  position:fixed;
-  top:0;
-  left:0;
-  transform: rotate(90deg);
-  transform-origin: top left;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vh;
+  height: 100vw;
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center;
   background:#000;
 }
 
@@ -106,7 +106,6 @@ textarea{height:70px;resize:none}
 <script>
 let audioCtx, source, gainNode, audioBuffer;
 
-// 10 فلاتر اساسية عشان ما يعلق
 const filters = [
 {name:"صدى الكهف", desc:"صدى قوي وعميق"},{name:"صدى القصر", desc:"صدى ملكي"},
 {name:"روبوت", desc:"صوت آلي"},{name:"شيطان", desc:"صوت عميق شرير"},
