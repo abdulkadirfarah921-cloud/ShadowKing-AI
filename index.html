@@ -7,105 +7,45 @@
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
   body { background:#000; color:#fff; font-family: Arial; overflow:hidden; height:100vh; }
-  
-  /* الهيدر */
-.header { 
-    display:flex; justify-content:space-between; align-items:center;
-    padding:20px; border-bottom:2px solid #FFD700;
-  }
-.header h1 { 
-    font-size:24px; font-weight:bold; color:#FFD700;
-    text-shadow:0 0 15px #FFD700; 
-  }
+.header { display:flex; justify-content:space-between; align-items:center; padding:20px; border-bottom:2px solid #FFD700; }
+.header h1 { font-size:24px; font-weight:bold; color:#FFD700; text-shadow:0 0 15px #FFD700; }
 .menu-btn { font-size:30px; color:#FFD700; cursor:pointer; }
-
-  /* صندوق الترحيب */
-.welcome {
-    margin:20px; padding:15px 20px;
-    border: 2px solid #FFD700; border-radius: 20px;
-    text-align:center; font-size:14px; line-height:1.8;
-  }
-
+.welcome { margin:20px; padding:15px 20px; border: 2px solid #FFD700; border-radius: 20px; text-align:center; font-size:14px; line-height:1.8; }
   #chat { height:45vh; overflow-y:auto; padding:20px; }
-.msg { background:#111; border:1px solid #FFD70055; padding:12px; 
-        margin:10px 0; border-radius:15px; color:#FFD700; }
-
-  /* صندوق الارسال */
-#inputBox { 
-    position:fixed; bottom:0; width:100%; background:#000; 
-    padding:12px; display:flex; gap:10px; border-top:2px solid #FFD700; 
-  }
-#inputBox input { 
-    flex:1; padding:14px; background:#111; border:2px solid #FFD700; 
-    border-radius:20px; color:#FFD700; text-align:right;
-  }
-#inputBox button { 
-    background:#FFD700; color:#000; border:none; padding:14px 20px; 
-    border-radius:20px; font-weight:bold; font-size:15px;
-  }
-  
-  /* قائمة المودات من تحت */
-#modes { 
-    position:fixed; bottom:-500px; left:0; width:100%; 
-    background:#0a0a0a; border-top:3px solid #FFD700;
-    border-radius:30px 30px 0 0; padding:15px 20px 25px;
-    transition:0.4s; z-index:100;
-  }
-#modes.show { bottom:0; }
-.handle { 
-    width:50px; height:5px; background:#FFD700; 
-    border-radius:10px; margin:0 auto 15px;
-  }
-#modes h3 { text-align:center; color:#FFD700; margin-bottom:20px; }
-.mode-btn { 
-    border:2px solid #FFD700; border-radius:15px; padding:16px 20px;
-    margin:12px 0; display:flex; justify-content:space-between;
-    align-items:center; color:#FFD700; font-weight:bold;
-  }
-
-  /* القائمة الجانبية الملكية */
-#settings { 
-    position:fixed; top:0; right:-300px; width:280px; height:100%;
-    background:#0a0a0a; border-left:3px solid #FFD700;
-    padding:20px; transition:0.4s; z-index:100;
-  }
-#settings.show { right:0; }
-#settings h3 { color:#FFD700; text-align:right; margin-bottom:20px; font-size:20px; }
-.setting-btn { 
-    border:2px solid #FFD700; padding:16px 20px; margin:12px 0; 
-    border-radius:15px; color:#FFD700; font-weight:bold;
-    text-align:right;
-  }
-.setting-btn.logout { 
-    border-color:red; color:red;
-  }
-#overlay { 
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    background:#000cc; display:none; z-index:99;
-  }
-#overlay.show { display:block; }
+.msg { background:#111; border:1px solid #FFD70055; padding:12px; margin:10px 0; border-radius:15px; color:#FFD700; display:flex; justify-content:space-between; align-items:center; }
+.play-btn { background:#FFD700; color:#000; border:none; border-radius:50%; width:35px; height:35px; cursor:pointer; font-size:16px; }
+  #inputBox { position:fixed; bottom:0; width:100%; background:#000; padding:12px; display:flex; gap:10px; border-top:2px solid #FFD700; }
+  #inputBox input { flex:1; padding:14px; background:#111; border:2px solid #FFD700; border-radius:20px; color:#FFD700; text-align:right; }
+  #inputBox button { background:#FFD700; color:#000; border:none; padding:14px; border-radius:20px; font-weight:bold; font-size:15px; cursor:pointer; }
+.mic-btn.recording { background:red; color:#fff; animation:pulse 1s infinite; }
+ @keyframes pulse { 0%{box-shadow:0 0 0 0 #ff0000} 100%{box-shadow:0 0 0 15px #ff000} }
+  #modes { position:fixed; bottom:-500px; left:0; width:100%; background:#0a0a0a; border-top:3px solid #FFD700; border-radius:30px 30px 0 0; padding:15px 20px 25px; transition:0.4s; z-index:100; }
+  #modes.show { bottom:0; }
+.handle { width:50px; height:5px; background:#FFD700; border-radius:10px; margin:0 auto 15px; }
+  #modes h3 { text-align:center; color:#FFD700; margin-bottom:20px; }
+.mode-btn { border:2px solid #FFD700; border-radius:15px; padding:16px 20px; margin:12px 0; display:flex; justify-content:space-between; align-items:center; color:#FFD700; font-weight:bold; cursor:pointer; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="menu-btn" onclick="openSettings()">☰</div>
-  <h1>👑 Shadowking AI</h1>
+  <div class="menu-btn" onclick="alert('القائمة الملكية')">☰</div>
+  <h1>👑 Shadowking AI - 2.8T</h1>
 </div>
 
 <div class="welcome">
-  مرحبا انا Shadowking AI. اسحب من اليمين للإعدادات<br>
-  ومن تحت لاختيار المود
+  مرحبا انا Shadowking AI. اسحب من تحت لاختيار المود<br>
+  دوس على الميك 🎤 عشان تتكلم
 </div>
 
 <div id="chat"></div>
 
 <div id="inputBox">
-  <input id="msg" placeholder="اكتب رسالتك...">
+  <button class="mic-btn" onclick="startRecording()">🎤</button>
+  <input id="msg" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')send()">
   <button onclick="send()">إرسال</button>
 </div>
 
-<!-- قائمة المودات -->
 <div id="modes">
   <div class="handle"></div>
   <h3>اختر المود</h3>
@@ -113,55 +53,63 @@
   <div class="mode-btn" onclick="setMode('[app]')"><span>📱</span> صنع تطبيق</div>
   <div class="mode-btn" onclick="setMode('[game]')"><span>🎮</span> صنع لعبة</div>
   <div class="mode-btn" onclick="setMode('[code]')"><span>💻</span> كتابة كود</div>
+  <div class="mode-btn" onclick="goToAudio()"><span>🎛️</span> هندسة صوت</div>
 </div>
-
-<!-- القائمة الملكية الجانبية -->
-<div id="settings">
-  <h3>القائمة الملكية</h3>
-  <div id="loginBtn" class="setting-btn" onclick="login()">1. تسجيل الدخول</div>
-  <div class="setting-btn" onclick="alert('الاعدادات')">2. الإعدادات</div>
-  <div class="setting-btn" onclick="alert('اللغات')">3. 🌍 اللغات</div>
-  <div id="logoutBtn" class="setting-btn logout" onclick="logout()" style="display:none;">تسجيل الخروج</div>
-</div>
-<div id="overlay" onclick="closeAll()"></div>
 
 <script>
-let startY=0, startX=0;
-let logged = localStorage.getItem('logged')==='true';
+let currentMode = '';
+let recognition;
 
-function updateBtn(){
-  document.getElementById('loginBtn').style.display = logged?'none':'block';
-  document.getElementById('logoutBtn').style.display = logged?'block':'none';
+function startRecording(){
+  const btn = document.querySelector('.mic-btn');
+  if(!('webkitSpeechRecognition' in window)){ alert('المتصفح لا يدعم'); return; }
+  recognition = new webkitSpeechRecognition();
+  recognition.lang = 'ar-SA';
+  recognition.onstart = () => btn.classList.add('recording');
+  recognition.onresult = (e) => { document.getElementById('msg').value = e.results[0][0].transcript; send(); }
+  recognition.onend = () => btn.classList.remove('recording');
+  recognition.start();
 }
-updateBtn();
-function login(){logged=true;localStorage.setItem('logged','true');updateBtn();closeAll();}
-function logout(){logged=false;localStorage.setItem('logged','false');updateBtn();closeAll();}
-function openSettings(){document.getElementById('settings').classList.add('show');document.getElementById('overlay').classList.add('show');}
 
-document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY;startX=e.touches[0].clientX;});
-document.addEventListener('touchend',e=>{
-  let endY=e.changedTouches[0].clientY; let endX=e.changedTouches[0].clientX;
-  let diffY = startY - endY;
-  let diffX = startX - endX;
-  // من تحت لفوق
-  if(diffY > 80 && startY > window.innerHeight-150){
-    document.getElementById('modes').classList.add('show');
-    document.getElementById('overlay').classList.add('show');
-  }
-  // من اليمين للشمال
-  if(diffX > 80 && startX > window.innerWidth-50){openSettings();}
-});
-function closeAll(){document.getElementById('modes').classList.remove('show');document.getElementById('settings').classList.remove('show');document.getElementById('overlay').classList.remove('show');}
-function setMode(m){document.getElementById('msg').value=m+' ';closeAll();}
+function speak(text){
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ar-SA'; utter.rate = 1; utter.pitch = 1;
+  speechSynthesis.speak(utter);
+}
+
+function setMode(m){currentMode = m; document.getElementById('msg').value=m+' '; document.getElementById('modes').classList.remove('show');}
+function goToAudio(){ window.location.href = 'audio.html'; }
 
 async function send(){
   let msg=document.getElementById('msg').value; if(!msg)return;
-  document.getElementById('chat').innerHTML+=`<div class="msg"><b>انت:</b> ${msg}</div>`;
+  let fullMsg = currentMode + msg;
+  addMessage('انت', msg, false);
   document.getElementById('msg').value='';
-  let res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})});
+
+  let res=await fetch('https://shadowking-ai.onrender.com/api/chat',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:fullMsg})
+  });
   let data=await res.json();
-  document.getElementById('chat').innerHTML+=`<div class="msg"><b>الملك:</b> ${data.reply}</div>`;
+  addMessage('الملك', data.reply, true);
+  speak(data.reply);
 }
+
+function addMessage(sender, text, canSpeak){
+  let chat = document.getElementById('chat');
+  let btn = canSpeak? `<button class="play-btn" onclick="speak('${text.replace(/'/g, "\\'")}')">🔊</button>` : '';
+  chat.innerHTML += `<div class="msg"><div><b>${sender}:</b> ${text}</div>${btn}</div>`;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+let startY=0;
+document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY;});
+document.addEventListener('touchend',e=>{
+  if(startY - e.changedTouches[0].clientY > 80 && startY > window.innerHeight-150){
+    document.getElementById('modes').classList.add('show');
+  }
+});
+document.getElementById('modes').onclick = ()=>document.getElementById('modes').classList.remove('show');
 </script>
 </body>
 </html>
