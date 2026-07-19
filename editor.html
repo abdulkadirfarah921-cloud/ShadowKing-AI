@@ -6,53 +6,52 @@
 <title>محرر الصوت - Shadowking</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#121212;color:#fff;font-family:Arial;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  body{background:#000;color:#fff;font-family:Arial;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-  /* الشريط العلوي */
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#1e1e1e;border-bottom:1px solid #2a2a2a}
-.tabs-left{display:flex;gap:5px;overflow-x:auto}
-.tab{padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;color:#aaa;background:#2a2a2a;white-space:nowrap}
+  /* الوضع العمودي */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px;background:#1a1a1a}
+.tabs{display:flex;gap:5px;overflow-x:auto;flex:1}
+.tab{padding:8px 12px;border-radius:6px;font-size:12px;color:#aaa;background:#2a2a2a;white-space:nowrap}
 .tab.active{background:#FFC107;color:#000;font-weight:bold}
-.export-btn{background:#FFC107;color:#000;border:none;padding:8px 20px;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px}
+.export-btn{background:#FFC107;color:#000;border:none;padding:8px 15px;border-radius:6px;font-weight:bold}
 
-  /* المحتوى 3 اعمدة */
-.content{display:flex;flex:1;overflow:hidden}
-.left{width:22%;background:#1e1e1e;padding:10px;border-left:1px solid #2a2a2a;display:flex;flex-direction:column}
-.center{width:56%;background:#000;display:flex;justify-content:center;align-items:center;flex-direction:column;padding:10px}
-.right{width:22%;background:#1e1e1e;padding:10px;border-right:1px solid #2a2a2a;overflow-y:auto}
+.content{display:flex;flex:1}
+.left,.right{display:none} /* نخفيهم في الموبايل */
+.center{width:100%;padding:10px;display:flex;flex-direction:column}
+  #player{width:100%}
+  #waveform{width:100%;height:100px;background:#111;border-radius:8px;margin-top:10px}
 
-  /* صندوق الاستيراد */
-.import-box{width:100%;height:200px;border:2px dashed #444;border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#666;background:#252525;cursor:pointer;transition:0.3s}
-.import-box:hover{border-color:#FFC107;color:#FFC107}
-.import-icon{font-size:35px;margin-bottom:8px}
+.timeline{height:120px;background:#1a1a1a;padding:8px}
+.timeline-track{height:60px;background:#0a0a0a;border-radius:8px;position:relative}
+.clip{background:linear-gradient(90deg,#FFC107,#FFA000);border-radius:6px;color:#000;font-weight:bold;font-size:10px;padding:5px}
 
-  /* الوسط */
-.player-box{background:#1a1a1a;padding:15px;border-radius:10px;width:95%}
-  #player{width:100%;margin-bottom:10px}
-  #waveform{width:100%;height:100px;background:#000;border-radius:8px;position:relative;overflow:hidden}
+  /* الوضع العرضي 16:9 */
+@media (orientation: landscape) {
+  body{background:#0a0a0a}
+ .topbar{padding:5px 10px}
+ .left{display:flex;width:18%;background:#1a1a1a;padding:8px;flex-direction:column}
+ .right{display:flex;width:18%;background:#1a1a1a;padding:8px;flex-direction:column;overflow-y:auto}
+ .center{width:64%}
+ .timeline{height:140px}
+ .timeline-track{height:80px}
+ .import-box{height:120px;border:2px dashed #444;border-radius:8px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#666;background:#222;font-size:12px}
+ .detail-title{color:#FFC107;font-size:12px;margin:5px 0}
+ .detail-row{font-size:10px;margin:4px 0}
+ .effect-btn{background:#2a2a2a;color:#FFC107;border:1px solid #444;padding:6px;border-radius:5px;margin:3px 0;width:100%;font-size:10px}
+}
 
-  /* اليمين Details */
-.detail-title{color:#FFC107;font-size:14px;margin:10px 0 5px;font-weight:bold}
-.detail-row{display:flex;justify-content:space-between;margin:8px 0;font-size:12px;color:#ccc}
-.effect-btn{background:#2a2a2a;color:#FFC107;border:1px solid #444;padding:10px;border-radius:8px;margin:6px 0;width:100%;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px}
-.effect-btn:hover{background:#333;border-color:#FFC107}
-
-  /* التايم لاين */
-.timeline{height:160px;background:#1e1e1e;border-top:1px solid #2a2a2a;padding:10px}
-.timeline-header{font-size:11px;color:#888;margin-bottom:8px}
-.timeline-track{height:70px;background:#0a0a0a;border-radius:8px;position:relative;border:1px solid #333;overflow-x:auto}
-.clip{position:absolute;height:90%;top:5%;min-width:150px;background:linear-gradient(90deg,#FFC107,#FFA000);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:11px;cursor:move;border:2px solid #fff;padding:0 5px}
-.cut-handle{position:absolute;left:0;top:0;width:4px;height:100%;background:red;cursor:ew-resize}
+  /* زر تكبير ملئ الشاشة */
+.fullscreen-btn{position:absolute;top:10px;left:10px;background:#FFC107;color:#000;border:none;padding:8px 12px;border-radius:8px;z-index:999}
 </style>
 </head>
 <body>
 
-<!-- الشريط العلوي -->
+<button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
+
 <div class="topbar">
-  <div class="tabs-left">
+  <div class="tabs">
     <div class="tab active">Media</div>
     <div class="tab">Audio</div>
-    <div class="tab">Text</div>
     <div class="tab">Effects</div>
     <div class="tab">Speed</div>
     <div class="tab" onclick="cutClip()">Cut</div>
@@ -60,45 +59,35 @@
   <button class="export-btn" onclick="exportFile()">Export</button>
 </div>
 
-<!-- المحتوى -->
 <div class="content">
-  <!-- يسار -->
+  <!-- يسار يظهر فقط بالعرض -->
   <div class="left">
     <div class="import-box" onclick="document.getElementById('file2').click()">
-      <div class="import-icon">+</div>
-      <div>Import</div>
-      <div style="font-size:10px;margin-top:5px">Supports: audio, mp3</div>
-      <input type="file" id="file2" accept="audio/*" style="display:none" onchange="addToTimeline(event)">
+      <div>+</div><div>Import</div>
+      <input type="file" id="file2" accept="audio/*" style="display:none" onchange="addClip(this.files[0].name)">
     </div>
   </div>
 
-  <!-- الوسط Player -->
+  <!-- الوسط -->
   <div class="center">
-    <div class="player-box">
-      <audio id="player" controls></audio>
-      <div id="waveform"></div>
-    </div>
+    <audio id="player" controls></audio>
+    <div id="waveform"></div>
   </div>
 
-  <!-- يمين Details -->
+  <!-- يمين يظهر فقط بالعرض -->
   <div class="right">
     <div class="detail-title">Details</div>
-    <div class="detail-row"><span>Name:</span><span id="name">Audio</span></div>
-    <div class="detail-row"><span>Duration:</span><span id="dur">00:00</span></div>
-    <div class="detail-row"><span>Format:</span><span>MP3</span></div>
-    <div class="detail-row"><span>Resolution:</span><span>Adapted</span></div>
-
+    <div class="detail-row">Name: <span id="name">AI Voice</span></div>
+    <div class="detail-row">Duration: <span id="dur">00:00</span></div>
     <div class="detail-title">Effects</div>
-    <button class="effect-btn" onclick="applyEffect('reverb')">🔊 Reverb</button>
-    <button class="effect-btn" onclick="applyEffect('bass')">🔉 Bass Boost</button>
-    <button class="effect-btn" onclick="applyEffect('speed')">⚡ Speed</button>
-    <button class="effect-btn" onclick="undo()">↩️ Undo</button>
+    <button class="effect-btn" onclick="applyEffect('reverb')">Reverb</button>
+    <button class="effect-btn" onclick="applyEffect('bass')">Bass</button>
+    <button class="effect-btn" onclick="undo()">Undo</button>
   </div>
 </div>
 
-<!-- التايم لاين -->
 <div class="timeline">
-  <div class="timeline-header">Drag material here and start to create</div>
+  <div style="font-size:10px;color:#888">Drag material here</div>
   <div class="timeline-track" id="track"></div>
 </div>
 
@@ -106,21 +95,25 @@
 let history = [];
 
 window.onload = function(){
-  const type = localStorage.getItem('audioType');
-  if(type == 'ai'){
-    document.getElementById('name').innerText = 'AI Voice';
+  if(localStorage.getItem('audioType')=='ai'){
     addClip('AI Voice');
   }
-  if(type == 'import'){
+  if(localStorage.getItem('audioType')=='import'){
     document.getElementById('name').innerText = localStorage.getItem('audioName');
     document.getElementById('player').src = localStorage.getItem('audioData');
     addClip(localStorage.getItem('audioName'));
   }
   drawWave();
+}
 
-  document.getElementById('player').onloadedmetadata = function(){
-    let s = Math.floor(this.duration);
-    document.getElementById('dur').innerText = `00:${s<10?'0':''}${s}`;
+// ملئ الشاشة
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+    screen.orientation.lock('landscape'); // يجبر الشاشة تلف
+  } else {
+    document.exitFullscreen();
+    screen.orientation.unlock();
   }
 }
 
@@ -129,43 +122,24 @@ function addClip(name){
   const track = document.getElementById('track');
   const clip = document.createElement('div');
   clip.className = 'clip';
-  clip.style.left = track.children.length * 160 + 'px';
-  clip.innerHTML = name + '<div class="cut-handle"></div>';
+  clip.style = `position:absolute;left:${track.children.length*120}px;width:120px;height:90%`;
+  clip.innerText = name;
   track.appendChild(clip);
 }
 
-function addToTimeline(e){
-  const file = e.target.files[0];
-  if(file) addClip(file.name);
-}
-
-function cutClip(){ alert('اسحب المقبض الاحمر لقص المقطع'); }
-
-function applyEffect(effect){
-  const player = document.getElementById('player');
-  if(effect=='speed') player.playbackRate = player.playbackRate==1?1.5:1;
-  if(effect=='bass') alert('Bass Boost مفعل');
-  if(effect=='reverb') alert('Reverb مفعل');
-}
-
+function applyEffect(e){ alert(e + ' مفعل'); }
 function saveState(){ history.push(document.getElementById('track').innerHTML); }
-function undo(){
-  if(history.length > 0){
-    document.getElementById('track').innerHTML = history.pop();
-  }
-}
+function undo(){ if(history.length>0) document.getElementById('track').innerHTML = history.pop(); }
+function cutClip(){ alert('قص'); }
+function exportFile(){ alert('تم التصدير'); }
 
 function drawWave(){
   const w = document.getElementById('waveform');
-  for(let i=0;i<250;i++){
+  for(let i=0;i<200;i++){
     let bar = document.createElement('div');
     bar.style = `position:absolute;bottom:0;width:2px;height:${Math.random()*80+10}px;background:#FFC107;left:${i*3}px`;
     w.appendChild(bar);
   }
-}
-
-function exportFile(){
-  alert('تم التصدير!\n/storage/emulated/0/مجلد اصوات مصنوعة باستخدام SHADOWKING AI');
 }
 </script>
 </body>
