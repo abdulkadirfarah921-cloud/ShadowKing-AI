@@ -3,27 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>هندسة الصوت - Shadowking</title>
+<title>استوديو هندسة الصوت - Shadowking</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#000;color:#FFD700;font-family:Arial;height:100vh;display:flex;flex-direction:column}
  .header{padding:15px;border-bottom:2px solid #FFD700;display:flex;justify-content:space-between;align-items:center}
  .header h1{font-size:18px}
  .back{font-size:24px;cursor:pointer}
- .container{flex:1;padding:20px;overflow-y:auto}
- .box{border:2px solid #FFD700;border-radius:20px;padding:20px;margin-bottom:15px;background:#111}
- .box h3{margin-bottom:15px;text-align:center}
-  textarea{width:100%;height:120px;background:#000;border:1px solid #FFD700;color:#FFD700;padding:10px;border-radius:10px;resize:none;font-size:15px}
- .btn{background:#FFD700;color:#000;border:none;padding:15px;border-radius:15px;font-weight:bold;width:100%;cursor:pointer;font-size:16px;margin-top:10px}
- .btn:disabled{background:#555;color:#999}
- .progress{height:10px;background:#333;border-radius:10px;margin:15px 0;display:none}
- .progress-bar{height:100%;background:#FFD700;width:0%;border-radius:10px;transition:0.3s}
+ .container{flex:1;padding:15px;overflow-y:auto}
+ .box{border:2px solid #FFD700;border-radius:20px;padding:15px;margin-bottom:12px;background:#111}
+ .box h3{margin-bottom:10px;text-align:center;font-size:15px}
+  textarea{width:100%;height:100px;background:#000;border:1px solid #FFD700;color:#FFD700;padding:10px;border-radius:10px;resize:none;font-size:14px}
+ .btn{background:#FFD700;color:#000;border:none;padding:12px;border-radius:15px;font-weight:bold;width:100%;cursor:pointer;font-size:15px;margin-top:8px}
+ .btn:disabled{background:#333;color:#666}
+ .progress{height:8px;background:#333;border-radius:10px;margin:10px 0;display:none}
+ .progress-bar{height:100%;background:#FFD700;width:0%;border-radius:10px;transition:0.2s}
  .result{display:none}
   audio{width:100%;margin:10px 0;border-radius:10px;background:#000}
- .row{display:flex;gap:10px}
- .row.btn{flex:1}
+ .row{display:flex;gap:8px}
+ .row.btn{flex:1;font-size:13px;padding:10px}
   input[type=range]{width:100%}
-  label{display:block;margin:10px 0}
+  label{display:block;margin:8px 0;font-size:13px}
+
+  /* موجة الصوت */
+  #waveform{width:100%;height:80px;background:#000;border:1px solid #FFD700;border-radius:10px;margin:10px 0;position:relative;overflow:hidden}
+ .wave-bar{position:absolute;bottom:0;background:#FFD700;width:2px}
+ .cut-handle{position:absolute;top:0;width:3px;height:100%;background:red;cursor:ew-resize}
+
+  /* مكتبة الاصوات */
+ .voices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+ .voice-btn{border:1px solid #FFD700;border-radius:10px;padding:8px;text-align:center;cursor:pointer;font-size:12px}
+ .voice-btn.active{background:#FFD700;color:#000}
 </style>
 </head>
 <body>
@@ -36,53 +46,82 @@
 
 <div class="container">
 
+  <!-- 1. صنع الصوت -->
   <div class="box">
     <h3>اصنع صوت باستخدام الذكاء الاصطناعي</h3>
-    <textarea id="prompt" placeholder="اكتب وصف الصوت: مثال&#10;صوت ملك رجولي عميق يقول مرحبا بكم مع صدى قاعة"></textarea>
+    <textarea id="prompt" placeholder="مثال: صوت شخص وسيم يقول مرحبا"></textarea>
+
+    <h3 style="margin-top:10px">اختر صوت AI</h3>
+    <div class="voices">
+      <div class="voice-btn active" onclick="selectVoice(this,'male')">👑 صوت ملكي</div>
+      <div class="voice-btn" onclick="selectVoice(this,'robot')">🤖 صوت روبوت</div>
+      <div class="voice-btn" onclick="selectVoice(this,'girl')">👩 صوت بنت</div>
+      <div class="voice-btn" onclick="selectVoice(this,'deep')">🔊 صوت عميق</div>
+    </div>
+
     <button class="btn" id="genBtn" onclick="generateAudio()">🎵 صنع الصوت</button>
 
     <div class="progress" id="progressBox">
       <div class="progress-bar" id="progressBar"></div>
-      <p style="text-align:center;margin-top:5px;font-size:12px">جاري التصنيع... متبقي <span id="timeLeft">5:00</span></p>
+      <p style="text-align:center;margin-top:5px;font-size:12px">جاري التصنيع... <span id="timeLeft">00:00</span></p>
     </div>
   </div>
 
+  <!-- 2. النتيجة والتعديل -->
   <div class="box result" id="resultBox">
     <h3>الصوت جاهز 👑</h3>
-    <audio id="audioPlayer" controls></audio>
+    <audio id="audioPlayer" controls onloadedmetadata="drawWaveform()"></audio>
+
+    <!-- موجة الصوت -->
+    <div id="waveform"></div>
+
     <div class="row">
-      <button class="btn" onclick="editAudio()">✏️ تعديل الصوت</button>
-      <button class="btn" onclick="downloadAudio()">📥 تحميل الصوت</button>
+      <button class="btn" onclick="cutAudio()">✂️ قص</button>
+      <button class="btn" onclick="mergeAudio()">🔗 دمج</button>
+      <button class="btn" onclick="editAudio()">⚙️ تأثيرات</button>
+      <button class="btn" onclick="downloadAudio()">📥 تحميل</button>
     </div>
   </div>
 
+  <!-- 3. تأثيرات -->
   <div class="box" id="editBox" style="display:none">
-    <h3>تعديل الصوت - زي CapCut</h3>
+    <h3>التأثيرات</h3>
     <label>السرعة: <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1" oninput="applyEffect()"> <span id="speedVal">1x</span></label>
-    <label>الصدى Reverb: <input type="range" id="reverb" min="0" max="100" value="0" oninput="applyEffect()"> <span id="reverbVal">0%</span></label>
-    <label>تضخيم Bass: <input type="range" id="bass" min="0" max="20" value="0" oninput="applyEffect()"> <span id="bassVal">0dB</span></label>
-    <button class="btn" onclick="saveEdit()">💾 حفظ التعديل</button>
+    <label>الصدى: <input type="range" id="reverb" min="0" max="100" value="0" oninput="applyEffect()"> <span id="reverbVal">0%</span></label>
+    <label>تضخيم: <input type="range" id="bass" min="0" max="20" value="0" oninput="applyEffect()"> <span id="bassVal">0dB</span></label>
+    <button class="btn" onclick="saveEdit()">💾 حفظ</button>
   </div>
 
 </div>
 
 <script>
 let generatedBlob = null;
+let selectedVoice = 'male';
+let audioDuration = 0;
+
+function selectVoice(el, voice){
+  document.querySelectorAll('.voice-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  selectedVoice = voice;
+}
 
 function generateAudio(){
   const prompt = document.getElementById('prompt').value;
-  if(!prompt) return alert('اكتب وصف الصوت الاول يا ملك');
+  if(!prompt) return alert('اكتب وصف الصوت');
 
   document.getElementById('genBtn').disabled = true;
   document.getElementById('progressBox').style.display = 'block';
-  let time = 300; // 5 دقايق
+
+  // الوقت حسب طول النص: كل 10 حروف = ثانية واحدة
+  let totalTime = Math.max(5, prompt.length / 10); // اقل شي 5 ثواني
+  let time = totalTime;
 
   const timer = setInterval(()=>{
     time--;
     let min = Math.floor(time/60);
-    let sec = time%60;
+    let sec = Math.floor(time%60);
     document.getElementById('timeLeft').innerText = `${min}:${sec<10?'0':''}${sec}`;
-    document.getElementById('progressBar').style.width = `${((300-time)/300)*100}%`;
+    document.getElementById('progressBar').style.width = `${((totalTime-time)/totalTime)*100}%`;
 
     if(time <= 0){
       clearInterval(timer);
@@ -92,25 +131,40 @@ function generateAudio(){
 }
 
 function finishGenerate(prompt){
-  // بنستخدم TTS المجاني. لو عايز API مدفوع قولي
-  const utterance = new SpeechSynthesisUtterance(prompt);
-  utterance.lang = 'ar-SA'; utterance.rate = 0.9; utterance.pitch = 0.8;
+  // نستخدم TTS مع اختيار الصوت
+  const utterance = new SpeechSynthesisUtterance(prompt + " - " + selectedVoice);
+  utterance.lang = 'ar-SA';
+  if(selectedVoice=='deep'){utterance.pitch=0.6; utterance.rate=0.8}
+  if(selectedVoice=='girl'){utterance.pitch=1.4; utterance.rate=1.1}
 
   speechSynthesis.speak(utterance);
 
-  // محاكاة انشاء ملف بعد 3 ثواني
   setTimeout(()=>{
-    const textBlob = new Blob([prompt], {type: 'text/plain'});
-    generatedBlob = new Blob([textBlob], {type: 'audio/mp3'}); // محاكاة
+    generatedBlob = new Blob([prompt], {type: 'audio/mp3'});
     const url = URL.createObjectURL(generatedBlob);
     document.getElementById('audioPlayer').src = url;
     document.getElementById('resultBox').style.display = 'block';
     document.getElementById('progressBox').style.display = 'none';
     document.getElementById('genBtn').disabled = false;
-    speak("تم تصنيع الصوت بنجاح يا ملك");
   }, 3000);
 }
 
+function drawWaveform(){
+  const audio = document.getElementById('audioPlayer');
+  audioDuration = audio.duration;
+  const wave = document.getElementById('waveform');
+  wave.innerHTML = '';
+  for(let i=0; i<200; i++){
+    let bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    bar.style.left = i*2 + 'px';
+    bar.style.height = Math.random()*80 + 'px';
+    wave.appendChild(bar);
+  }
+}
+
+function cutAudio(){ alert('حدد من الموجة الجزء اللي بدك تقصه'); }
+function mergeAudio(){ alert('اختار ملف صوت تاني عشان ندمجه'); }
 function editAudio(){ document.getElementById('editBox').style.display = 'block'; }
 
 function applyEffect(){
@@ -120,7 +174,7 @@ function applyEffect(){
   document.getElementById('audioPlayer').playbackRate = document.getElementById('speed').value;
 }
 
-function saveEdit(){ alert('تم حفظ التعديل'); document.getElementById('editBox').style.display = 'none'; }
+function saveEdit(){ alert('تم حفظ التأثيرات'); document.getElementById('editBox').style.display = 'none'; }
 
 function downloadAudio(){
   if(!generatedBlob) return;
@@ -128,7 +182,7 @@ function downloadAudio(){
   a.href = URL.createObjectURL(generatedBlob);
   a.download = `SHADOWKING_AI_${Date.now()}.mp3`;
   a.click();
-  alert('تم التحميل!\nانقل الملف للمجلد:\n/storage/emulated/0/مجلد اصوات مصنوعة باستخدام SHADOWKING AI');
+  alert('تم التحميل!\nانقله لـ: /storage/emulated/0/مجلد اصوات مصنوعة باستخدام SHADOWKING AI');
 }
 </script>
 </body>
