@@ -2,82 +2,64 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استوديو هندسة الصوت</title>
+<title>SHADOWKING</title>
 <style>
-body{background:#000;color:#FFC107;text-align:center;padding:20px;font-family:Arial}
-.box{border:3px solid #FFC107;border-radius:20px;padding:20px;margin:20px 0;background:#111}
-input{width:90%;padding:15px;background:#000;border:2px solid #FFC107;border-radius:15px;color:#fff;font-size:16px;text-align:center;margin:15px 0}
-.btn{background:#FFC107;color:#000;border:none;padding:15px 30px;border-radius:15px;font-weight:900;font-size:16px;width:90%;cursor:pointer}
+body{background:#000;color:#FFC107;text-align:center;padding:50px;font-family:Arial}
+.box{border:3px solid #FFC107;border-radius:20px;padding:20px;margin:20px auto;max-width:500px}
+input{width:90%;padding:15px;background:#000;border:2px solid #FFC107;color:#fff;border-radius:10px}
+button{background:#FFC107;color:#000;border:none;padding:15px;border-radius:10px;font-weight:900;width:90%;cursor:pointer}
 </style>
 </head>
 <body>
 
-<h2>🎛️ استوديو هندسة الصوت</h2>
+<h1>👑 SHADOWKING PRO</h1>
 
 <div class="box">
-  <h3>اصنع صوت بالذكاء الاصطناعي</h3>
-  <input type="text" id="aiPrompt" placeholder="اكتب وصف الصوت: مثال صوت ملكي غاضب">
-  <button class="btn" onclick="makeAI()">🎵 صنع الصوت</button>
+<h3>🎙️ اصنع صوت بالذكاء الاصطناعي</h3>
+<input type="text" id="aiPrompt" placeholder="مثال: صوت ملكي غاضب">
+<button onclick="makeAI()">⚡ صنع الصوت</button>
 </div>
 
 <div>او</div>
 
 <div class="box">
-  <button class="btn" onclick="document.getElementById('file').click()">📁 عندك صوت تريد تعدله</button>
-  <input type="file" id="file" accept="audio/*" style="display:none" onchange="goEdit(this)">
+<button onclick="document.getElementById('file').click()">📁 عندك صوت تريد تعدله</button>
+<input type="file" id="file" accept="audio/*" style="display:none" onchange="importAudio(this)">
 </div>
 
 <script>
+// 1. توليد صوت وهمي
 function makeAI(){
   const prompt = document.getElementById('aiPrompt').value;
   if(prompt.trim() == ''){alert('اكتب وصف الصوت اول'); return;}
-  
-  // نولد صوت وهمي 3 ثواني
-  const audioCtx = new AudioContext();
-  const duration = 3;
-  const sampleRate = audioCtx.sampleRate;
-  const frameCount = sampleRate * duration;
-  const buffer = audioCtx.createBuffer(1, frameCount, sampleRate);
+
+  // نعمل صوت 5 ثواني
+  const ctx = new AudioContext();
+  const buffer = ctx.createBuffer(1, ctx.sampleRate * 5, ctx.sampleRate);
   const data = buffer.getChannelData(0);
-  
-  let freq = 180;
-  if(prompt.includes('غاضب')) freq = 140;
-  if(prompt.includes('ملكي')) freq = 110;
-  if(prompt.includes('طفل')) freq = 500;
-  
-  for(let i=0; i<frameCount; i++){
-    data[i] = Math.sin(2*Math.PI*freq*i/sampleRate) * 0.3 * Math.sin(Math.PI*i/frameCount);
+
+  let freq = 150;
+  if(prompt.includes('غاضب')) freq = 120;
+  if(prompt.includes('ملكي')) freq = 100;
+
+  for(let i=0; i<buffer.length; i++){
+    data[i] = Math.sin(2*Math.PI*freq*i/ctx.sampleRate) * 0.3;
   }
-  
-  // نحوله لملف
-  const wav = bufferToWav(buffer);
-  const blob = new Blob([wav], {type: 'audio/wav'});
-  const url = URL.createObjectURL(blob);
+
+  // نحوله لملف ونحفظه
+  const wav = toWav(buffer);
+  const url = URL.createObjectURL(new Blob([wav], {type:'audio/wav'}));
 
   localStorage.setItem('audioType', 'ai');
   localStorage.setItem('audioData', url);
   localStorage.setItem('audioName', prompt);
+
+  // نروح للمحر
   window.location.href = 'واجهة تعديل علصوت/editor.html';
 }
 
-function bufferToWav(buffer) {
-  const len = buffer.length * 2 + 44;
-  const buf = new ArrayBuffer(len);
-  const view = new DataView(buf);
-  let pos = 0;
-  const set16 = d => {view.setInt16(pos, d, true); pos+=2};
-  const set32 = d => {view.setInt32(pos, d, true); pos+=4};
-  set32(0x46464952); set32(len-8); set32(0x45564157);
-  set32(0x20746d66); set32(16); set16(1); set16(1);
-  set32(buffer.sampleRate); set32(buffer.sampleRate*2);
-  set16(2); set16(16); set32(0x61746164); set32(len-pos-4);
-  const d = buffer.getChannelData(0);
-  for(let i=0;i<d.length;i++){let s=Math.max(-1,Math.min(1,d[i])); view.setInt16(pos, s<0?s*0x8000:s*0x7FFF, true); pos+=2;}
-  return view;
-}
-
-function goEdit(input){
+// 2. استيراد صوت
+function importAudio(input){
   const file = input.files[0];
   const reader = new FileReader();
   reader.onload = function(e){
@@ -87,6 +69,21 @@ function goEdit(input){
     window.location.href = 'واجهة تعديل علصوت/editor.html';
   }
   reader.readAsDataURL(file);
+}
+
+// تحويل buffer الى wav
+function toWav(buffer){
+  const len = buffer.length * 2 + 44;
+  const buf = new ArrayBuffer(len);
+  const v = new DataView(buf);
+  let p = 0;
+  const s16 = d => {v.setInt16(p,d,true);p+=2};
+  const s32 = d => {v.setInt32(p,d,true);p+=4};
+  s32(0x46464952);s32(len-8);s32(0x45564157);s32(0x20746d66);s32(16);s16(1);s16(1);
+  s32(buffer.sampleRate);s32(buffer.sampleRate*2);s16(2);s16(16);s32(0x61746164);s32(len-p-4);
+  const d = buffer.getChannelData(0);
+  for(let i=0;i<d.length;i++){let s=Math.max(-1,Math.min(1,d[i]));v.setInt16(p,s<0?s*0x8000:s*0x7FFF,true);p+=2;}
+  return v;
 }
 </script>
 </body>
