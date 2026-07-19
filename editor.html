@@ -3,110 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>محرر الصوت - Shadowking</title>
+<title>SHADOWKING PRO EDITOR</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;width:100%;overflow:hidden;background:#000;font-family:Arial}
-#wrapper{width:100vh;height:100vw;transform-origin:top left;position:absolute;top:0;left:100%;transform:rotate(90deg);background:#0a0a0a}
+html,body{height:100%;width:100%;overflow:hidden;background:#000;font-family:'Cairo', sans-serif}
+
+#wrapper{width:100vh;height:100vw;transform-origin:top left;position:absolute;top:0;left:100%;transform:rotate(90deg);background:linear-gradient(135deg,#0a0a0a 0%,#1a001a 100%)}
 @media (orientation: landscape) {#wrapper{width:100vw;height:100vh;transform:rotate(0deg);left:0;top:0}}
 
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#1a1a1a;border-bottom:1px solid #333}
-.tabs{display:flex;gap:8px;overflow-x:auto}
-.tab{padding:8px 16px;border-radius:20px;font-size:13px;color:#aaa;background:#2a2a2a;cursor:pointer}
-.tab.active{background:#FFC107;color:#000;font-weight:bold}
-.export-btn{background:#FFC107;color:#000;border:none;padding:8px 20px;border-radius:20px;font-weight:bold;cursor:pointer}
+/* توهج نار */
+.glow{box-shadow:0 0 20px rgba(255,193,7,0.5)}
+.anim{animation: pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 
-.content{display:flex;flex:1}
-.left{width:25%;background:#1a1a1a;padding:12px;display:flex;flex-direction:column;gap:10px}
-.center{width:50%;background:#000;padding:15px;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.right{width:25%;background:#1a1a1a;padding:12px;overflow-y:auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(20,20,20,0.9);backdrop-filter:blur(10px);border-bottom:2px solid #FFC107}
+.logo{font-size:18px;font-weight:900;color:#FFC107;text-shadow:0 0 10px #FFC107}
+.tabs{display:flex;gap:10px}
+.tab{padding:10px 20px;border-radius:25px;font-size:13px;color:#aaa;background:rgba(255,255,255,0.05);cursor:pointer;border:1px solid transparent;transition:0.3s}
+.tab.active{background:linear-gradient(90deg,#FFC107,#FF9800);color:#000;font-weight:900;border-color:#FFC107;box-shadow:0 0 15px #FFC107}
+.export-btn{background:linear-gradient(90deg,#FFC107,#FF5722);color:#000;border:none;padding:10px 25px;border-radius:25px;font-weight:900;cursor:pointer;font-size:14px;box-shadow:0 0 20px rgba(255,193,7,0.6)}
 
-.import-box{height:120px;border:2px dashed #555;border-radius:15px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#888;background:#222;cursor:pointer;font-size:13px}
-.import-box:hover{border-color:#FFC107;color:#FFC107}
+.content{display:flex;flex:1;gap:12px;padding:12px}
+.glass{background:rgba(25,25,25,0.6);backdrop-filter:blur(15px);border:1px solid rgba(255,193,7,0.2);border-radius:20px}
+.left{width:23%;padding:15px;display:flex;flex-direction:column;gap:12px}
+.center{width:54%;padding:20px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.right{width:23%;padding:15px;overflow-y:auto}
 
-#player{width:95%;height:40px}
-#waveform{width:95%;height:120px;background:#0a0a0a;border-radius:12px;margin-top:15px;position:relative;overflow:hidden;border:1px solid #333}
+.import-box{height:130px;border:2px dashed #FFC107;border-radius:20px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#FFC107;background:rgba(255,193,7,0.05);cursor:pointer;font-size:14px;font-weight:700;transition:0.3s}
+.import-box:hover{background:rgba(255,193,7,0.15);transform:scale(1.03)}
 
-.timeline{height:140px;background:#1a1a1a;border-top:1px solid #333;padding:10px}
-.timeline-header{font-size:11px;color:#888;margin-bottom:5px}
-.timeline-track{height:70px;background:#000;border-radius:10px;position:relative;overflow-x:auto;border:1px solid #333}
-.clip{position:absolute;height:90%;top:5%;min-width:120px;background:linear-gradient(90deg,#FFC107,#FF9800);border-radius:8px;color:#000;font-weight:bold;font-size:11px;display:flex;align-items:center;justify-content:center;padding:0 8px;cursor:grab}
+.player-card{width:100%;background:rgba(0,0,0,0.5);border-radius:20px;padding:20px;border:1px solid #FFC107}
+#player{width:100%;height:45px;filter:invert(1) hue-rotate(180deg)}
+#waveform{width:100%;height:150px;background:linear-gradient(180deg,#000 0%,#1a1a1a 100%);border-radius:15px;margin-top:20px;position:relative;overflow:hidden;border:2px solid #FFC107}
 
-.section-title{color:#FFC107;font-size:14px;margin:10px 0 8px;font-weight:bold}
-.filter-btn{background:#2a2a2a;color:#fff;border:none;padding:10px;border-radius:10px;margin:5px 0;width:100%;text-align:right;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;transition:0.2s}
-.filter-btn:hover{background:#333}
-.filter-btn.active{background:#FFC107;color:#000}
+.timeline{height:160px;background:rgba(20,20,20,0.9);backdrop-filter:blur(10px);border-top:2px solid #FFC107;padding:12px}
+.timeline-header{font-size:12px;color:#FFC107;font-weight:700;margin-bottom:8px}
+.timeline-track{height:85px;background:rgba(0,0,0,0.5);border-radius:15px;position:relative;overflow-x:auto;border:1px solid #333}
+.clip{position:absolute;height:90%;top:5%;min-width:130px;background:linear-gradient(90deg,#FFC107,#FF5722);border-radius:12px;color:#000;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;padding:0 10px;cursor:grab;box-shadow:0 0 15px rgba(255,193,7,0.5)}
 
-.slider-box{margin:8px 0}
-.slider-box label{font-size:11px;color:#aaa;display:flex;justify-content:space-between}
-input[type=range]{width:100%;accent-color:#FFC107}
+.section-title{color:#FFC107;font-size:15px;margin:12px 0 10px;font-weight:900;text-shadow:0 0 8px #FFC107}
+.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.filter-btn{background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,193,7,0.3);padding:12px;border-radius:15px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;transition:0.3s}
+.filter-btn:hover{background:rgba(255,193,7,0.1);transform:translateY(-3px)}
+.filter-btn.active{background:linear-gradient(135deg,#FFC107,#FF5722);color:#000;border-color:#FFC107;box-shadow:0 0 20px #FFC107}
+
+.slider-box{margin:12px 0;padding:10px;background:rgba(0,0,0,0.3);border-radius:12px}
+.slider-box label{font-size:12px;color:#FFC107;display:flex;justify-content:space-between;font-weight:700}
+input[type=range]{width:100%;accent-color:#FFC107;height:6px;border-radius:10px}
 </style>
 </head>
 <body>
 
 <div id="wrapper">
   <div class="topbar">
+    <div class="logo glow">👑 SHADOWKING PRO</div>
     <div class="tabs">
       <div class="tab active">Media</div>
       <div class="tab">Audio</div>
-      <div class="tab">Filters</div>
-      <div class="tab" onclick="cutClip()">✂️ Cut</div>
+      <div class="tab">Effects</div>
+      <div class="tab">AI</div>
     </div>
-    <button class="export-btn" onclick="exportFile()">Export</button>
+    <button class="export-btn anim" onclick="exportFile()">Export ⚡</button>
   </div>
 
   <div class="content">
-    <!-- يسار: الاستيراد -->
-    <div class="left">
+    <!-- يسار -->
+    <div class="left glass">
       <div class="import-box" onclick="document.getElementById('file2').click()">
-        <div style="font-size:35px">+</div>
+        <div style="font-size:40px">➕</div>
         <div>اضافة صوت</div>
         <input type="file" id="file2" accept="audio/*" style="display:none" onchange="addClip(this.files[0].name)">
       </div>
       <div class="section-title">التحكم السريع</div>
       <button class="filter-btn" onclick="undo()">↩️ تراجع</button>
+      <button class="filter-btn" onclick="redo()">↪️ اعادة</button>
       <button class="filter-btn" onclick="clearAll()">🗑️ مسح الكل</button>
     </div>
 
-    <!-- الوسط: المعاينة -->
+    <!-- الوسط -->
     <div class="center">
-      <audio id="player" controls></audio>
-      <div id="waveform"></div>
+      <div class="player-card glow">
+        <audio id="player" controls></audio>
+        <div id="waveform"></div>
+      </div>
     </div>
 
-    <!-- يمين: الفلاتر -->
-    <div class="right">
-      <div class="section-title">فلاتر الصوت</div>
-      <button class="filter-btn" onclick="toggleFilter('bass', this)">🔉 Bass Boost</button>
-      <button class="filter-btn" onclick="toggleFilter('treble', this)">🎵 Treble</button>
-      <button class="filter-btn" onclick="toggleFilter('reverb', this)">🔊 Reverb</button>
-      <button class="filter-btn" onclick="toggleFilter('echo', this)">📢 Echo</button>
-      <button class="filter-btn" onclick="toggleFilter('robot', this)">🤖 Robot</button>
-      <button class="filter-btn" onclick="toggleFilter('chipmunk', this)">🐿️ Chipmunk</button>
-      <button class="filter-btn" onclick="toggleFilter('deep', this)">👹 Deep Voice</button>
+    <!-- يمين -->
+    <div class="right glass">
+      <div class="section-title">🔥 فلاتر احترافية</div>
+      <div class="filter-grid">
+        <button class="filter-btn" onclick="toggleFilter('bass',this)">🔉 Bass</button>
+        <button class="filter-btn" onclick="toggleFilter('treble',this)">🎵 Treble</button>
+        <button class="filter-btn" onclick="toggleFilter('reverb',this)">🔊 Reverb</button>
+        <button class="filter-btn" onclick="toggleFilter('echo',this)">📢 Echo</button>
+        <button class="filter-btn" onclick="toggleFilter('robot',this)">🤖 Robot</button>
+        <button class="filter-btn" onclick="toggleFilter('chipmunk',this)">🐿️ Chipmunk</button>
+        <button class="filter-btn" onclick="toggleFilter('deep',this)">👹 Deep</button>
+        <button class="filter-btn" onclick="toggleFilter('radio',this)">📻 Radio</button>
+        <button class="filter-btn" onclick="toggleFilter('phone',this)">📞 Phone</button>
+        <button class="filter-btn" onclick="toggleFilter('studio',this)">🎙️ Studio</button>
+      </div>
 
-      <div class="section-title">السرعة</div>
+      <div class="section-title">⚙️ التحكم الدقيق</div>
       <div class="slider-box">
         <label><span>السرعة</span><span id="speedVal">1.0x</span></label>
         <input type="range" min="0.5" max="2" step="0.1" value="1" oninput="changeSpeed(this.value)">
       </div>
-
       <div class="slider-box">
         <label><span>الصوت</span><span id="volVal">100%</span></label>
         <input type="range" min="0" max="100" value="100" oninput="changeVolume(this.value)">
       </div>
+      <div class="slider-box">
+        <label><span>الحدة</span><span id="pitchVal">0</span></label>
+        <input type="range" min="-12" max="12" step="1" value="0" oninput="changePitch(this.value)">
+      </div>
     </div>
   </div>
 
-  <div class="timeline">
-    <div class="timeline-header">اسحب الصوت هنا للتعديل</div>
+  <div class="timeline glass">
+    <div class="timeline-header">🎬 التايم لاين - اسحب هنا</div>
     <div class="timeline-track" id="track"></div>
   </div>
 </div>
 
 <script>
-let history = [];
-let audioCtx, gainNode, filterNode;
+let history = []; let future = [];
 
 window.onload = function(){
   document.documentElement.requestFullscreen().catch(()=>{});
@@ -114,13 +136,9 @@ window.onload = function(){
     screen.orientation.lock('landscape').catch(()=>{});
   }
 
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  gainNode = audioCtx.createGain();
-
   const type = localStorage.getItem('audioType');
   if(type == 'ai'){ addClip('AI Voice'); }
   if(type == 'import'){
-    document.getElementById('name').innerText = localStorage.getItem('audioName');
     document.getElementById('player').src = localStorage.getItem('audioData');
     addClip(localStorage.getItem('audioName'));
   }
@@ -132,7 +150,7 @@ function addClip(name){
   const track = document.getElementById('track');
   const clip = document.createElement('div');
   clip.className = 'clip';
-  clip.style.left = track.children.length * 130 + 'px';
+  clip.style.left = track.children.length * 140 + 'px';
   clip.innerText = name;
   track.appendChild(clip);
 }
@@ -140,45 +158,32 @@ function addClip(name){
 function toggleFilter(type, btn){
   btn.classList.toggle('active');
   const player = document.getElementById('player');
-  if(type=='speed') player.playbackRate = btn.classList.contains('active')? 1.5 : 1;
-  if(type=='bass') alert('Bass Boost: قوة الجهير زادت');
-  if(type=='treble') alert('Treble: حدة الصوت زادت');
-  if(type=='reverb') alert('Reverb: صدى القاعة');
-  if(type=='echo') alert('Echo: صدى متكرر');
-  if(type=='robot') alert('Robot: صوت آلي');
   if(type=='chipmunk') player.playbackRate = btn.classList.contains('active')? 1.8 : 1;
-  if(type=='deep') player.playbackRate = btn.classList.contains('active')? 0.7 : 1;
+  if(type=='deep') player.playbackRate = btn.classList.contains('active')? 0.6 : 1;
+  if(type=='robot') alert('🤖 فلتر Robot مفعل');
+  if(type=='radio') alert('📻 فلتر Radio مفعل');
+  if(type=='phone') alert('📞 فلتر Phone مفعل');
+  if(type=='studio') alert('🎙️ فلتر Studio مفعل');
 }
 
-function changeSpeed(val){
-  document.getElementById('speedVal').innerText = val + 'x';
-  document.getElementById('player').playbackRate = val;
-}
+function changeSpeed(val){document.getElementById('speedVal').innerText = val + 'x';document.getElementById('player').playbackRate = val;}
+function changeVolume(val){document.getElementById('volVal').innerText = val + '%';document.getElementById('player').volume = val/100;}
+function changePitch(val){document.getElementById('pitchVal').innerText = val;}
 
-function changeVolume(val){
-  document.getElementById('volVal').innerText = val + '%';
-  document.getElementById('player').volume = val/100;
-}
-
-function saveState(){ history.push(document.getElementById('track').innerHTML); }
-function undo(){ if(history.length>0) document.getElementById('track').innerHTML = history.pop(); }
-function clearAll(){ document.getElementById('track').innerHTML = ''; }
-function cutClip(){ alert('اسحب طرف الكليب للقص'); }
-function exportFile(){ alert('تم التصدير ✅\n/storage/emulated/0/SHADOWKING_AI'); }
+function saveState(){ history.push(document.getElementById('track').innerHTML); future = []; }
+function undo(){ if(history.length>0){ future.push(document.getElementById('track').innerHTML); document.getElementById('track').innerHTML = history.pop(); } }
+function redo(){ if(future.length>0){ history.push(document.getElementById('track').innerHTML); document.getElementById('track').innerHTML = future.pop(); } }
+function clearAll(){ saveState(); document.getElementById('track').innerHTML = ''; }
+function exportFile(){ alert('تم التصدير بنجاح 🔥\n/storage/emulated/0/SHADOWKING_PRO'); }
 
 function drawWave(){
-  const w = document.getElementById('waveform');
-  w.innerHTML = '';
-  for(let i=0;i<200;i++){
+  const w = document.getElementById('waveform'); w.innerHTML = '';
+  for(let i=0;i<180;i++){
     let bar = document.createElement('div');
-    bar.style = `position:absolute;bottom:0;width:3px;height:${Math.random()*100+10}px;background:#FFC107;left:${i*4}px;border-radius:2px`;
+    bar.style = `position:absolute;bottom:0;width:4px;height:${Math.random()*120+15}px;background:linear-gradient(180deg,#FFC107,#FF5722);left:${i*5}px;border-radius:4px;box-shadow:0 0 8px #FFC107`;
     w.appendChild(bar);
   }
-  setInterval(()=>{
-    document.querySelectorAll('#waveform div').forEach(bar=>{
-      bar.style.height = Math.random()*100 + 10 + 'px';
-    });
-  }, 100);
+  setInterval(()=>{document.querySelectorAll('#waveform div').forEach(bar=>{bar.style.height = Math.random()*120 + 15 + 'px';});}, 80);
 }
 </script>
 </body>
