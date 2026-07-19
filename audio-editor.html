@@ -2,73 +2,91 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <title>SHADOWKING AUDIO PRO</title>
 <script>
-// محاولة قفل العرض + اجبار اللف بالـ CSS
 function forceLandscape() {
-  // 1. محاولة API الرسمي
+  // محاولة القفل الرسمي
   if(screen.orientation && screen.orientation.lock){
     screen.orientation.lock('landscape').catch(()=>{});
   }
-
-  // 2. لو فشل بنلف الصفحة كلها 90 درجة بالـ CSS
+  // لو الجهاز طولي بنلف الحاوية مش الجسم كله
+  const wrapper = document.getElementById('wrapper');
   if(window.innerHeight > window.innerWidth){
-    document.body.classList.add('rotate-force');
+    wrapper.classList.add('rotate-force');
   } else {
-    document.body.classList.remove('rotate-force');
+    wrapper.classList.remove('rotate-force');
   }
 }
-
 window.addEventListener('load', forceLandscape);
 window.addEventListener('resize', forceLandscape);
-window.addEventListener('orientationchange', forceLandscape);
 </script>
 <style>
+:root{
+  --bg:#000;
+  --card:#0d0d0d;
+  --neon:#00e5ff;
+  --neon2:#00aaff;
+  --text:#e0e0e0;
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-body{background:#0a0a0a;color:#fff;direction:rtl;overflow:hidden;height:100vh;transition:0.3s}
+body{background:var(--bg);color:var(--text);overflow:hidden;height:100vh;width:100vw}
+#wrapper{height:100%;width:100%;transition:0.4s ease}
 
-/* الحركة القوية: لف الصفحة غصب لو الجهاز طولي */
-body.rotate-force {
-  transform: rotate(90deg);
-  transform-origin: left top;
+/* اللف الغصب بس للحاوية */
+#wrapper.rotate-force{
+  transform: rotate(90deg) translateY(-100%);
+  transform-origin: top left;
   width: 100vh;
   height: 100vw;
   position: absolute;
-  top: 100%;
-  left: 0;
-  overflow: hidden;
 }
 
-.topbar{background:#111;height:55px;display:flex;align-items:center;padding:0 15px;border-bottom:1px solid #222}
-.logo{color:#00e5ff;font-weight:900;font-size:15px}
-.export-btn{margin-right:auto;background:#00e5ff;color:#000;border:none;padding:10px 25px;border-radius:8px;font-weight:900;font-size:15px;cursor:pointer}
-.container{display:flex;height:calc(100vh - 55px - 50px)}
-body.rotate-force.container{height:calc(100vw - 55px - 50px)}
-.sidebar-right{width:70px;background:#111;padding:10px 5px;border-left:1px solid #222}
-.tool{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:12px 5px;margin-bottom:10px;text-align:center;font-size:11px;color:#aaa;cursor:pointer}
-.tool.active{background:#00e5ff;color:#000;border-color:#00e5ff}
-.player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-.player-box{background:#1a1a1a;padding:8px 20px;border-radius:8px;margin-bottom:20px;color:#fff}
-.drop-zone{width:80%;height:250px;background:#111;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#444;font-size:16px;margin-bottom:15px}
-audio{width:70%;border-radius:30px;filter:drop-shadow(0 0 10px #00e5ff)}
-.file-btn{margin-top:10px;background:#333;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer}
-.sidebar-left{width:130px;background:#111;padding:15px 10px;border-right:1px solid #222}
-.tab{background:#00e5ff;color:#000;padding:10px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:15px}
+/* خلفية متوهجة */
+body::before{
+  content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 50% 50%, #00e5ff22 0%, transparent 50%);
+  animation: glow 8s infinite linear;z-index:0;
+}
+@keyframes glow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.topbar{background:linear-gradient(90deg,#0d0d0d,#111);height:60px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid var(--neon);box-shadow:0 0 20px #00e5ff44;position:relative;z-index:2}
+.logo{color:var(--neon);font-weight:900;font-size:18px;text-shadow:0 0 10px var(--neon)}
+.export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:10px 28px;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 0 15px var(--neon);transition:0.2s}
+.export-btn:active{transform:scale(0.95)}
+
+.container{display:flex;height:calc(100% - 60px - 60px);position:relative;z-index:2}
+.sidebar-right{width:80px;background:#0a0a0a;padding:15px 8px;border-left:2px solid var(--neon);display:flex;flex-direction:column;gap:12px}
+.tool{background:var(--card);border:1px solid #333;border-radius:12px;padding:14px 5px;text-align:center;font-size:11px;color:#aaa;cursor:pointer;transition:0.2s}
+.tool:hover{border-color:var(--neon);box-shadow:0 0 10px var(--neon)}
+.tool.active{background:var(--neon);color:#000;border-color:var(--neon);box-shadow:0 0 20px var(--neon)}
+
+.player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:15px}
+.player-box{background:linear-gradient(90deg,var(--neon),var(--neon2));padding:10px 25px;border-radius:10px;color:#000;font-weight:900;font-size:16px;box-shadow:0 0 20px var(--neon)}
+.drop-zone{width:85%;height:280px;background:var(--card);border:2px dashed #333;border-radius:20px;display:flex;align-items:center;justify-content:center;color:#555;font-size:18px;margin-bottom:5px;transition:0.3s}
+.drop-zone:hover{border-color:var(--neon);color:var(--neon)}
+audio{width:75%;border-radius:30px;filter:drop-shadow(0 0 15px var(--neon))}
+.file-btn{background:var(--card);color:var(--neon);border:1px solid var(--neon);padding:12px 24px;border-radius:10px;cursor:pointer;font-weight:700}
+
+.sidebar-left{width:150px;background:#0a0a0a;padding:15px 12px;border-right:2px solid var(--neon);overflow-y:auto}
+.tab{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:12px;border-radius:10px;text-align:center;font-weight:900;margin-bottom:15px;box-shadow:0 0 15px var(--neon)}
 .slider{margin-bottom:20px}
-.slider label{color:#aaa;font-size:12px;display:block;margin-bottom:5px}
-input[type=range]{width:100%;accent-color:#00e5ff}
-.timeline{height:50px;background:#0d0d0d;border-top:1px solid #222;padding:8px}
-.track{background:linear-gradient(90deg, #00e5ff 0%, #00aaff 100%);height:35px;border-radius:6px;display:flex;align-items:center;padding:0 10px;color:#000;font-weight:900;font-size:12px}
+.slider label{color:#aaa;font-size:12px;display:block;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:var(--neon);height:6px}
+
+.timeline{height:60px;background:#0a0a0a;border-top:2px solid var(--neon);padding:10px;position:relative;z-index:2}
+.track{background:linear-gradient(90deg, var(--neon) 0%, var(--neon2) 100%);height:40px;border-radius:8px;display:flex;align-items:center;padding:0 15px;color:#000;font-weight:900;font-size:13px;box-shadow:0 0 15px var(--neon)}
 </style>
 </head>
 <body>
+<div id="wrapper">
 
 <div class="topbar">
-  <div class="logo">SHADOWKING AUDIO PRO</div>
+  <div class="logo">SHADOWKING AUDIO PRO 👑</div>
   <button class="export-btn">تصدير</button>
 </div>
 
@@ -81,6 +99,7 @@ input[type=range]{width:100%;accent-color:#00e5ff}
     <div class="tool">🔊<br>ضغط</div>
     <div class="tool">🎛️<br>مزج</div>
   </div>
+
   <div class="player-area">
     <div class="player-box">Player</div>
     <div class="drop-zone" id="drop">اسحب الصوت هنا</div>
@@ -90,18 +109,20 @@ input[type=range]{width:100%;accent-color:#00e5ff}
       <button class="file-btn" onclick="document.getElementById('fileInput').click()">اختيار ملف</button>
     </div>
   </div>
+
   <div class="sidebar-left">
     <div class="tab">Basic</div>
-    <div class="slider"><label>الصوت</label><input type="range" min="0" max="2" step="0.01" value="1"></div>
-    <div class="slider"><label>السرعة</label><input type="range" min="0.5" max="2" step="0.01" value="1"></div>
-    <div class="slider"><label>طبقة الصوت</label><input type="range" min="-12" max="12" step="1" value="0"></div>
-    <div class="slider"><label>الباس</label><input type="range" min="0" max="20" step="1" value="0"></div>
-    <div class="slider"><label>الصدى</label><input type="range" min="0" max="100" step="1" value="0"></div>
+    <div class="slider"><label>الصوت: <span id="volVal">1.00</span></label><input type="range" min="0" max="2" step="0.01" value="1" oninput="volVal.innerText=this.value"></div>
+    <div class="slider"><label>السرعة: <span id="speedVal">1.00</span></label><input type="range" min="0.5" max="2" step="0.01" value="1" oninput="speedVal.innerText=this.value"></div>
+    <div class="slider"><label>طبقة الصوت: <span id="pitchVal">0</span></label><input type="range" min="-12" max="12" step="1" value="0" oninput="pitchVal.innerText=this.value"></div>
+    <div class="slider"><label>الباس: <span id="bassVal">0</span></label><input type="range" min="0" max="20" step="1" value="0" oninput="bassVal.innerText=this.value"></div>
+    <div class="slider"><label>الصدى: <span id="echoVal">0</span></label><input type="range" min="0" max="100" step="1" value="0" oninput="echoVal.innerText=this.value"></div>
   </div>
 </div>
 
 <div class="timeline"><div class="track">Audio Track 1</div></div>
 
+</div>
 <script>
 function loadAudio(input){
   const file = input.files[0];
