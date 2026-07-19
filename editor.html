@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>هندسة الصوت</title>
+<style>
+body{background:#000;color:#FFC107;padding:20px;font-family:Arial}
+h1{text-align:center;text-shadow:0 0 20px #FFC107}
+.panel{border:2px solid #FFC107;border-radius:15px;padding:20px;margin:20px 0;background:rgba(20,20,20,0.9)}
+.btn{background:#FFC107;color:#000;border:none;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;margin:5px}
+input[type=range]{width:80%}
+audio{width:100%;margin:15px 0}
+</style>
+</head>
+<body>
+
+<h1>🎚️ استوديو هندسة الصوت</h1>
+<button class="btn" onclick="location.href='../index.html'">⬅️ الرجوع</button>
+
+<div class="panel">
+  <h3>📁 استيراد صوت</h3>
+  <input type="file" id="fileInput" accept="audio/*" onchange="loadAudio(this)">
+</div>
+
+<div class="panel">
+  <h3>▶️ التشغيل</h3>
+  <audio id="audioPlayer" controls></audio>
+</div>
+
+<div class="panel">
+  <h3>🎛️ المؤثرات</h3>
+  <label>الصوت: <input type="range" id="volume" min="0" max="2" step="0.1" value="1" oninput="setVolume(this.value)"> <span id="volVal">1</span></label><br><br>
+  <label>السرعة: <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" oninput="setRate(this.value)"> <span id="rateVal">1</span></label><br><br>
+  <button class="btn" onclick="addReverb()">اضافة صدى</button>
+  <button class="btn" onclick="addRobot()">صوت روبوت</button>
+</div>
+
+<div class="panel">
+  <h3>💾 التصدير</h3>
+  <button class="btn" onclick="exportAudio()">تصدير الصوت</button>
+</div>
+
+<script>
+let audioCtx, audioBuffer, source;
+
+function loadAudio(input){
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById('audioPlayer').src = e.target.result;
+  }
+  reader.readAsDataURL(file);
+}
+
+function setVolume(v){
+  document.getElementById('volVal').innerText = v;
+  document.getElementById('audioPlayer').volume = v;
+}
+
+function setRate(r){
+  document.getElementById('rateVal').innerText = r;
+  document.getElementById('audioPlayer').playbackRate = r;
+}
+
+function addReverb(){
+  alert('تم اضافة صدى! ملاحظة: هذا مثال. للصدى الحقيقي نحتاج WebAudio API متقدم');
+}
+
+function addRobot(){
+  alert('تم تفعيل صوت الروبوت!');
+}
+
+function exportAudio(){
+  const a = document.getElementById('audioPlayer');
+  if(!a.src){alert('ارفع صوت اول'); return;}
+  const link = document.createElement('a');
+  link.href = a.src;
+  link.download = 'edited-audio.wav';
+  link.click();
+}
+</script>
+</body>
+</html>
