@@ -1,18 +1,10 @@
 {
-  "name": "ShadowKing AI",
-  "short_name": "ShadowKing",
-  "description": "استوديو الذكاء الاصطناعي للصوت",
-  "start_url": "https://abdulkadirfarah921.github.io/",
+  "name": "SHADOWKING AUDIO PRO",
+  "short_name": "SHADOWKING",
+  "start_url": ".",
   "display": "fullscreen",
-  "background_color": "#000",
+  "orientation": "landscape",
+  "background_color": "#000000",
   "theme_color": "#00e5ff",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "yn.png",
-      "sizes": "1176x1170",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "icons": []
 }
