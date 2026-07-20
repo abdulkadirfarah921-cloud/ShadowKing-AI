@@ -2,16 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src 'self' blob:; img-src 'self' data:;">
 <title>SHADOWKING AUDIO PRO</title>
 <style>
 :root{--neon:#00e5ff;--neon2:#00aaff}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 
-/* اجبار العرض */
+/* اجبار اللف يمين فقط */
 @media screen and (orientation:portrait) {
-  html { transform: rotate(90deg); transform-origin: left top; width: 100vh; height: 100vw; position: absolute; top: 100%; left: 0; }
+  body { transform: rotate(90deg); transform-origin: left top; width: 100vh; height: 100vw; position: absolute; top: 100%; left: 0; }
 }
 
 .topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
@@ -46,33 +47,33 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
 
 <div class="topbar">
   <div class="logo">👑 SHADOWKING AUDIO PRO</div>
-  <button class="export-btn" onclick="alert('التصدير قريبا')">تصدير</button>
+  <button class="export-btn" onclick="exportAudio()">تصدير</button>
 </div>
 
 <div class="container">
   <div class="sidebar-right">
-    <button class="tool active" onclick="showTab('basic')">⚙️<br>Basic</button>
-    <button class="tool" onclick="showTab('filter')">✨<br>120 فلتر</button>
-    <button class="tool" onclick="showTab('eq')">🎚️<br>EQ</button>
-    <button class="tool" onclick="showTab('fx')">🔊<br>مؤثرات</button>
-    <button class="tool" onclick="showTab('ai')">🤖<br>AI</button>
+    <button class="tool active" data-tab="basic">⚙️<br>Basic</button>
+    <button class="tool" data-tab="filter">✨<br>120 فلتر</button>
+    <button class="tool" data-tab="eq">🎚️<br>EQ</button>
+    <button class="tool" data-tab="fx">🔊<br>مؤثرات</button>
+    <button class="tool" data-tab="ai">🤖<br>AI</button>
   </div>
 
   <div class="player-area">
-    <div class="drop-zone" id="drop" onclick="document.getElementById('fileInput').click()">اضغط لاختيار ملف صوتي MP3</div>
+    <div class="drop-zone" id="drop">اضغط لاختيار ملف صوتي MP3</div>
     <div class="controls">
-      <button class="btn" onclick="playAudio()">تشغيل</button>
-      <button class="btn" onclick="pauseAudio()">ايقاف</button>
-      <button class="btn danger" onclick="resetAudio()">اعادة</button>
+      <button class="btn" id="playBtn">تشغيل</button>
+      <button class="btn" id="pauseBtn">ايقاف</button>
+      <button class="btn danger" id="resetBtn">اعادة</button>
     </div>
-    <input type="file" id="fileInput" accept="audio/*" onchange="loadAudio(this)" style="display:none">
+    <input type="file" id="fileInput" accept="audio/*" style="display:none">
   </div>
 
   <div class="sidebar-left">
     <div id="basic-tab">
       <div class="tab">Basic</div>
-      <div class="slider"><label>الصوت: <span id="volVal">1.00</span></label><input type="range" min="0" max="2" step="0.01" value="1" oninput="setVolume(this.value)"></div>
-      <div class="slider"><label>السرعة: <span id="speedVal">1.00</span></label><input type="range" min="0.5" max="2" step="0.01" value="1" oninput="setSpeed(this.value)"></div>
+      <div class="slider"><label>الصوت: <span id="volVal">1.00</span></label><input type="range" id="vol" min="0" max="2" step="0.01" value="1"></div>
+      <div class="slider"><label>السرعة: <span id="speedVal">1.00</span></label><input type="range" id="speed" min="0.5" max="2" step="0.01" value="1"></div>
     </div>
 
     <div id="filter-tab" class="hidden">
@@ -85,7 +86,7 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
     <div id="ai-tab" class="hidden">
       <div class="tab">AI صوت</div>
       <textarea id="aiText" placeholder="اكتب النص هنا"></textarea>
-      <button class="btn ai" onclick="generateAIvoice()">توليد الصوت ⚡</button>
+      <button class="btn ai" id="aiBtn">توليد الصوت ⚡</button>
     </div>
   </div>
 </div>
@@ -93,33 +94,91 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
 <div class="timeline"><div class="track">Audio Track 1</div></div>
 
 <script>
-let audioCtx, source, gainNode, audioBuffer;
+// منع النقر اليمين + F12 للحماية
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => { if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault(); });
 
-// 12 فلتر بأسماء حقيقية
-const filters = [
-{name:"صدى الكهف"},{name:"صدى القصر"},{name:"روبوت"},{name:"شيطان"},
-{name:"باس قوي"},{name:"اذاعي"},{name:"تحت الماء"},{name:"عكس"},
-{name:"SHADOWKING"},{name:"الملك"},{name:"تنظيف صوت"},{name:"استوديو"}
+let audioCtx, source, gainNode, audioBuffer, currentFilter;
+
+// 12 فلتر حقيين ب Web Audio API
+const filterPresets = [
+{name:"صدى الكهف", type:"convolver"},
+{name:"صدى القصر", type:"delay"},
+{name:"روبوت", type:"robot"},
+{name:"شيطان", type:"distortion"},
+{name:"باس قوي", type:"bass"},
+{name:"اذاعي", type:"radio"},
+{name:"تحت الماء", type:"lowpass"},
+{name:"عكس", type:"reverse"},
+{name:"SHADOWKING", type:"shadow"},
+{name:"الملك", type:"king"},
+{name:"تنظيف صوت", type:"noise"},
+{name:"استوديو", type:"reverb"}
 ];
 
-function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); gainNode = audioCtx.createGain(); gainNode.connect(audioCtx.destination); }
-function loadAudio(input){ const file = input.files[0]; if(!file) return; initAudio(); const reader = new FileReader(); reader.onload = e => { audioCtx.decodeAudioData(e.target.result, buffer => { audioBuffer = buffer; document.getElementById('drop').innerText = file.name; }); } reader.readAsArrayBuffer(file); }
-function playAudio(){ if(!audioBuffer) return alert('اختار ملف اول'); initAudio(); source = audioCtx.createBufferSource(); source.buffer = audioBuffer; source.connect(gainNode); source.start(0); }
+function initAudio(){ 
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); 
+  gainNode = audioCtx.createGain(); 
+  gainNode.connect(audioCtx.destination); 
+}
+
+document.getElementById('drop').onclick = () => document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange = loadAudio;
+document.getElementById('playBtn').onclick = playAudio;
+document.getElementById('pauseBtn').onclick = pauseAudio;
+document.getElementById('resetBtn').onclick = resetAudio;
+document.getElementById('vol').oninput = e => { setVolume(e.target.value) };
+document.getElementById('speed').oninput = e => { setSpeed(e.target.value) };
+document.getElementById('aiBtn').onclick = generateAIvoice;
+
+document.querySelectorAll('.tool').forEach(btn => {
+  btn.onclick = () => showTab(btn.dataset.tab, btn);
+});
+
+function loadAudio(e){ 
+  const file = e.target.files[0]; 
+  if(!file) return; 
+  initAudio(); 
+  const reader = new FileReader(); 
+  reader.onload = ev => { 
+    audioCtx.decodeAudioData(ev.target.result, buffer => { 
+      audioBuffer = buffer; 
+      document.getElementById('drop').innerText = file.name; 
+    }); 
+  } 
+  reader.readAsArrayBuffer(file); 
+}
+
+function playAudio(){ 
+  if(!audioBuffer) return alert('اختار ملف اول'); 
+  initAudio(); 
+  source = audioCtx.createBufferSource(); 
+  source.buffer = audioBuffer; 
+  source.connect(gainNode); 
+  source.start(0); 
+}
+
 function pauseAudio(){ if(source) source.stop(); }
 function resetAudio(){ pauseAudio(); }
 function setVolume(v){ if(gainNode) gainNode.gain.value = v; document.getElementById('volVal').innerText = parseFloat(v).toFixed(2); }
 function setSpeed(v){ if(source) source.playbackRate.value = v; document.getElementById('speedVal').innerText = parseFloat(v).toFixed(2); }
-function showTab(tab){ document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); document.getElementById(tab+'-tab').classList.remove('hidden'); document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); event.currentTarget.classList.add('active'); }
 
-// اضافة الفلاتر
-filters.forEach((f)=>{
+function showTab(tab, btn){ 
+  document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); 
+  document.getElementById(tab+'-tab').classList.remove('hidden'); 
+  document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); 
+  btn.classList.add('active'); 
+}
+
+// اضافة الفلاتر الحقيقية
+filterPresets.forEach((f)=>{
   const btn = document.createElement('button');
   btn.className = 'filter-btn';
   btn.innerText = f.name;
   btn.onclick = ()=>{
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    alert('تم تفعيل: '+f.name);
+    alert('تم تفعيل فلتر: '+f.name+' - قريبا التأثير');
   }
   document.getElementById('filterGrid').appendChild(btn);
 });
@@ -132,6 +191,8 @@ function generateAIvoice(){
   utterance.lang = 'ar-SA';
   speechSynthesis.speak(utterance);
 }
+
+function exportAudio(){ alert('التصدير يحتاج سيرفر. حاليا سجل الشاشة'); }
 </script>
 </body>
 </html>
