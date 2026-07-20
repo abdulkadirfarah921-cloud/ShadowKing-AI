@@ -5,29 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="screen-orientation" content="landscape">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000">
 <title>SHADOWKING AUDIO PRO</title>
+<link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#000;--neon:#00e5ff;--neon2:#00aaff}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial;touch-action:manipulation}
-html,body{background:#000;color:#fff;height:100%;width:100%;overflow:hidden}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden;touch-action:manipulation}
 
-/* الحل السحري: نلف المحتوى بس نخلي الاحداثيات مظبوطة */
-#wrapper{
-  width: 100vh;
-  height: 100vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: rotate(90deg);
-  transform-origin: top left;
-  overflow: hidden;
-}
-
-.topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon);width:100vw}
+.topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
 .logo{color:var(--neon);font-weight:900;font-size:15px;text-shadow:0 0 10px var(--neon)}
 .export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:8px 20px;border-radius:10px;font-weight:900;cursor:pointer}
-.container{display:flex;height:calc(100vw - 50px - 45px);width:100vw}
+.container{display:flex;height:calc(100vh - 50px - 45px)}
 .sidebar-right{width:70px;background:#000;padding:8px 4px;border-left:2px solid var(--neon);display:flex;flex-direction:column;gap:8px}
 .tool{background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:10px 4px;text-align:center;font-size:9px;color:#aaa;cursor:pointer}
 .tool.active{background:var(--neon);color:#000;box-shadow:0 0 15px var(--neon)}
@@ -35,7 +25,7 @@ html,body{background:#000;color:#fff;height:100%;width:100%;overflow:hidden}
 .player-box{background:linear-gradient(90deg,var(--neon),var(--neon2));padding:7px 18px;border-radius:8px;color:#000;font-weight:900}
 .drop-zone{width:90%;height:120px;background:#0a0a0a;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;text-align:center;cursor:pointer}
 .controls{display:flex;gap:10px}
-.btn{background:var(--neon);color:#000;border:none;padding:10px 18px;border-radius:8px;font-weight:900;cursor:pointer;font-size:14px;touch-action:manipulation}
+.btn{background:var(--neon);color:#000;border:none;padding:10px 18px;border-radius:8px;font-weight:900;cursor:pointer;font-size:14px}
 .btn:active{transform:scale(0.95)}
 .btn.danger{background:#ff0044;color:#fff}
 .btn.ai{background:#ffaa00;color:#000;width:100%}
@@ -43,20 +33,19 @@ html,body{background:#000;color:#fff;height:100%;width:100%;overflow:hidden}
 .tab{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:8px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:10px;font-size:13px}
 .slider{margin-bottom:12px}
 .slider label{color:#aaa;font-size:10px;display:block;margin-bottom:3px}
-input[type=range], textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:6px;padding:6px;font-size:11px;touch-action:pan-y}
+input[type=range], textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:6px;padding:6px;font-size:11px}
 textarea{height:70px;resize:none}
 .filter-grid{display:grid;grid-template-columns:1fr;gap:6px;max-height:380px;overflow-y:auto}
 .filter-btn{background:#111;border:1px solid #333;padding:8px;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;text-align:right}
 .filter-btn.active{background:var(--neon);color:#000;font-weight:900}
 .filter-desc{font-size:9px;color:#666;margin-top:2px}
-.timeline{height:45px;background:#000;border-top:2px solid var(--neon);padding:6px;width:100vw}
+.timeline{height:45px;background:#000;border-top:2px solid var(--neon);padding:6px}
 .track{background:linear-gradient(90deg, var(--neon) 0%, var(--neon2) 100%);height:33px;border-radius:6px;display:flex;align-items:center;padding:0 10px;color:#000;font-weight:900;font-size:11px}
 .hidden{display:none}
 </style>
 </head>
 <body>
 
-<div id="wrapper">
 <div class="topbar">
   <div class="logo">👑 SHADOWKING AUDIO PRO</div>
   <button type="button" class="export-btn" onclick="alert('التصدير قريبا')">تصدير</button>
@@ -64,11 +53,11 @@ textarea{height:70px;resize:none}
 
 <div class="container">
   <div class="sidebar-right">
-    <div class="tool active" onclick="showTab('basic')">⚙️<br>Basic</div>
-    <div class="tool" onclick="showTab('filter')">✨<br>120 فلتر</div>
-    <div class="tool" onclick="showTab('eq')">🎚️<br>EQ</div>
-    <div class="tool" onclick="showTab('fx')">🔊<br>مؤثرات</div>
-    <div class="tool" onclick="showTab('ai')">🤖<br>AI صوت</div>
+    <button type="button" class="tool active" onclick="showTab('basic')">⚙️<br>Basic</button>
+    <button type="button" class="tool" onclick="showTab('filter')">✨<br>120 فلتر</button>
+    <button type="button" class="tool" onclick="showTab('eq')">🎚️<br>EQ</button>
+    <button type="button" class="tool" onclick="showTab('fx')">🔊<br>مؤثرات</button>
+    <button type="button" class="tool" onclick="showTab('ai')">🤖<br>AI صوت</button>
   </div>
 
   <div class="player-area">
@@ -105,16 +94,8 @@ textarea{height:70px;resize:none}
 </div>
 
 <div class="timeline"><div class="track">Audio Track 1</div></div>
-</div>
 
 <script>
-// تصحيح مكان الضغط بعد اللف
-document.addEventListener('click', function(e) {
-  if(e.target.closest('button,.tool,.drop-zone, input')){
-    e.stopPropagation();
-  }
-}, true);
-
 let audioCtx, source, gainNode, audioBuffer;
 const filters = [
 {name:"صدى الكهف", desc:"صدى قوي وعميق"},{name:"صدى القصر", desc:"صدى ملكي"},
@@ -134,6 +115,11 @@ function setSpeed(v){ if(source) source.playbackRate.value = v; document.getElem
 function showTab(tab){ document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); document.getElementById(tab+'-tab').classList.remove('hidden'); document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); event.currentTarget.classList.add('active'); }
 filters.forEach((f)=>{ const btn = document.createElement('button'); btn.type="button"; btn.className = 'filter-btn'; btn.innerHTML = `<b>${f.name}</b><div class="filter-desc">${f.desc}</div>`; btn.onclick = ()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); alert('تم تفعيل: '+f.name); } document.getElementById('filterGrid').appendChild(btn); });
 function generateAIvoice(){ const text = document.getElementById('aiText').value; if(!text){ alert('اكتب النص اول'); return; } speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = /[\u0600-\u06FF]/.test(text)? 'ar-SA' : 'en-US'; speechSynthesis.speak(utterance); }
+
+// تسجيل PWA
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js');
+}
 </script>
 </body>
 </html>
