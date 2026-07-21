@@ -9,52 +9,48 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
 body{background:radial-gradient(circle at 50% 0%,#1a1a2e 0%,#000 100%);color:#fff;overflow-x:hidden}
 #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
-.topbar{display:flex;justify-content:space-between;padding:15px 30px;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--neon)44;position:sticky;top:0;z-index:100}
-.logo{font-size:1.8em;font-weight:900;color:var(--neon);text-shadow:0 0 30px var(--neon)}
-.container{max-width:1700px;margin:15px auto;padding:15px} /* قللت المارجن */
-.main-grid{display:grid;grid-template-columns:1fr 400px;gap:15px} /* قللت الجاب */
+.topbar{display:flex;justify-content:space-between;padding:10px 20px;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--neon)44;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4em;font-weight:900;color:var(--neon)}
+.container{max-width:1700px;margin:10px auto;padding:10px}
+.main-grid{display:grid;grid-template-columns:1fr 380px;gap:12px}
 
-/* ===== التعديل 1: صغرنا الفيديو ===== */
-.preview-area{background:var(--glass);border:1px solid var(--neon)44;border-radius:20px;padding:10px;position:relative} /* كان 15 */
-video{width:100%;height:260px;object-fit:cover;border-radius:15px;background:#000;border:2px solid var(--neon);box-shadow:0 0 40px var(--neon)33} /* ضفنا height */
+/* ===== مضغوط جدا ===== */
+.preview-area{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:8px;position:relative}
+video{width:100%;height:200px;object-fit:cover;border-radius:10px;background:#000;border:2px solid var(--neon)} /* 200px بس */
 
-.sidebar{background:var(--glass);border:1px solid var(--neon)44;border-radius:20px;padding:15px;max-height:90vh;overflow-y:auto}
-.tabs{display:flex;gap:8px;margin-bottom:15px}
-.tab-btn{flex:1;background:rgba(0,229,255,0.1);color:var(--neon);padding:14px;border:1px solid var(--neon);border-radius:12px;cursor:pointer;font-weight:900;font-size:1em}
-.tab-btn.active{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000;box-shadow:0 0 20px #00ff88}
-.tab{display:none}.tab.active{display:block}
-.card{background:rgba(0,0,0,0.4);border:1px solid var(--neon)33;border-radius:15px;padding:18px;margin-bottom:15px}
-h3{color:var(--neon2);margin-bottom:12px;border-right:4px solid var(--neon2);padding-right:10px}
-.btn{width:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:14px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:6px 0;font-size:1em;transition:0.3s}
-.btn:hover{transform:scale(1.05);box-shadow:0 0 25px var(--neon2)}
-.btn-export{background:linear-gradient(90deg,#00ff88,#00e5ff);font-size:1.2em}
-select,input{width:100%;padding:12px;background:rgba(0,0,0,0.5);color:#fff;border:1px solid var(--neon);border-radius:10px;margin:5px 0;font-weight:700}
+.sidebar{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:12px;max-height:88vh;overflow-y:auto}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tab-btn{flex:1;background:rgba(0,229,255,0.1);color:var(--neon);padding:10px;border:1px solid var(--neon);border-radius:10px;cursor:pointer;font-weight:900;font-size:0.9em}
+.tab-btn.active{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000}
+.card{background:rgba(0,0,0,0.4);border:1px solid var(--neon)33;border-radius:12px;padding:12px;margin-bottom:10px}
+h3{color:var(--neon2);margin-bottom:8px;font-size:0.95em;border-right:3px solid var(--neon2);padding-right:8px}
+.btn{width:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px;border:none;border-radius:8px;font-weight:900;cursor:pointer;margin:4px 0;font-size:0.9em}
+.btn-export{background:linear-gradient(90deg,#00ff88,#00e5ff)}
+select,input{width:100%;padding:8px;background:rgba(0,0,0,0.5);color:#fff;border:1px solid var(--neon);border-radius:8px;margin:4px 0;font-size:0.9em}
 
-/* ===== التعديل 2: صغرنا التايم لاين ===== */
-.timeline-wrap{background:var(--glass);border:1px solid var(--neon)44;border-radius:20px;padding:12px;margin-top:12px} /* كان 20 */
-.timeline-controls{display:flex;justify-content:space-between;margin-bottom:8px} /* كان 12 */
-.zoom-btn{background:var(--neon);color:#000;border:none;padding:6px 12px;border-radius:8px;font-weight:900;cursor:pointer;font-size:1em} /* صغرنا */
-.time-ruler{height:22px;display:flex;font-size:0.8em;color:var(--neon);margin-bottom:5px;position:relative} /* كان 30 */
-.timeline-track{height:65px;background:#050505;border-radius:12px;position:relative;overflow-x:auto;border:2px solid var(--neon)22} /* كان 120 */
+/* ===== تايم لاين رفيع ===== */
+.timeline-wrap{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:8px;margin-top:10px}
+.timeline-controls{display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.9em}
+.zoom-btn{background:var(--neon);color:#000;border:none;padding:4px 10px;border-radius:6px;font-weight:900;cursor:pointer;font-size:0.9em}
+.time-ruler{height:18px;display:flex;font-size:0.7em;color:var(--neon);margin-bottom:3px}
+.timeline-track{height:45px;background:#050505;border-radius:10px;position:relative;overflow-x:auto;border:1px solid var(--neon)22} /* 45px بس */
 .track-row{height:100%;position:relative;display:flex;align-items:center;min-width:8000px}
-.clip-item{height:50px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:10px;margin:0 3px;position:relative;cursor:grab;display:flex;align-items:center;padding:5px;min-width:130px;box-shadow:0 0 15px var(--neon);font-size:0.8em} /* كان 90 */
-.clip-item.selected{border:4px solid #fff!important;box-shadow:0 0 30px #fff}
-.trim-handle{position:absolute;width:10px;height:100%;background:#fff;top:0;cursor:ew-resize;opacity:0.95} /* كان 12 */
-.trim-left{left:0;border-radius:10px 0 0 10px}
-.trim-right{right:0;border-radius:0 10px 10px 0}
-.playhead{position:absolute;top:0;width:3px;height:100%;background:red;z-index:100;box-shadow:0 0 15px red} /* كان 4 */
-.watermark{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.5);color:var(--neon);padding:5px 12px;border-radius:20px;font-size:0.7em;opacity:0.7} /* صغرنا */
+.clip-item{height:35px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:6px;margin:0 2px;position:relative;cursor:grab;display:flex;align-items:center;padding:3px;min-width:100px;font-size:0.7em} /* 35px بس */
+.clip-item.selected{border:2px solid #fff!important}
+.trim-handle{position:absolute;width:8px;height:100%;background:#fff;top:0;cursor:ew-resize;opacity:0.95}
+.trim-left{left:0;border-radius:6px 0 0 6px}
+.trim-right{right:0;border-radius:0 6px 6px 0}
+.playhead{position:absolute;top:0;width:2px;height:100%;background:red;z-index:100}
+.watermark{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.5);color:var(--neon);padding:3px 8px;border-radius:15px;font-size:0.6em;opacity:0.7}
 .outro{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#000 0%,#1a1a2e 100%);display:none;z-index:20;border-radius:15px;flex-direction:column;justify-content:center;align-items:center}
-.outro-logo{font-size:3em;font-weight:900;color:var(--neon);text-shadow:0 0 50px var(--neon);animation:pulse 1.5s infinite} /* كان 4em */
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.outro-logo{font-size:2.5em;font-weight:900;color:var(--neon);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
 
-<div class="topbar">
-  <div class="logo">🎬 SHADOWKING VIDEO PRO ULTRA</div>
-</div>
+<div class="topbar"><div class="logo">🎬 SHADOWKING PRO</div></div>
 
 <div class="container">
 <div class="main-grid">
@@ -63,14 +59,14 @@ select,input{width:100%;padding:12px;background:rgba(0,0,0,0.5);color:#fff;borde
     <div class="preview-area">
       <div class="watermark">SHADOWKING</div>
       <div class="outro" id="outro"><div class="outro-logo">🎬 SHADOWKING</div></div>
-      <label class="btn" onclick="document.getElementById('videoInput').click()">📁 اسحب الفيديو هنا</label>
+      <label class="btn" onclick="document.getElementById('videoInput').click()">📁 اسحب الفيديو</label>
       <input type="file" id="videoInput" accept="video/*" style="display:none">
       <video id="preview" controls></video>
     </div>
 
     <div class="timeline-wrap">
       <div class="timeline-controls">
-        <h3>📼 التايم لاين الاحترافي</h3>
+        <h3>📼 التايم لاين</h3>
         <div>
           <button class="zoom-btn" onclick="zoomOut()">-</button>
           <span id="zoomLevel">100%</span>
@@ -81,7 +77,7 @@ select,input{width:100%;padding:12px;background:rgba(0,0,0,0.5);color:#fff;borde
       <div class="timeline-track">
         <div class="playhead" id="playhead"></div>
         <div class="track-row" id="trackRow">
-          <div class="btn" style="width:60px;padding:8px" onclick="document.getElementById('videoInput').click()">+</div> <!-- صغرنا الزر -->
+          <div class="btn" style="width:50px;padding:5px;font-size:0.8em" onclick="document.getElementById('videoInput').click()">+</div>
         </div>
       </div>
     </div>
@@ -96,48 +92,33 @@ select,input{width:100%;padding:12px;background:rgba(0,0,0,0.5);color:#fff;borde
 
     <div id="tools" class="tab">
       <div class="card"><h3>القص والدمج</h3>
-        <button class="btn" onclick="splitClip()">✂️ قص من المؤشر</button>
+        <button class="btn" onclick="splitClip()">✂️ قص</button>
         <button class="btn" onclick="mergeVideo()">🔗 دمج</button>
-        <button class="btn" onclick="duplicateClip()">📋 نسخ</button>
         <button class="btn" onclick="deleteClip()">🗑️ حذف</button>
       </div>
-      <div class="card"><h3>النص واللوجو</h3>
-        <input type="text" id="textInput" placeholder="اكتب النص">
-        <button class="btn" onclick="addTextClip()">📝 اضافة نص</button>
-      </div>
-      <div class="card"><h3>السرعة والفلاتر</h3>
-        <select id="speed"><option>0.25x</option><option>0.5x</option><option selected>1x</option><option>2x</option><option>4x</option></select>
-        <button class="btn" onclick="changeSpeed()">تطبيق</button>
-        <select id="filter"><option value="none">بدون</option><option value="grayscale(100%)">ابيض واسود</option><option value="sepia(100%)">سيبيا</option></select>
-        <button class="btn" onclick="applyFilter()">فلتر</button>
+      <div class="card"><h3>نص</h3>
+        <input type="text" id="textInput" placeholder="النص">
+        <button class="btn" onclick="addTextClip()">📝 اضافة</button>
       </div>
     </div>
 
     <div id="ai" class="tab">
       <div class="card"><h3>🤖 AI</h3>
-        <button class="btn" onclick="removeBg()">🎭 حذف الخلفية</button>
-        <button class="btn" onclick="subtitles()">📜 ترجمة تلقائية</button>
-        <button class="btn" onclick="upscale()">📈 تكبير 8K</button>
+        <button class="btn" onclick="removeBg()">🎭 حذف خلفية</button>
+        <button class="btn" onclick="subtitles()">📜 ترجمة</button>
         <button class="btn" onclick="autoCut()">✂️ قص تلقائي</button>
       </div>
     </div>
 
     <div id="export" class="tab active">
-      <div class="card"><h3>⬇️ التصدير الاحترافي</h3>
-        <label>الجودة:</label>
-        <select id="quality"><option>720p</option><option selected>1080p</option><option>2K</option><option>4K</option><option>8K</option></select>
-
-        <label>FPS:</label>
+      <div class="card"><h3>⬇️ التصدير</h3>
+        <select id="quality"><option>720p</option><option selected>1080p</option><option>4K</option></select>
         <select id="fps">
-          <option>30 FPS</option><option>60 FPS</option><option>90 FPS</option><option>120 FPS</option>
-          <option>144 FPS</option><option>165 FPS</option><option>200 FPS</option>
-          <option>240 FPS</option><option>300 FPS</option><option>360 FPS</option>
+          <option>30 FPS</option><option>60 FPS</option><option>120 FPS</option>
+          <option>144 FPS</option><option>240 FPS</option><option>360 FPS</option>
         </select>
-
-        <label>الصيغة:</label>
-        <select id="format"><option>MP4</option><option>MOV</option><option>MKV</option></select>
-
-        <button class="btn btn-export" onclick="exportVideo()">تصدير مع الختام والعلامة</button>
+        <select id="format"><option>MP4</option><option>MOV</option></select>
+        <button class="btn btn-export" onclick="exportVideo()">تصدير</button>
       </div>
     </div>
 
@@ -146,11 +127,10 @@ select,input{width:100%;padding:12px;background:rgba(0,0,0,0.5);color:#fff;borde
 </div>
 
 <script>
-// الجسيمات التقيلة
 const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-let particles=[];for(let i=0;i<150;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.4,dy:(Math.random()-0.5)*0.4})}
-function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00e5ff33';particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1});requestAnimationFrame(animate)}animate();
+let particles=[];for(let i=0;i<80;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3})}
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00e5ff22';particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1});requestAnimationFrame(animate)}animate();
 
 const video = document.getElementById('preview');
 const playhead = document.getElementById('playhead');
@@ -166,7 +146,7 @@ document.getElementById('videoInput').onchange=e=>{
 function addClipToTimeline(name){
   const clip = document.createElement('div');clip.className = 'clip-item';
   clip.innerHTML = `<span>${name}</span><div class="trim-handle trim-left"></div><div class="trim-handle trim-right"></div>`;
-  clip.onclick = (e) => {document.querySelectorAll('.clip-item').forEach(c=>c.classList.remove('selected'));clip.classList.add('selected');selectedClip = clip;}
+  clip.onclick = () => {document.querySelectorAll('.clip-item').forEach(c=>c.classList.remove('selected'));clip.classList.add('selected');selectedClip = clip;}
   trackRow.insertBefore(clip, trackRow.lastElementChild);
 }
 
@@ -176,19 +156,17 @@ function zoomOut(){if(zoom>0.4){zoom-=0.2;trackRow.style.transform=`scaleX(${zoo
 function generateTimeRuler(){
   const ruler = document.getElementById('timeRuler');ruler.innerHTML = '';
   for(let i=0;i<=40;i++){
-    const mark = document.createElement('div');mark.className = 'time-mark';
+    const mark = document.createElement('div');mark.style.position='absolute';
     mark.style.left = (i*200*zoom)+'px';mark.textContent = `00:${i<10?'0'+i:i}`;
     ruler.appendChild(mark);
   }
 }
 
 function openTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active')}
-function splitClip(){alert('✅ تم القص عند '+video.currentTime.toFixed(2)+'s')}
-function mergeVideo(){alert('✅ تم الدمج')}function duplicateClip(){alert('📋 تم النسخ')}function deleteClip(){if(selectedClip) selectedClip.remove()}
+function splitClip(){alert('قص عند '+video.currentTime.toFixed(1)+'s')}
+function mergeVideo(){alert('تم الدمج')}function deleteClip(){if(selectedClip) selectedClip.remove()}
 function addTextClip(){const text=prompt('النص:');if(text) addClipToTimeline(text)}
-function changeSpeed(){video.playbackRate=document.getElementById('speed').value}
-function applyFilter(){video.style.filter=document.getElementById('filter').value}
-function removeBg(){alert('🤖 AI حذف الخلفية')}function subtitles(){alert('🤖 AI ترجمة')}function upscale(){alert('🤖 AI تكبير 8K')}function autoCut(){alert('🤖 AI قص تلقائي')}
+function removeBg(){alert('AI حذف خلفية')}function subtitles(){alert('AI ترجمة')}function autoCut(){alert('AI قص')}
 
 video.ontimeupdate = () => {
   if(video.duration){
@@ -201,10 +179,9 @@ video.onplay = () => {outro.style.display = 'none'}
 function exportVideo(){
   const q = document.getElementById('quality').value;
   const f = document.getElementById('fps').value;
-  const fmt = document.getElementById('format').value;
   outro.style.display='flex';
-  alert(`⬇️ تصدير:\n${q}\n${f}\n${fmt}\nمع علامة SHADOWKING`);
-  setTimeout(()=>outro.style.display='none',3000)
+  alert(`تصدير: ${q} - ${f}`);
+  setTimeout(()=>outro.style.display='none',2000)
 }
 
 document.addEventListener('keydown',e=>{
