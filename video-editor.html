@@ -2,171 +2,120 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHADOWKING VIDEO PRO</title>
 <style>
 :root{--neon:#00ff88;--neon2:#00e5ff}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
-#app{width:100vw;height:100vh;display:flex;flex-direction:column;position:absolute;top:0;left:0}
+body{background:#000;color:#fff;overflow:hidden}
 
+/* نخليها بالعرض اجباري ونكبر الخط */
 @media (orientation: portrait) {
-  #app {transform: rotate(90deg) translate(-50%, -50%);transform-origin: top left;width: 100vh;height: 100vw;top: 50%;left: 50%;}
+  body {transform: rotate(90deg);transform-origin: left top;width: 100vh;height: 100vw;position: absolute;top: 100vw;left: 0;}
 }
 
-.topbar{background:linear-gradient(90deg,#000,#0a0a0a);height:55px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
-.logo{color:var(--neon);font-weight:900;font-size:16px;text-shadow:0 0 15px var(--neon)}
-.export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:9px 22px;border-radius:12px;font-weight:900;cursor:pointer}
+.topbar{background:#0a0a0a;height:60px;display:flex;align-items:center;padding:0 20px;border-bottom:3px solid var(--neon)}
+.logo{color:var(--neon);font-weight:900;font-size:20px;text-shadow:0 0 15px var(--neon)}
+.export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:12px 25px;border-radius:15px;font-weight:900;font-size:15px;cursor:pointer}
 
-.container{display:flex;flex:1;overflow:hidden}
-.sidebar-right{width:90px;background:#050505;padding:10px 5px;border-left:2px solid var(--neon);display:flex;flex-direction:column;gap:8px}
-.tool{background:linear-gradient(180deg,#111,#000);border:1px solid #222;border-radius:12px;padding:10px 5px;text-align:center;font-size:10px;color:#aaa;cursor:pointer}
-.tool.active{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;box-shadow:0 0 20px var(--neon);font-weight:900}
+.main{display:flex;height:calc(100vh - 60px - 80px)}
+.sidebar{width:110px;background:#050505;border-left:3px solid var(--neon);padding:15px 8px;display:flex;flex-direction:column;gap:12px}
+.tool{height:70px;background:#111;border:2px solid #333;border-radius:15px;color:#aaa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;cursor:pointer;font-weight:700}
+.tool.active{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border-color:var(--neon);box-shadow:0 0 20px var(--neon)}
 
-.player-area{flex:1;background:#000;display:flex;flex-direction:column;padding:10px;gap:10px}
-.preview{height:200px;background:#0a0a0a;border:2px solid #222;border-radius:15px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.preview video{max-width:100%;max-height:100%}
-.preview-text{color:#555;font-size:14px;text-align:center}
-.controls{display:flex;gap:8px;justify-content:center;padding:10px 0}
-.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-size:12px}
-.btn.danger{background:linear-gradient(90deg,#ff0044,#ff0066)}
+.center{flex:1;display:flex;flex-direction:column;padding:15px;gap:15px}
+.preview{flex:1;background:#0a0a0a;border:3px solid #333;border-radius:20px;display:flex;align-items:center;justify-content:center;position:relative}
+.preview video{width:100%;height:100%;object-fit:contain}
+.upload-big{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:25px 40px;border-radius:20px;font-size:18px;font-weight:900;cursor:pointer}
 
-.timeline-pro{background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:8px;flex:1;display:flex;flex-direction:column}
-.time-ruler{display:flex;height:20px;font-size:10px;color:#555;gap:60px;padding-right:10px;border-bottom:1px solid #222}
-.tracks{flex:1;position:relative;background:#050505;border-radius:6px;overflow-x:auto;margin-top:5px}
-.track-item{height:40px;background:linear-gradient(90deg,var(--neon),var(--neon2));margin:5px;border-radius:5px;display:flex;align-items:center;padding:0 10px;color:#000;font-weight:900;font-size:11px;position:absolute;cursor:grab;min-width:120px}
-.playhead{position:absolute;top:0;bottom:0;width:3px;background:red;z-index:10;left:50px;box-shadow:0 0 10px red} /* الهيد الاحمر */
+.timeline{height:140px;background:#0a0a0a;border:2px solid #333;border-radius:15px;padding:10px}
+.time{height:25px;color:#666;font-size:12px;display:flex;gap:80px;padding-right:10px}
+.tracks{height:90px;background:#000;border-radius:10px;position:relative;overflow-x:auto}
+.track{height:50px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:8px;position:absolute;top:20px;left:50px;width:250px;display:none;align-items:center;padding:0 15px;color:#000;font-weight:900}
+.head{position:absolute;width:4px;height:100%;background:red;left:50px;box-shadow:0 0 10px red}
 
-.sidebar-bottom{height:70px;background:#050505;border-top:2px solid var(--neon);display:flex;gap:5px;padding:8px}
-.tool-bottom{flex:1;background:linear-gradient(180deg,#111,#000);border:1px solid #222;border-radius:12px;padding:8px 5px;text-align:center;font-size:11px;color:#aaa;cursor:pointer}
-.tool-bottom.active{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;box-shadow:0 0 15px var(--neon);font-weight:900}
+.controls{height:50px;display:flex;gap:15px;justify-content:center}
+.btn{padding:15px 30px;border:none;border-radius:15px;font-weight:900;font-size:15px;cursor:pointer}
+.play{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000}
+.pause{background:linear-gradient(90deg,#00e5ff,#00aaff);color:#000}
+.back{background:#ff0044;color:#fff}
 
-.sidebar-left{width:260px;background:#050505;padding:10px 8px;border-right:2px solid var(--neon);overflow-y:auto;display:none}
-.sidebar-left.show{display:block}
-.tab{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:10px;font-size:13px}
-.grid-scroll{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-height:300px;overflow-y:auto}
-.grid-item{background:#111;border:1px solid #333;padding:10px;border-radius:8px;font-size:11px;color:#aaa;cursor:pointer;text-align:center}
-.grid-item.active{background:linear-gradient(180deg,var(--neon),var(--neon2));color:#000;font-weight:900;box-shadow:0 0 15px var(--neon)}
-.drop-zone{border:2px dashed var(--neon);border-radius:10px;padding:20px;text-align:center;color:#666;cursor:pointer;margin-bottom:10px}
+.bottom{height:80px;background:#050505;border-top:3px solid var(--neon);display:flex;gap:10px;padding:10px}
+.btool{flex:1;background:#111;border:2px solid #333;border-radius:15px;color:#aaa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;cursor:pointer;font-weight:700}
+.btool.active{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border-color:var(--neon)}
 </style>
 </head>
 <body>
 
-<div id="app">
-  <div class="topbar">
-    <div class="logo">🎬 SHADOWKING VIDEO PRO</div>
-    <button class="export-btn">تصدير 4K</button>
+<div class="topbar">
+  <div class="logo">🎬 SHADOWKING VIDEO PRO</div>
+  <button class="export-btn">تصدير 4K</button>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="tool active" onclick="document.getElementById('videoInput').click()">📁<br>رفع فيديو</div>
   </div>
 
-  <div class="container">
-    <div class="sidebar-right">
-      <div class="tool active" data-tab="media">📁<br>وسائط</div>
+  <div class="center">
+    <div class="preview" id="preview">
+      <button class="upload-big" onclick="document.getElementById('videoInput').click()">+ اضغط لاختيار فيديو MP4</button>
     </div>
 
-    <div class="player-area">
-      <div class="preview" id="preview">
-        <div class="preview-text">اسحب الفيديو هنا</div>
-      </div>
-      <div class="controls">
-        <button class="btn" id="playBtn">▶️ تشغيل</button>
-        <button class="btn" id="pauseBtn">⏸️ ايقاف</button>
-        <button class="btn danger" onclick="location.href='audio.html'">⬅️ رجوع</button>
-      </div>
-
-      <div class="timeline-pro">
-        <div class="time-ruler"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span><span>0:20</span></div>
-        <div class="tracks" id="tracks">
-          <div class="playhead" id="playhead"></div>
-          <div class="track-item" style="width:200px; left:50px;display:none;" id="videoTrack">Video</div>
-        </div>
-      </div>
-      <input type="file" id="videoInput" accept="video/*" style="display:none">
+    <div class="controls">
+      <button class="btn play" onclick="play()">▶️ تشغيل</button>
+      <button class="btn pause" onclick="pause()">⏸️ ايقاف</button>
+      <button class="btn back" onclick="location.href='audio.html'">⬅️ رجوع</button>
     </div>
 
-    <div class="sidebar-left" id="leftPanel">
-      <div id="filter-tab">
-        <div class="tab">100 فلتر</div>
-        <div class="grid-scroll" id="filterGrid"></div>
-      </div>
-      <div id="text-tab" style="display:none">
-        <div class="tab">اضافة نص</div>
-        <input type="text" id="textInput" placeholder="اكتب النص" style="width:100%;padding:10px;background:#111;border:1px solid #333;color:#fff;border-radius:6px">
-      </div>
-      <div id="transition-tab" style="display:none">
-        <div class="tab">انتقالات</div>
-        <div class="grid-scroll">
-          <div class="grid-item">تلاشي</div>
-          <div class="grid-item">تمرير</div>
-          <div class="grid-item">تكبير</div>
-        </div>
+    <div class="timeline">
+      <div class="time"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span><span>0:20</span></div>
+      <div class="tracks">
+        <div class="head" id="head"></div>
+        <div class="track" id="track">الفيديو تبعك</div>
       </div>
     </div>
-  </div>
-
-  <!-- الازرار اللي تحت اللي علمت عليها -->
-  <div class="sidebar-bottom">
-    <div class="tool-bottom" data-tab="media">📁<br>وسائط</div>
-    <div class="tool-bottom" data-tab="filter">✨<br>فلاتر</div>
-    <div class="tool-bottom" data-tab="text">T<br>نص</div>
-    <div class="tool-bottom" data-tab="transition">🔄<br>انتقال</div>
   </div>
 </div>
 
+<div class="bottom">
+  <div class="btool active">📁<br>وسائط</div>
+  <div class="btool">✨<br>فلاتر</div>
+  <div class="btool">T<br>نص</div>
+  <div class="btool">🔄<br>انتقال</div>
+</div>
+
+<input type="file" id="videoInput" accept="video/*" style="display:none">
+
 <script>
-let videoElement, isPlaying=false, animationId;
+let vid, playing=false, anim;
 
-// رفع الفيديو
-document.querySelector('.drop-zone')?.addEventListener('click',()=>document.getElementById('videoInput').click());
+// لما تختار فيديو
 document.getElementById('videoInput').onchange = e => {
-  const file = e.target.files[0]; if(!file) return;
-  videoElement = document.createElement('video');
-  videoElement.src = URL.createObjectURL(file);
+  const file = e.target.files[0];
+  if(!file) return;
+  vid = document.createElement('video');
+  vid.src = URL.createObjectURL(file);
   document.getElementById('preview').innerHTML = '';
-  document.getElementById('preview').appendChild(videoElement);
-  document.getElementById('videoTrack').style.display = 'flex';
-  document.getElementById('videoTrack').innerText = file.name;
+  document.getElementById('preview').appendChild(vid);
+  document.getElementById('track').style.display = 'flex';
+  document.getElementById('track').innerText = file.name;
 };
 
-// تشغيل مع تحريك الهيد الاحمر
-document.getElementById('playBtn').onclick = () => {
-  if(!videoElement) return alert('اختار فيديو اول');
-  videoElement.play(); isPlaying=true; movePlayhead();
-};
-document.getElementById('pauseBtn').onclick = () => {
-  if(videoElement) videoElement.pause(); isPlaying=false; cancelAnimationFrame(animationId);
-};
-
-function movePlayhead(){
-  if(!isPlaying) return;
-  let pos = parseInt(document.getElementById('playhead').style.left);
-  pos += 3;
-  if(pos > 500) pos = 50;
-  document.getElementById('playhead').style.left = pos + 'px';
-  animationId = requestAnimationFrame(movePlayhead);
+function play(){
+  if(!vid) return alert('اختار فيديو اول من زر "رفع فيديو"');
+  vid.play(); playing=true; moveHead();
 }
-
-// الازرار اللي تحت - هاي اللي كانت خربانة
-document.querySelectorAll('.tool-bottom').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.tool-bottom').forEach(t=>t.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('leftPanel').classList.add('show');
-    document.querySelectorAll('#filter-tab,#text-tab,#transition-tab').forEach(el=>el.style.display='none');
-    document.getElementById(btn.dataset.tab+'-tab').style.display='block';
-  }
-});
-
-// 100 فلتر
-const filters = ["ساطع","داكن","سينمائي","ابيض اسود","نيون","باستيل"];
-for(let i=6; i<100; i++) filters.push(`فلتر ${i+1}`);
-const filterGrid = document.getElementById('filterGrid');
-filters.forEach(name => {
-  const div = document.createElement('div');
-  div.className = 'grid-item';
-  div.innerText = name;
-  div.onclick = () => {document.querySelectorAll('#filterGrid.grid-item').forEach(b=>b.classList.remove('active')); div.classList.add('active');}
-  filterGrid.appendChild(div);
-});
+function pause(){
+  if(vid) vid.pause(); playing=false; cancelAnimationFrame(anim);
+}
+function moveHead(){
+  if(!playing) return;
+  let p = parseInt(document.getElementById('head').style.left) || 50;
+  p += 4; if(p>600) p=50;
+  document.getElementById('head').style.left = p+'px';
+  anim = requestAnimationFrame(moveHead);
+}
 </script>
 </body>
 </html>
