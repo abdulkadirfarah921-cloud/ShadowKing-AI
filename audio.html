@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOWKING AI STUDIO</title>
+<title>SHADOWKING AI</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:#000;color:#FFC107;text-align:center;padding:40px}
@@ -17,7 +17,7 @@ input:focus{border-color:#FFC107;box-shadow:0 0 10px #FFC107}
 .btn:hover{background:#FFD700;transform:scale(1.03);box-shadow:0 0 15px #FFC107}
 .btn-outline{background:transparent;color:#FFC107;border:2px solid #FFC107}
 .btn-outline:hover{background:#FFC107;color:#000}
-.btn-video{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000}
+.btn-video{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000;border:none}
 .btn-video:hover{box-shadow:0 0 15px #00ff88}
 .divider{color:#555;margin:15px 0;font-weight:700;font-size:14px}
 .back{background:#222;color:#aaa;border:none;margin-top:10px}
@@ -39,12 +39,12 @@ input:focus{border-color:#FFC107;box-shadow:0 0 10px #FFC107}
 
 <div class="box">
 <div class="label">عندك صوت وتريد تعدله؟</div>
-<button class="btn btn-outline" onclick="goToEditor()">فتح محر الصوت 🎵</button>
+<button class="btn btn-outline" onclick="goToEditor()">🎵 فتح محر الصوت</button>
 </div>
 
 <div class="box">
 <div class="label">عندك فيديو وتريد تعدله؟</div>
-<button class="btn btn-video" onclick="goToVideo()">فتح محر الفيديو 🎬</button>
+<button class="btn btn-video" onclick="goToVideo()">🎬 فتح محر الفيديو</button>
 </div>
 
 <button class="btn back" onclick="location.href='index.html'">⬅️ الرجوع للرئيسية</button>
@@ -74,15 +74,15 @@ function makeAI(){
   localStorage.setItem('audioName', prompt);
 
   alert('تم توليد الصوت! سيتم نقلك للمحر الان');
-  window.location.href = 'audio-editor.html';
+  window.location.href = 'audio-editor.html'; // هون بدو يدخل على المحر
 }
 
 function goToEditor(){
-  window.location.href = 'audio-editor.html'; // ده ملف المحر اللي عندك
+  window.location.href = 'audio-editor.html'; // ملف محر الصوت
 }
 
 function goToVideo(){
-  window.location.href = 'audio.html'; // اعمل ملف جديد بنفس الاسم للفيديو
+  window.location.href = 'video-editor.html'; // ملف محر الفيديو
 }
 
 function toWav(buffer){
