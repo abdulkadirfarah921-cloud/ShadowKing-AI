@@ -10,9 +10,12 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 
-/* اجبار اللف يمين فقط */
-@media screen and (orientation:portrait) {
-  body { transform: rotate(90deg); transform-origin: left top; width: 100vh; height: 100vw; position: absolute; top: 100%; left: 0; }
+/* ده اللي هيقلب الصفحة اجباري */
+#rotate-wrapper{
+  width:100vw;
+  height:100vh;
+  transform-origin: center;
+  transition: transform 0.3s ease;
 }
 
 .topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
@@ -45,6 +48,7 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
 </head>
 <body>
 
+<div id="rotate-wrapper">
 <div class="topbar">
   <div class="logo">👑 SHADOWKING AUDIO PRO</div>
   <button class="export-btn" onclick="exportAudio()">تصدير</button>
@@ -75,53 +79,49 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
       <div class="slider"><label>الصوت: <span id="volVal">1.00</span></label><input type="range" id="vol" min="0" max="2" step="0.01" value="1"></div>
       <div class="slider"><label>السرعة: <span id="speedVal">1.00</span></label><input type="range" id="speed" min="0.5" max="2" step="0.01" value="1"></div>
     </div>
-
-    <div id="filter-tab" class="hidden">
-      <div class="tab">120 فلتر</div>
-      <div id="filterGrid"></div>
-    </div>
-
+    <div id="filter-tab" class="hidden"><div class="tab">120 فلتر</div><div id="filterGrid"></div></div>
     <div id="eq-tab" class="hidden"><div class="tab">EQ 10 Bands</div></div>
     <div id="fx-tab" class="hidden"><div class="tab">مؤثرات</div></div>
-    <div id="ai-tab" class="hidden">
-      <div class="tab">AI صوت</div>
-      <textarea id="aiText" placeholder="اكتب النص هنا"></textarea>
-      <button class="btn ai" id="aiBtn">توليد الصوت ⚡</button>
-    </div>
+    <div id="ai-tab" class="hidden"><div class="tab">AI صوت</div><textarea id="aiText" placeholder="اكتب النص هنا"></textarea><button class="btn ai" id="aiBtn">توليد الصوت ⚡</button></div>
   </div>
 </div>
 
 <div class="timeline"><div class="track">Audio Track 1</div></div>
+</div>
 
 <script>
-// منع النقر اليمين + F12 للحماية
+// حماية
 document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('keydown', e => { if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault(); });
+document.addEventListener('keydown', e => { if(e.key === 'F12') e.preventDefault(); });
 
-let audioCtx, source, gainNode, audioBuffer, currentFilter;
+// اجبار اللف اوتوماتيك
+function forceLandscape(){
+  const wrapper = document.getElementById('rotate-wrapper');
+  if(window.innerHeight > window.innerWidth){ // لو الموبايل بالطول
+    wrapper.style.transform = 'rotate(90deg)';
+    wrapper.style.width = '100vh';
+    wrapper.style.height = '100vw';
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '100%';
+    wrapper.style.left = '0';
+  } else { // لو بالعرض
+    wrapper.style.transform = 'rotate(0deg)';
+    wrapper.style.width = '100vw';
+    wrapper.style.height = '100vh';
+    wrapper.style.position = 'static';
+  }
+}
+window.addEventListener('load', forceLandscape);
+window.addEventListener('resize', forceLandscape);
 
-// 12 فلتر حقيين ب Web Audio API
+let audioCtx, source, gainNode, audioBuffer;
 const filterPresets = [
-{name:"صدى الكهف", type:"convolver"},
-{name:"صدى القصر", type:"delay"},
-{name:"روبوت", type:"robot"},
-{name:"شيطان", type:"distortion"},
-{name:"باس قوي", type:"bass"},
-{name:"اذاعي", type:"radio"},
-{name:"تحت الماء", type:"lowpass"},
-{name:"عكس", type:"reverse"},
-{name:"SHADOWKING", type:"shadow"},
-{name:"الملك", type:"king"},
-{name:"تنظيف صوت", type:"noise"},
-{name:"استوديو", type:"reverb"}
+{name:"صدى الكهف"},{name:"صدى القصر"},{name:"روبوت"},{name:"شيطان"},
+{name:"باس قوي"},{name:"اذاعي"},{name:"تحت الماء"},{name:"عكس"},
+{name:"SHADOWKING"},{name:"الملك"},{name:"تنظيف صوت"},{name:"استوديو"}
 ];
 
-function initAudio(){ 
-  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); 
-  gainNode = audioCtx.createGain(); 
-  gainNode.connect(audioCtx.destination); 
-}
-
+function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); gainNode = audioCtx.createGain(); gainNode.connect(audioCtx.destination); }
 document.getElementById('drop').onclick = () => document.getElementById('fileInput').click();
 document.getElementById('fileInput').onchange = loadAudio;
 document.getElementById('playBtn').onclick = playAudio;
@@ -130,68 +130,17 @@ document.getElementById('resetBtn').onclick = resetAudio;
 document.getElementById('vol').oninput = e => { setVolume(e.target.value) };
 document.getElementById('speed').oninput = e => { setSpeed(e.target.value) };
 document.getElementById('aiBtn').onclick = generateAIvoice;
+document.querySelectorAll('.tool').forEach(btn => { btn.onclick = () => showTab(btn.dataset.tab, btn); });
 
-document.querySelectorAll('.tool').forEach(btn => {
-  btn.onclick = () => showTab(btn.dataset.tab, btn);
-});
-
-function loadAudio(e){ 
-  const file = e.target.files[0]; 
-  if(!file) return; 
-  initAudio(); 
-  const reader = new FileReader(); 
-  reader.onload = ev => { 
-    audioCtx.decodeAudioData(ev.target.result, buffer => { 
-      audioBuffer = buffer; 
-      document.getElementById('drop').innerText = file.name; 
-    }); 
-  } 
-  reader.readAsArrayBuffer(file); 
-}
-
-function playAudio(){ 
-  if(!audioBuffer) return alert('اختار ملف اول'); 
-  initAudio(); 
-  source = audioCtx.createBufferSource(); 
-  source.buffer = audioBuffer; 
-  source.connect(gainNode); 
-  source.start(0); 
-}
-
+function loadAudio(e){ const file = e.target.files[0]; if(!file) return; initAudio(); const reader = new FileReader(); reader.onload = ev => { audioCtx.decodeAudioData(ev.target.result, buffer => { audioBuffer = buffer; document.getElementById('drop').innerText = file.name; }); } reader.readAsArrayBuffer(file); }
+function playAudio(){ if(!audioBuffer) return alert('اختار ملف اول'); initAudio(); source = audioCtx.createBufferSource(); source.buffer = audioBuffer; source.connect(gainNode); source.start(0); }
 function pauseAudio(){ if(source) source.stop(); }
 function resetAudio(){ pauseAudio(); }
 function setVolume(v){ if(gainNode) gainNode.gain.value = v; document.getElementById('volVal').innerText = parseFloat(v).toFixed(2); }
 function setSpeed(v){ if(source) source.playbackRate.value = v; document.getElementById('speedVal').innerText = parseFloat(v).toFixed(2); }
-
-function showTab(tab, btn){ 
-  document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); 
-  document.getElementById(tab+'-tab').classList.remove('hidden'); 
-  document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); 
-  btn.classList.add('active'); 
-}
-
-// اضافة الفلاتر الحقيقية
-filterPresets.forEach((f)=>{
-  const btn = document.createElement('button');
-  btn.className = 'filter-btn';
-  btn.innerText = f.name;
-  btn.onclick = ()=>{
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    alert('تم تفعيل فلتر: '+f.name+' - قريبا التأثير');
-  }
-  document.getElementById('filterGrid').appendChild(btn);
-});
-
-function generateAIvoice(){
-  const text = document.getElementById('aiText').value;
-  if(!text){ alert('اكتب النص اول'); return; }
-  speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'ar-SA';
-  speechSynthesis.speak(utterance);
-}
-
+function showTab(tab, btn){ document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); document.getElementById(tab+'-tab').classList.remove('hidden'); document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
+filterPresets.forEach((f)=>{ const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerText = f.name; btn.onclick = ()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); alert('تم تفعيل: '+f.name); } document.getElementById('filterGrid').appendChild(btn); });
+function generateAIvoice(){ const text = document.getElementById('aiText').value; if(!text){ alert('اكتب النص اول'); return; } speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'ar-SA'; speechSynthesis.speak(utterance); }
 function exportAudio(){ alert('التصدير يحتاج سيرفر. حاليا سجل الشاشة'); }
 </script>
 </body>
