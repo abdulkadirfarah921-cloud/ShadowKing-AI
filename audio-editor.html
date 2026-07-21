@@ -1,248 +1,105 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHADOWKING AUDIO PRO</title>
 <style>
 :root{--neon:#00e5ff;--pink:#ff00ff}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:#000;color:#fff;overflow:hidden}
-@media (orientation: portrait) {
-  body {transform: rotate(90deg);transform-origin: left top;width: 100vh;height: 100vw;position: absolute;top: 100vw;left: 0;}
-}
+@media (orientation: portrait) {body {transform: rotate(90deg);transform-origin: left top;width: 100vh;height: 100vw;position: absolute;top: 100vw;left: 0;}}
 
-.topbar{height:55px;background:#0a0a0a;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
-.logo{color:var(--neon);font-weight:900;font-size:16px}
-.export{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;padding:9px 20px;border:none;border-radius:12px;font-weight:900}
+.topbar{height:50px;background:#0a0a0a;display:flex;align-items:center;padding:0 12px;border-bottom:2px solid var(--neon)}
+.logo{color:var(--neon);font-weight:900;font-size:14px}
+.export{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;padding:7px 15px;border:none;border-radius:10px;font-weight:900;font-size:12px}
 
-.container{display:flex;height:calc(100vh - 135px)}
-.sidebar{width:90px;background:#050505;border-left:2px solid var(--neon);padding:10px;display:flex;flex-direction:column;gap:8px}
-.tool{height:60px;background:#111;border:1px solid #333;border-radius:12px;color:#aaa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;cursor:pointer}
+.container{display:flex;height:calc(100vh - 120px)}
+.sidebar{width:80px;background:#050505;border-left:2px solid var(--neon);padding:8px;display:flex;flex-direction:column;gap:6px}
+.tool{height:55px;background:#111;border:1px solid #333;border-radius:10px;color:#aaa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;cursor:pointer}
 .tool.active{background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;font-weight:900}
 
-.center{flex:1;padding:10px;display:flex;flex-direction:column;gap:10px}
-.header{height:40px;background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;font-weight:900;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.center{flex:1;padding:8px;display:flex;flex-direction:column;gap:8px}
+.header{height:35px;background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;font-weight:900;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:12px}
+.player{height:120px;background:#0a0a0a;border:2px dashed var(--neon);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#666;font-size:12px;cursor:pointer}
 
-.player{height:180px;background:#0a0a0a;border:2px dashed var(--neon);border-radius:15px;display:flex;align-items:center;justify-content:center;color:#666;cursor:pointer}
-
-.controls{height:60px;display:flex;gap:10px;justify-content:center}
-.btn{padding:14px 25px;border:none;border-radius:12px;font-weight:900;cursor:pointer}
+.controls{height:45px;display:flex;gap:8px;justify-content:center}
+.btn{padding:10px 18px;border:none;border-radius:10px;font-weight:900;font-size:11px}
 .play{background:linear-gradient(90deg,var(--neon),var(--pink));color:#000}
 .pause{background:#00aaff;color:#000}
 .reset{background:#ff0044;color:#fff}
 
-/* تايم لاين زي كاب كات */
-.timeline{height:120px;background:#0a0a0a;border:2px solid #333;border-radius:15px;padding:8px}
-.time{display:flex;justify-content:space-between;color:#555;font-size:11px;padding:0 10px}
-.track-area{height:70px;background:#000;border-radius:10px;margin-top:5px;position:relative;overflow-x:auto}
-.track{height:50px;background:linear-gradient(90deg,var(--neon),var(--pink));border-radius:8px;position:absolute;top:10px;left:20px;min-width:300px;display:none;align-items:center;padding:0 15px;color:#000;font-weight:900;font-size:12px}
-.head{position:absolute;width:3px;height:100%;background:red;left:20px;box-shadow:0 0 10px red;z-index:10}
+/* التايم لاين صغير */
+.timeline{height:90px;background:#0a0a0a;border:2px solid #333;border-radius:12px;padding:6px}
+.time{display:flex;justify-content:space-between;color:#555;font-size:10px;padding:0 8px}
+.track-area{height:50px;background:#000;border-radius:8px;margin-top:4px;position:relative;overflow-x:auto}
+.track{height:40px;background:linear-gradient(90deg,var(--neon),var(--pink));border-radius:6px;position:absolute;top:5px;left:15px;min-width:200px;display:none;align-items:center;padding:0 10px;color:#000;font-weight:900;font-size:10px}
+.head{position:absolute;width:2px;height:100%;background:red;left:15px;box-shadow:0 0 8px red;z-index:10}
 
-.sidebar-left{width:280px;background:#050505;border-right:2px solid var(--neon);padding:10px;overflow-y:auto}
-.tab{background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;padding:10px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:10px}
-.slider{margin-bottom:12px}
-.slider label{display:flex;justify-content:space-between;color:#aaa;font-size:11px;margin-bottom:5px}
-input[type=range]{width:100%;accent-color:var(--neon)}
+.sidebar-left{width:240px;background:#050505;border-right:2px solid var(--neon);padding:8px;overflow-y:auto}
+.tab{background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;padding:8px;border-radius:6px;text-align:center;font-weight:900;margin-bottom:8px;font-size:11px}
+.slider{margin-bottom:10px}
+.slider label{display:flex;justify-content:space-between;color:#aaa;font-size:10px;margin-bottom:4px}
+input[type=range]{width:100%;height:4px;accent-color:var(--neon)}
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-height:350px;overflow-y:auto}
-.item{background:#111;border:1px solid #333;padding:8px;border-radius:8px;font-size:10px;text-align:center;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;max-height:250px;overflow-y:auto}
+.item{background:#111;border:1px solid #333;padding:6px;border-radius:6px;font-size:9px;text-align:center;cursor:pointer}
 .item.active{background:linear-gradient(90deg,var(--neon),var(--pink));color:#000;font-weight:900}
 
-.eq{display:flex;gap:4px;overflow-x:auto;height:160px;padding:10px}
-.eq-band{min-width:35px;display:flex;flex-direction:column;align-items:center;gap:5px}
-.eq-band input{writing-mode: bt-lr; -webkit-appearance: slider-vertical; width:20px; height:100px; accent-color:var(--neon)}
-.eq-band span{font-size:9px;color:#aaa}
+.eq{display:flex;gap:3px;overflow-x:auto;height:120px;padding:8px}
+.eq-band{min-width:30px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.eq-band input{writing-mode: bt-lr; -webkit-appearance: slider-vertical; width:18px; height:80px; accent-color:var(--neon)}
+.eq-band span{font-size:8px;color:#aaa}
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="logo">🎙️ SHADOWKING AUDIO PRO</div>
-  <button class="export" onclick="alert('تصدير قريبا')">تصدير</button>
-</div>
-
+<div class="topbar"><div class="logo">🎙️ SHADOWKING AUDIO PRO</div><button class="export">تصدير</button></div>
 <div class="container">
   <div class="sidebar">
     <div class="tool active" data-tab="basic">⚙️<br>Basic</div>
-    <div class="tool" data-tab="filter">✨<br>1000 فلتر</div>
-    <div class="tool" data-tab="eq">🎚️<br>30 EQ</div>
-    <div class="tool" data-tab="fx">🔊<br>100 مؤثر</div>
+    <div class="tool" data-tab="filter">✨<br>1000</div>
+    <div class="tool" data-tab="eq">🎚️<br>EQ</div>
+    <div class="tool" data-tab="fx">🔊<br>FX</div>
   </div>
-
   <div class="center">
-    <div class="header">مصنع الصوت الاحترافي</div>
-    <div class="player" id="player">اضغط لرفع ملف MP3</div>
-
+    <div class="header">مصنع الصوت</div>
+    <div class="player" id="player">اضغط لرفع MP3</div>
     <div class="controls">
       <button class="btn play" id="play">▶️ تشغيل</button>
       <button class="btn pause" id="pause">⏸️ ايقاف</button>
-      <button class="btn reset" id="reset">🔄 اعادة</button>
+      <button class="btn reset" id="reset">🔄</button>
     </div>
-
     <div class="timeline">
-      <div class="time"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span><span>0:20</span></div>
-      <div class="track-area">
-        <div class="head" id="head"></div>
-        <div class="track" id="track"></div>
-      </div>
+      <div class="time"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span></div>
+      <div class="track-area"><div class="head" id="head"></div><div class="track" id="track"></div></div>
     </div>
     <input type="file" id="file" accept="audio/*" style="display:none">
   </div>
-
   <div class="sidebar-left">
-    <div id="basic-tab">
-      <div class="tab">الاعدادات الاساسية</div>
-      <div class="slider">
-        <label><span>الصوت</span><span id="volVal">1.00</span></label>
-        <input type="range" id="vol" min="0" max="2" step="0.01" value="1">
-      </div>
-      <div class="slider">
-        <label><span>السرعة</span><span id="speedVal">1.00</span></label>
-        <input type="range" id="speed" min="0.5" max="2" step="0.01" value="1">
-      </div>
+    <div id="basic-tab"><div class="tab">اساسي</div>
+      <div class="slider"><label><span>الصوت</span><span id="volVal">1.00</span></label><input type="range" id="vol" min="0" max="2" step="0.01" value="1"></div>
+      <div class="slider"><label><span>السرعة</span><span id="speedVal">1.00</span></label><input type="range" id="speed" min="0.5" max="2" step="0.01" value="1"></div>
     </div>
-
-    <div id="filter-tab" style="display:none">
-      <div class="tab">1000 فلتر بدون تكرار</div>
-      <div class="grid" id="filterGrid"></div>
-    </div>
-
-    <div id="eq-tab" style="display:none">
-      <div class="tab">EQ 30 Band</div>
-      <div class="eq" id="eqGrid"></div>
-    </div>
-
-    <div id="fx-tab" style="display:none">
-      <div class="tab">100 مؤثر</div>
-      <div class="grid" id="fxGrid"></div>
-    </div>
+    <div id="filter-tab" style="display:none"><div class="tab">1000 فلتر</div><div class="grid" id="filterGrid"></div></div>
+    <div id="eq-tab" style="display:none"><div class="tab">EQ 30</div><div class="eq" id="eqGrid"></div></div>
+    <div id="fx-tab" style="display:none"><div class="tab">100 مؤثر</div><div class="grid" id="fxGrid"></div></div>
   </div>
 </div>
-
 <script>
-let audioCtx, source, gainNode, audioBuffer, duration=0, playing=false, anim;
+let audioCtx, source, gainNode, audioBuffer, duration=0, playing=false, anim, currentTime=0, start=0;
 const freqs = [31,62,125,250,500,1000,2000,4000,8000,16000,20,40,80,160,320,640,1280,2560,5120,10240,25,50,100,200,400,800,1500,3000,6000,12000];
 let filters = [];
-
-function init(){
-  if(!audioCtx) audioCtx = new AudioContext();
-  gainNode = audioCtx.createGain();
-  filters = freqs.map(f => {
-    let flt = audioCtx.createBiquadFilter();
-    flt.type = "peaking"; flt.frequency.value = f; flt.Q.value = 1; flt.gain.value = 0;
-    return flt;
-  });
-  let last = gainNode;
-  filters.reverse().forEach(f => {f.connect(last); last = f;});
-  last.connect(audioCtx.destination);
-}
-
-// رفع الملف
+function init(){if(!audioCtx) audioCtx = new AudioContext();gainNode = audioCtx.createGain();filters = freqs.map(f => {let flt = audioCtx.createBiquadFilter();flt.type = "peaking";flt.frequency.value = f;flt.Q.value = 1;flt.gain.value = 0;return flt;});let last = gainNode;filters.reverse().forEach(f => {f.connect(last); last = f;});last.connect(audioCtx.destination);}
 document.getElementById('player').onclick = () => document.getElementById('file').click();
-document.getElementById('file').onchange = e => {
-  let file = e.target.files[0]; if(!file) return;
-  init();
-  let reader = new FileReader();
-  reader.onload = ev => {
-    audioCtx.decodeAudioData(ev.target.result, buf => {
-      audioBuffer = buf; duration = buf.duration;
-      document.getElementById('player').innerText = file.name;
-      document.getElementById('track').style.display = 'flex';
-      document.getElementById('track').innerText = file.name;
-      let width = Math.max(300, duration * 20);
-      document.getElementById('track').style.width = width + 'px';
-    });
-  }
-  reader.readAsArrayBuffer(file);
-};
-
-// تشغيل
-document.getElementById('play').onclick = () => {
-  if(!audioBuffer) return alert('اختار ملف اول');
-  if(playing) return;
-  init();
-  source = audioCtx.createBufferSource();
-  source.buffer = audioBuffer;
-  source.playbackRate.value = parseFloat(document.getElementById('speed').value);
-  source.connect(filters[filters.length-1]);
-  source.connect(gainNode);
-  source.start(0, currentTime || 0);
-  playing = true; start = audioCtx.currentTime - (currentTime || 0);
-  moveHead();
-};
-
-let currentTime = 0, start = 0;
-document.getElementById('pause').onclick = () => {
-  if(source && playing){
-    currentTime = audioCtx.currentTime - start;
-    source.stop(); playing = false; cancelAnimationFrame(anim);
-  }
-};
-document.getElementById('reset').onclick = () => {
-  if(source) source.stop();
-  playing = false; currentTime = 0; cancelAnimationFrame(anim);
-  document.getElementById('head').style.left = '20px';
-};
-
-function moveHead(){
-  if(!playing) return;
-  currentTime = audioCtx.currentTime - start;
-  let progress = (currentTime / duration) * (document.getElementById('track').offsetWidth);
-  document.getElementById('head').style.left = (20 + progress) + 'px';
-  if(currentTime >= duration){ playing=false; currentTime=0; }
-  anim = requestAnimationFrame(moveHead);
-}
-
-// الصوت والسرعة شغالين
-document.getElementById('vol').oninput = e => {
-  if(gainNode) gainNode.gain.value = e.target.value;
-  document.getElementById('volVal').innerText = parseFloat(e.target.value).toFixed(2);
-};
-document.getElementById('speed').oninput = e => {
-  document.getElementById('speedVal').innerText = parseFloat(e.target.value).toFixed(2);
-  if(source) source.playbackRate.value = e.target.value;
-};
-
-// 30 EQ شغالين
-const eqGrid = document.getElementById('eqGrid');
-filters.forEach((f,i) => {
-  let div = document.createElement('div');
-  div.className = 'eq-band';
-  div.innerHTML = `<input type="range" min="-12" max="12" value="0" orient="vertical"><span>${freqs[i]}Hz</span>`;
-  div.querySelector('input').oninput = e => {f.gain.value = e.target.value};
-  eqGrid.appendChild(div);
-});
-
-// 1000 فلتر بدون تكرار
-const filterGrid = document.getElementById('filterGrid');
-for(let i=0; i<1000; i++){
-  let div = document.createElement('div');
-  div.className = 'item';
-  div.innerText = `فلتر احترافي #${i+1}`;
-  div.onclick = () => {document.querySelectorAll('#filterGrid.item').forEach(x=>x.classList.remove('active')); div.classList.add('active');}
-  filterGrid.appendChild(div);
-}
-
-// 100 مؤثر
-const fxGrid = document.getElementById('fxGrid');
-for(let i=0; i<100; i++){
-  let div = document.createElement('div');
-  div.className = 'item';
-  div.innerText = `مؤثر #${i+1}`;
-  div.onclick = () => {document.querySelectorAll('#fxGrid.item').forEach(x=>x.classList.remove('active')); div.classList.add('active');}
-  fxGrid.appendChild(div);
-}
-
-// التبويبات
-document.querySelectorAll('.tool').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab').forEach(t=>t.style.display='none');
-    document.getElementById(btn.dataset.tab+'-tab').style.display='block';
-    document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active'));
-    btn.classList.add('active');
-  }
-});
+document.getElementById('file').onchange = e => {let file = e.target.files[0]; if(!file) return;init();let reader = new FileReader();reader.onload = ev => {audioCtx.decodeAudioData(ev.target.result, buf => {audioBuffer = buf; duration = buf.duration;document.getElementById('player').innerText = file.name;document.getElementById('track').style.display = 'flex';document.getElementById('track').innerText = file.name;let width = Math.max(200, duration * 15);document.getElementById('track').style.width = width + 'px';});}reader.readAsArrayBuffer(file);};
+document.getElementById('play').onclick = () => {if(!audioBuffer) return alert('اختار ملف');if(playing) return;init();source = audioCtx.createBufferSource();source.buffer = audioBuffer;source.playbackRate.value = parseFloat(document.getElementById('speed').value);source.connect(filters[filters.length-1]);source.connect(gainNode);source.start(0, currentTime);playing = true; start = audioCtx.currentTime - currentTime;moveHead();};
+document.getElementById('pause').onclick = () => {if(source && playing){currentTime = audioCtx.currentTime - start;source.stop();playing = false; cancelAnimationFrame(anim);}};
+document.getElementById('reset').onclick = () => {if(source) source.stop();playing = false; currentTime = 0; cancelAnimationFrame(anim);document.getElementById('head').style.left = '15px';};
+function moveHead(){if(!playing) return;currentTime = audioCtx.currentTime - start;let progress = (currentTime / duration) * (document.getElementById('track').offsetWidth);document.getElementById('head').style.left = (15 + progress) + 'px';if(currentTime >= duration){playing=false; currentTime=duration;}anim = requestAnimationFrame(moveHead);}
+document.getElementById('vol').oninput = e => {if(gainNode) gainNode.gain.value = e.target.value;document.getElementById('volVal').innerText = parseFloat(e.target.value).toFixed(2);};
+document.getElementById('speed').oninput = e => {document.getElementById('speedVal').innerText = parseFloat(e.target.value).toFixed(2);if(source) source.playbackRate.value = e.target.value;};
+const eqGrid = document.getElementById('eqGrid');filters.forEach((f,i) => {let div = document.createElement('div');div.className = 'eq-band';div.innerHTML = `<input type="range" min="-12" max="12" value="0" orient="vertical"><span>${freqs[i]}Hz</span>`;div.querySelector('input').oninput = e => {f.gain.value = e.target.value};eqGrid.appendChild(div);});
+const filterGrid = document.getElementById('filterGrid');for(let i=0; i<1000; i++){let div = document.createElement('div');div.className = 'item';div.innerText = `فلتر #${i+1}`;div.onclick = () => {document.querySelectorAll('#filterGrid.item').forEach(x=>x.classList.remove('active')); div.classList.add('active');}filterGrid.appendChild(div);}
+const fxGrid = document.getElementById('fxGrid');for(let i=0; i<100; i++){let div = document.createElement('div');div.className = 'item';div.innerText = `مؤثر #${i+1}`;div.onclick = () => {document.querySelectorAll('#fxGrid.item').forEach(x=>x.classList.remove('active')); div.classList.add('active');}fxGrid.appendChild(div);}
+document.querySelectorAll('.tool').forEach(btn => {btn.onclick = () => {document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab').forEach(t=>t.style.display='none');document.getElementById(btn.dataset.tab+'-tab').style.display='block';document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}})
 </script>
-</body>
-</html>
+</body></html>
