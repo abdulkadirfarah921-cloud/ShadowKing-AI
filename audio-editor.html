@@ -3,24 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="screen-orientation" content="landscape">
-<meta name="x5-orientation" content="landscape">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src 'self' blob:; img-src 'self' data:;">
 <title>SHADOWKING AUDIO PRO</title>
 <style>
 :root{--neon:#00e5ff;--neon2:#00aaff}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 
-/* ده اللي هيقلب الصفحة اجباري اول ما تفتح */
+/* ده اللي هيقلب الواجهة بس */
+#rotate-wrapper{
+  width:100vw;
+  height:100vh;
+  transform-origin: center center;
+  transition: all 0.3s ease;
+}
+
+/* لو الموبايل بالطول لف الواجهة يمين */
 @media (orientation: portrait) {
-  body {
+  #rotate-wrapper {
     transform: rotate(90deg);
-    transform-origin: left top;
     width: 100vh;
     height: 100vw;
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    margin-left: -50vh;
+    margin-top: -50vw;
   }
 }
 
@@ -50,6 +58,8 @@ input[type=range]{width:100%;accent-color:var(--neon)}
 </head>
 <body>
 
+<!-- لفينا كل الواجهة جوا الديف ده بس -->
+<div id="rotate-wrapper">
 <div class="topbar">
   <div class="logo">👑 SHADOWKING AUDIO PRO</div>
   <button class="export-btn">تصدير</button>
@@ -87,33 +97,36 @@ input[type=range]{width:100%;accent-color:var(--neon)}
   </div>
 </div>
 <div class="timeline"><div class="track">Audio Track 1</div></div>
+</div>
 
 <script>
 // حماية
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-// اجبار اللف اول ما الصفحة تحمل
-window.addEventListener('load', async () => {
-  // محاولة قفل الشاشة بالعرض
-  if (screen.orientation && screen.orientation.lock) {
-    try {
-      await screen.orientation.lock('landscape-primary');
-    } catch(e) {
-      console.log("المتصفح منع القفل التلقائي");
-    }
-  }
-
-  // لو لسه بالطول لفها بالـ CSS
+// اجبار الواجهة تقلب يمين اوتوماتيك
+function forceUI_Landscape(){
+  const wrapper = document.getElementById('rotate-wrapper');
   if(window.innerHeight > window.innerWidth){
-    document.body.style.transform = 'rotate(90deg)';
-    document.body.style.transformOrigin = 'left top';
-    document.body.style.width = '100vh';
-    document.body.style.height = '100vw';
-    document.body.style.position = 'absolute';
-    document.body.style.top = '100%';
-    document.body.style.left = '0';
+    // بالطول = لف الواجهة 90 درجة يمين
+    wrapper.style.transform = 'rotate(90deg)';
+    wrapper.style.width = '100vh';
+    wrapper.style.height = '100vw';
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '50%';
+    wrapper.style.left = '50%';
+    wrapper.style.marginLeft = '-50vh';
+    wrapper.style.marginTop = '-50vw';
+  } else {
+    // بالعرض = رجعها طبيعي
+    wrapper.style.transform = 'rotate(0deg)';
+    wrapper.style.width = '100vw';
+    wrapper.style.height = '100vh';
+    wrapper.style.position = 'static';
+    wrapper.style.margin = '0';
   }
-});
+}
+window.addEventListener('load', forceUI_Landscape);
+window.addEventListener('resize', forceUI_Landscape);
 
 // باقي الكود
 let audioCtx, source, gainNode, audioBuffer;
