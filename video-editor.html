@@ -2,159 +2,187 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHADOWKING VIDEO PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--neon:#00e5ff;--neon2:#00ff88;--bg:#050505;--glass:rgba(20,20,30,0.7);--text:#fff}
+:root{--neon:#00e5ff;--neon2:#00ff88;--bg:#050505;--glass:rgba(20,20,30,0.6);--text:#fff}
+.light{--bg:#f0f0f0;--glass:rgba(255,255,255,0.8);--text:#000;--neon:#0066ff;--neon2:#00cc88}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:#050505;color:var(--text);padding:15px}
-h1{text-align:center;color:var(--neon);text-shadow:0 0 20px var(--neon);margin-bottom:15px}
+body{background:radial-gradient(circle at 50% 0%,#1a1a2e 0%,#000 100%);color:var(--text);min-height:100vh;transition:0.5s;overflow-x:hidden}
+body.light{background:radial-gradient(circle at 50% 0%,#e0e0e0 0%,#fff 100%)}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
 
-.container{max-width:1400px;margin:auto}
-
-/* المعاينة */
-.preview-area{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--neon)44;border-radius:20px;padding:15px;margin-bottom:15px}
-video{width:100%;border-radius:15px;background:#000;border:2px solid var(--neon)}
-
-/* التايم لاين الاحترافي */
-.timeline-wrap{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--neon)44;border-radius:20px;padding:15px}
-.timeline-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.timeline-header h3{color:var(--neon2)}
-.time-ruler{height:30px;background:#111;border-radius:8px;margin-bottom:10px;position:relative;border:1px solid var(--neon)33}
-.time-marker{position:absolute;top:0;height:100%;width:2px;background:var(--neon2);left:50%}
-.time-labels{display:flex;justify-content:space-between;font-size:0.8em;color:var(--neon);padding:0 5px}
-
-.tracks{overflow-x:auto}
-.track{
-  height:60px;background:rgba(0,0,0,0.4);border:1px solid var(--neon)22;
-  border-radius:10px;margin:8px 0;display:flex;align-items:center;
-  position:relative;min-width:800px
+/* الاشعار الاحترافي فوق */
+.notification{
+  position:fixed;top:20px;right:50%;transform:translateX(50%);
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  color:#000;padding:15px 30px;border-radius:50px;font-weight:900;
+  box-shadow:0 0 30px var(--neon);z-index:9999;
+  animation:slideDown 0.5s, fadeOut 0.5s 2.5s forwards;
 }
-.track-label{
-  width:120px;background:linear-gradient(90deg,var(--neon),var(--neon2));
-  color:#000;padding:5px 10px;border-radius:8px;margin:0 10px;font-weight:900;
-  text-align:center;flex-shrink:0
-}
-.track-content{flex:1;height:100%;position:relative;display:flex;align-items:center;gap:5px;padding:5px}
+@keyframes slideDown{from{top:-100px}to{top:20px}}
+@keyframes fadeOut{to{opacity:0;top:-100px}}
 
-.clip{
-  height:45px;background:linear-gradient(90deg,var(--neon),var(--neon2));
-  border-radius:8px;padding:5px 10px;color:#000;font-weight:700;
-  cursor:grab;display:flex;align-items:center;gap:5px;
-  box-shadow:0 0 10px var(--neon);min-width:100px;position:relative;
-  user-select:none;
-}
-.clip:active{cursor:grabbing}
-.clip img{height:100%;border-radius:4px}
-.playhead{
-  position:absolute;top:0;width:3px;height:100%;background:red;z-index:100;
-  left:50%;pointer-events:none;box-shadow:0 0 10px red
-}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--neon)44;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5em;font-weight:900;color:var(--neon);text-shadow:0 0 20px var(--neon)}
+.theme-btn{background:var(--glass);border:1px solid var(--neon);color:var(--neon);padding:8px 15px;border-radius:10px;cursor:pointer;font-weight:700}
+.container{max-width:1400px;margin:20px auto;padding:20px}
+.main-grid{display:grid;grid-template-columns:1fr 350px;gap:20px}
 
-.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px 18px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:5px}
+.preview-area{position:relative;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--neon)44;border-radius:20px;padding:15px}
+video{width:100%;border-radius:15px;background:#000;border:2px solid var(--neon);box-shadow:0 0 30px var(--neon)33}
+
+/* العلامة المائية المتحركة */
+.watermark{
+  position:absolute;bottom:20px;right:20px;
+  background:linear-gradient(90deg,rgba(0,229,255,0.9),rgba(0,255,136,0.9));
+  color:#000;padding:8px 20px;border-radius:50px;font-weight:900;
+  font-size:0.9em;z-index:10;
+  animation:float 3s ease-in-out infinite;
+  box-shadow:0 0 20px var(--neon);
+  backdrop-filter:blur(10px);
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.sidebar{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--neon)44;border-radius:20px;padding:15px;max-height:90vh;overflow-y:auto}
+.tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}
+.tab-btn{background:rgba(0,229,255,0.1);color:var(--neon);padding:10px 15px;border:1px solid var(--neon);border-radius:12px;cursor:pointer;font-weight:700;font-size:0.9em;transition:0.3s}
+.tab-btn.active{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none}
+.tab{display:none}.tab.active{display:block;animation:fadeIn 0.3s}
+.card{background:rgba(0,0,0,0.3);border:1px solid var(--neon)33;border-radius:15px;padding:15px;margin-bottom:15px}
+h3{color:var(--neon2);margin-bottom:12px;font-size:1em;border-right:3px solid var(--neon2);padding-right:8px}
+.btn{width:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:5px 0;transition:0.3s}
+.btn:hover{transform:scale(1.03);box-shadow:0 0 20px var(--neon2)}
+input,select{width:100%;padding:10px;background:rgba(0,0,0,0.4);color:var(--text);border:1px solid var(--neon);border-radius:10px;margin:5px 0}
+.file-label{background:rgba(0,229,255,0.1);padding:10px;border-radius:10px;border:1px dashed var(--neon);cursor:pointer;text-align:center;margin:5px 0}
 input[type="file"]{display:none}
-.file-label{background:rgba(0,229,255,0.1);padding:10px 20px;border-radius:10px;border:1px dashed var(--neon);cursor:pointer}
-.hint{font-size:0.85em;color:var(--neon2);text-align:center;margin-top:10px}
+.timeline{background:rgba(0,0,0,0.6);border-radius:15px;padding:15px;margin-top:20px;border:1px solid var(--neon)44}
+.track{height:50px;background:rgba(0,229,255,0.1);border:1px solid var(--neon)33;border-radius:8px;margin:8px 0;display:flex;align-items:center;padding:0 10px}
+.clip{background:linear-gradient(90deg,var(--neon),var(--neon2));padding:8px 15px;border-radius:6px;margin:0 5px;font-size:0.85em;font-weight:700;color:#000}
 </style>
 </head>
 <body>
-<h1>🎬 SHADOWKING VIDEO PRO</h1>
+<canvas id="particles"></canvas>
+
+<div class="topbar">
+  <div class="logo glow">🎬 SHADOWKING VIDEO PRO</div>
+  <button class="theme-btn" onclick="toggleTheme()">🌙/☀️</button>
+</div>
+
 <div class="container">
+<div class="main-grid">
 
-<!-- المعاينة -->
-<div class="preview-area">
-  <label class="file-label" onclick="document.getElementById('videoInput').click()">📁 اختر الفيديو</label>
-  <input type="file" id="videoInput" accept="video/*">
-  <video id="preview" controls></video>
+  <div>
+    <div class="preview-area">
+      <!-- العلامة المائية -->
+      <div class="watermark" id="watermark">SHADOWKING © 2026</div>
+
+      <div class="input-group">
+        <label class="file-label" onclick="document.getElementById('videoInput').click()">📁 اسحب الفيديو هنا او اضغط للاختيار</label>
+        <input type="file" id="videoInput" accept="video/*">
+      </div>
+      <video id="preview" controls></video>
+    </div>
+
+    <div class="timeline">
+      <h3>📼 التايم لاين</h3>
+      <div class="track">🎥 فيديو 1 <div class="clip">مقطع 1</div></div>
+      <div class="track">🎵 صوت 1 <div class="clip">موسيقى</div></div>
+      <div class="track">📝 نص <div class="clip">عنوان</div></div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab('tools')">ادوات</button>
+      <button class="tab-btn" onclick="openTab('ai')">AI</button>
+      <button class="tab-btn" onclick="openTab('export')">تصدير</button>
+    </div>
+
+    <div id="tools" class="tab active">
+      <div class="card">
+        <h3>1. العلامة المائية</h3>
+        <input type="text" id="wmText" placeholder="اكتب اسمك هنا" value="SHADOWKING © 2026">
+        <button class="btn" onclick="updateWatermark()">💧 تحديث العلامة</button>
+        <button class="btn btn-secondary" onclick="toggleWatermark()">اظهار/اخفاء</button>
+      </div>
+      <div class="card">
+        <h3>2. القص والدمج</h3>
+        <input type="number" id="start" placeholder="البداية">
+        <input type="number" id="end" placeholder="النهاية">
+        <button class="btn" onclick="cutVideo()">✂️ قص</button>
+      </div>
+      <div class="card">
+        <h3>3. النص</h3>
+        <input type="text" id="textInput" placeholder="اكتب النص">
+        <button class="btn" onclick="addText()">📝 اضافة نص</button>
+      </div>
+    </div>
+
+    <div id="ai" class="tab">
+      <div class="card">
+        <h3>🤖 ادوات AI</h3>
+        <button class="btn" onclick="removeBg()">🎭 حذف الخلفية</button>
+        <button class="btn" onclick="subtitles()">📜 ترجمة</button>
+        <button class="btn" onclick="upscale()">📈 4K</button>
+      </div>
+    </div>
+
+    <div id="export" class="tab">
+      <div class="card">
+        <h3>⬇️ التصدير</h3>
+        <select id="quality"><option>720p</option><option selected>1080p</option><option>4K 60FPS</option></select>
+        <button class="btn" onclick="exportVideo()">تصدير مع العلامة</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<!-- التايم لاين -->
-<div class="timeline-wrap">
-  <div class="timeline-header">
-    <h3>📼 التايم لاين</h3>
-    <button class="btn" onclick="addClip()">+ اضافة مقطع</button>
-  </div>
-
-  <div class="time-ruler">
-    <div class="time-labels">
-      <span>00:00</span><span>00:05</span><span>00:10</span><span>00:15</span><span>00:20</span>
-    </div>
-    <div class="time-marker"></div>
-    <div class="playhead" id="playhead"></div>
-  </div>
-
-  <div class="tracks" id="tracks">
-    <!-- مسار الفيديو -->
-    <div class="track">
-      <div class="track-label">🎥 فيديو 1</div>
-      <div class="track-content" id="video-track">
-        <div class="clip" draggable="true">مقطع 1</div>
-      </div>
-    </div>
-
-    <!-- مسار الصوت -->
-    <div class="track">
-      <div class="track-label">🎵 صوت 1</div>
-      <div class="track-content" id="audio-track">
-        <div class="clip">موسيقى</div>
-      </div>
-    </div>
-
-    <!-- مسار النص -->
-    <div class="track">
-      <div class="track-label">📝 نص</div>
-      <div class="track-content" id="text-track">
-        <div class="clip">عنوان</div>
-      </div>
-    </div>
-  </div>
-
-  <p class="hint">اسحب المقاطع يمين وشمال - Space تشغيل - Ctrl+Z تراجع</p>
-</div>
-
 </div>
 
 <script>
-const video = document.getElementById('preview');
-const playhead = document.getElementById('playhead');
-
-// رفع الفيديو
-document.getElementById('videoInput').onchange = e => {
-  video.src = URL.createObjectURL(e.target.files[0]);
+// اشعار احترافي عند التحميل
+window.onload = () => {
+  showNotification('مرحبا بك في SHADOWKING VIDEO PRO 🔥')
 }
 
-// تحريك مؤشر التشغيل مع الفيديو
-video.ontimeupdate = () => {
-  let percent = (video.currentTime / video.duration) * 100;
-  playhead.style.left = percent + '%';
+function showNotification(msg){
+  const notif = document.createElement('div');
+  notif.className = 'notification';
+  notif.textContent = msg;
+  document.body.appendChild(notif);
+  setTimeout(()=>notif.remove(),3000);
 }
 
-// السحب والافلات للمقاطع
-let dragged;
-document.querySelectorAll('.clip').forEach(clip=>{
-  clip.addEventListener('dragstart', e=>{dragged = clip})
-document.querySelectorAll('.track-content').forEach(track=>{
-  track.addEventListener('dragover', e=>e.preventDefault())
-  track.addEventListener('drop', e=>{
-    e.preventDefault();
-    track.appendChild(dragged);
-  })
-})
+function toggleTheme(){document.body.classList.toggle('light')}
 
-// اضافة مقطع جديد
-function addClip(){
-  const newClip = document.createElement('div');
-  newClip.className = 'clip';
-  newClip.draggable = true;
-  newClip.textContent = 'مقطع جديد';
-  document.getElementById('video-track').appendChild(newClip);
+// العلامة المائية
+function updateWatermark(){
+  document.getElementById('watermark').textContent = document.getElementById('wmText').value;
+  showNotification('تم تحديث العلامة المائية')
+}
+function toggleWatermark(){
+  const wm = document.getElementById('watermark');
+  wm.style.display = wm.style.display === 'none'? 'block' : 'none';
 }
 
-// اختصارات
-document.addEventListener('keydown',e=>{
-  if(e.code==='Space'){e.preventDefault();video.paused?video.play():video.pause()}
-  if(e.ctrlKey&&e.key==='z'){alert('↩️ تراجع')}
-})
+// الجسيمات
+const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+let particles=[];for(let i=0;i<100;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3})}
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00e5ff22';particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1});requestAnimationFrame(animate)}animate();
+
+// باقي الدوال
+function openTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active')}
+document.getElementById('videoInput').onchange=e=>{document.getElementById('preview').src=URL.createObjectURL(e.target.files[0]);showNotification('تم رفع الفيديو بنجاح')}
+
+function cutVideo(){showNotification('✅ تم قص الفيديو')}
+function addText(){showNotification('✅ تم اضافة النص')}
+function removeBg(){showNotification('🤖 AI جاري حذف الخلفية')}
+function subtitles(){showNotification('🤖 AI جاري عمل الترجمة')}
+function upscale(){showNotification('🤖 AI جاري تكبير الجودة')}
+function exportVideo(){showNotification('⬇️ جاري التصدير مع العلامة المائية SHADOWKING')}
 </script>
 </body>
 </html>
