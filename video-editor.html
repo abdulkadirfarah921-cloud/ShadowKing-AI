@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>SHADOWKING VIDEO PRO ULTRA v9</title>
+<title>SHADOWKING VIDEO PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--neon:#00e5ff;--neon2:#00ff88;--glass:rgba(20,20,30,0.7)}
@@ -10,38 +10,29 @@
 body{background:radial-gradient(circle at 50% 0%,#1a1a2e 0%,#000 100%);color:#fff;overflow-x:auto}
 #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
 .topbar{padding:12px 20px;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--neon)44;position:sticky;top:0;z-index:100}
-.logo{font-size:1.5em;font-weight:900;color:var(--neon)}
+.logo{font-size:1.6em;font-weight:900;color:var(--neon);text-shadow:0 0 20px var(--neon)}
 .container{max-width:1800px;margin:15px auto;padding:15px}
-.main-grid{display:grid;grid-template-columns:1fr 400px;gap:15px}
+.main-grid{display:grid;grid-template-columns:1fr 460px;gap:15px}
 
 .preview-area{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:10px;position:relative}
-video{width:100%;height:220px;object-fit:cover;border-radius:12px;background:#000;border:2px solid var(--neon)}
+video{width:100%;height:240px;object-fit:cover;border-radius:12px;background:#000;border:2px solid var(--neon)}
+
 .sidebar{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:15px;max-height:90vh;overflow-y:auto}
+.tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}
+.tab-btn{flex:1;background:rgba(0,229,255,0.1);color:var(--neon);padding:10px;border:1px solid var(--neon);border-radius:10px;cursor:pointer;font-weight:900;font-size:0.9em}
+.tab-btn.active{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000}
+.tab{display:none}
+.tab.active{display:block}
 .card{background:rgba(0,0,0,0.4);border:1px solid var(--neon)33;border-radius:12px;padding:15px;margin-bottom:12px}
 h3{color:var(--neon2);margin-bottom:10px;font-size:1em;border-right:3px solid var(--neon2);padding-right:10px}
-.btn{width:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:5px 0;font-size:0.95em}
-.btn-export{background:linear-gradient(90deg,#00ff88,#00e5ff);box-shadow:0 0 20px var(--neon2)}
+.btn{width:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:5px 0}
+.btn-export{background:linear-gradient(90deg,#00ff88,#00e5ff);box-shadow:0 0 25px var(--neon2)}
 select,input{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#fff;border:1px solid var(--neon);border-radius:8px;margin:5px 0}
 
-/* ===== الازرار الثابتة الشغالة ===== */
-.scroll-controls{
-  position:fixed; /* ثابتين */
-  right:25px;
-  top:280px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  z-index:9999;
-}
-.scroll-btn{
-  background:linear-gradient(135deg,var(--neon),var(--neon2));
-  color:#000;border:none;padding:18px 20px;border-radius:15px;
-  font-size:2.2em;font-weight:900;cursor:pointer;
-  box-shadow:0 0 30px var(--neon);
-  user-select:none;
-  transition:0.1s;
-}
-.scroll-btn:active{transform:scale(0.85);box-shadow:0 0 50px var(--neon2)}
+/* ===== الازرار الثابتة ===== */
+.scroll-controls{position:fixed;right:25px;top:280px;display:flex;flex-direction:column;gap:12px;z-index:9999}
+.scroll-btn{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#000;border:none;padding:18px 20px;border-radius:15px;font-size:2.2em;font-weight:900;cursor:pointer;box-shadow:0 0 30px var(--neon)}
+.scroll-btn:active{transform:scale(0.85)}
 
 /* ===== التايم لاين ===== */
 .timeline-wrap{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:10px;margin-top:15px;min-width:2000px}
@@ -51,16 +42,33 @@ select,input{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#fff;borde
 .timeline-track{height:50px;background:#050505;border-radius:10px;position:relative;overflow-x:auto;border:1px solid var(--neon)22}
 .track-row{height:100%;position:relative;display:flex;align-items:center;min-width:10000px}
 .clip-item{height:40px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:8px;margin:0 3px;padding:5px;min-width:120px;font-size:0.8em;display:flex;align-items:center}
+.outro-clip{background:linear-gradient(90deg,#ff00ff,#00e5ff)!important}
 .playhead{position:absolute;top:0;width:3px;height:100%;background:red;z-index:100}
-.watermark{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.5);color:var(--neon);padding:5px 10px;border-radius:15px;font-size:0.7em}
+
+/* ===== العلامة المائية الثابتة ===== */
+.watermark{
+  position:absolute;bottom:15px;right:15px;
+  background:rgba(0,0,0,0.3);color:var(--neon);
+  padding:8px 15px;border-radius:15px;font-size:0.9em;
+  font-weight:900;border:1px solid var(--neon)55;
+  opacity:0.7;pointer-events:none;z-index:50;
+}
+
+/* ===== شاشة الاوترو ===== */
+.outro-screen{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  background:#000;display:none;flex-direction:column;
+  justify-content:center;align-items:center;z-index:100;
+}
+.outro-screen h1{font-size:2.5em;color:var(--neon);margin-bottom:10px;text-shadow:0 0 20px var(--neon)}
+.outro-screen p{font-size:1.2em;color:var(--neon2)}
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
 
-<div class="topbar"><div class="logo">🎬 SHADOWKING PRO ULTRA</div></div>
+<div class="topbar"><div class="logo">🎬 SHADOWKING VIDEO PRO</div></div>
 
-<!-- الازرار الثابتة -->
 <div class="scroll-controls">
   <button class="scroll-btn" id="scrollLeft">◀️</button>
   <button class="scroll-btn" id="scrollRight">▶️</button>
@@ -71,7 +79,16 @@ select,input{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#fff;borde
 
   <div>
     <div class="preview-area">
-      <div class="watermark">SHADOWKING</div>
+      <!-- العلامة المائية الثابتة -->
+      <div class="watermark">SHADOWKING VIDEO PRO</div>
+
+      <!-- شاشة الاوترو -->
+      <div class="outro-screen" id="outroScreen">
+        <h1>🎬 SHADOWKING</h1>
+        <p>تم التصدير بواسطة SHADOWKING VIDEO PRO</p>
+        <p style="font-size:0.9em;margin-top:10px">© 2026</p>
+      </div>
+
       <label class="btn" onclick="document.getElementById('videoInput').click()">📁 اضف فيديو</label>
       <input type="file" id="videoInput" accept="video/*" style="display:none">
       <video id="preview" controls></video>
@@ -97,26 +114,52 @@ select,input{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#fff;borde
   </div>
 
   <div class="sidebar">
-    <div class="card">
-      <h3>القص والدمج</h3>
-      <button class="btn" onclick="splitClip()">✂️ قص</button>
-      <button class="btn" onclick="mergeVideo()">🔗 دمج</button>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab('tools')">🛠️ ادوات</button>
+      <button class="tab-btn" onclick="openTab('ai')">🤖 AI</button>
+      <button class="tab-btn" onclick="openTab('export')">⬇️ تصدير</button>
     </div>
-    <div class="card">
-      <h3>⬇️ التصدير</h3>
-      <select id="quality"><option>720p</option><option selected>1080p</option><option>4K</option></select>
-      <select id="fps">
-        <option>30 FPS</option><option>60 FPS</option><option>120 FPS</option>
-        <option>144 FPS</option><option>240 FPS</option><option>360 FPS</option>
-      </select>
-      <button class="btn btn-export" onclick="exportVideo()">تصدير الفيديو</button>
+
+    <div id="tools" class="tab active">
+      <div class="card">
+        <h3>القص والدمج</h3>
+        <button class="btn" onclick="splitClip()">✂️ قص</button>
+        <button class="btn" onclick="mergeVideo()">🔗 دمج</button>
+      </div>
+      <div class="card">
+        <h3>العلامة المائية</h3>
+        <p style="font-size:0.85em;color:var(--neon2)">العلامة بتظهر تلقائي ومش بتقدر تشيلها 😈</p>
+      </div>
     </div>
+
+    <div id="ai" class="tab">
+      <div class="card">
+        <h3>🤖 ادوات AI</h3>
+        <button class="btn" onclick="removeBg()">حذف الخلفية</button>
+        <button class="btn" onclick="autoSubtitles()">ترجمة تلقائية</button>
+      </div>
+    </div>
+
+    <div id="export" class="tab">
+      <div class="card">
+        <h3>⬇️ اعدادات التصدير</h3>
+        <select id="quality">
+          <option>720p HD</option><option selected>1080p Full HD</option>
+          <option>4K UHD</option><option>8K</option><option>32K ULTRA</option>
+        </select>
+        <select id="fps">
+          <option>30 FPS</option><option>60 FPS</option><option>120 FPS</option><option>360 FPS</option>
+        </select>
+        <button class="btn btn-export" onclick="exportVideo()">🚀 تصدير مع العلامة + الاوترو</button>
+      </div>
+    </div>
+
   </div>
 </div>
 </div>
 
 <script>
-// خلفية النيون
+// خلفية
 const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;canvas.height=window.innerHeight;
 let particles=[];for(let i=0;i<100;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.4,dy:(Math.random()-0.5)*0.4})}
@@ -125,8 +168,10 @@ function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='
 const video = document.getElementById('preview');
 const playhead = document.getElementById('playhead');
 const trackRow = document.getElementById('trackRow');
+const outroScreen = document.getElementById('outroScreen');
 let zoom = 1;
 let scrollInterval = null;
+let hasOutro = false;
 
 // اضافة فيديو
 document.getElementById('videoInput').onchange=e=>{
@@ -145,12 +190,37 @@ function addClipToTimeline(name){
   trackRow.insertBefore(clip, trackRow.lastElementChild);
 }
 
+// اضافة الاوترو 3 ثواني
+function addOutro(){
+  if(hasOutro) return;
+  hasOutro = true;
+  const outro = document.createElement('div');
+  outro.className = 'clip-item outro-clip';
+  outro.innerHTML = `<span>🎬 OUTRO - 3s</span>`;
+  trackRow.appendChild(outro);
+}
+
+// تبويبات
+function openTab(t){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ادوات
+function splitClip(){alert('✂️ تم القص عند '+video.currentTime.toFixed(1)+'s')}
+function mergeVideo(){alert('🔗 تم الدمج')}
+function removeBg(){alert('🤖 حذف الخلفية')}
+function autoSubtitles(){alert('🤖 ترجمة تلقائية')}
+
+// زووم
 function zoomIn(){zoom+=0.2;trackRow.style.transform=`scaleX(${zoom})`;document.getElementById('zoomLevel').textContent=Math.round(zoom*100)+'%';generateTimeRuler()}
 function zoomOut(){if(zoom>0.4){zoom-=0.2;trackRow.style.transform=`scaleX(${zoom})`;document.getElementById('zoomLevel').textContent=Math.round(zoom*100)+'%';generateTimeRuler()}}
 
 function generateTimeRuler(){
   const ruler = document.getElementById('timeRuler');ruler.innerHTML = '';
-  for(let i=0;i<=50;i++){
+  for(let i=0;i<=60;i++){
     const mark = document.createElement('div');
     mark.style.position='absolute';
     mark.style.left = (i*200*zoom)+'px';
@@ -159,47 +229,39 @@ function generateTimeRuler(){
   }
 }
 
-// ===== كود الازرار كامل متكامل =====
+// ===== كود الازرار =====
 function startScroll(direction){
-  // direction: -1 يسار, 1 يمين
   scrollInterval = setInterval(()=>{
-    window.scrollBy({left: direction * 60, behavior: 'auto'});
-  }, 25);
+    window.scrollBy({left: direction * 70, behavior: 'auto'});
+  }, 20);
 }
+function stopScroll(){clearInterval(scrollInterval);}
 
-function stopScroll(){
-  clearInterval(scrollInterval);
-}
-
-// كمبيوتر
 document.getElementById('scrollLeft').addEventListener('mousedown',()=>startScroll(-1));
 document.getElementById('scrollLeft').addEventListener('mouseup',stopScroll);
-document.getElementById('scrollLeft').addEventListener('mouseleave',stopScroll);
-
 document.getElementById('scrollRight').addEventListener('mousedown',()=>startScroll(1));
 document.getElementById('scrollRight').addEventListener('mouseup',stopScroll);
-document.getElementById('scrollRight').addEventListener('mouseleave',stopScroll);
 
-// موبايل
-document.getElementById('scrollLeft').addEventListener('touchstart',()=>startScroll(-1));
-document.getElementById('scrollLeft').addEventListener('touchend',stopScroll);
-document.getElementById('scrollRight').addEventListener('touchstart',()=>startScroll(1));
-document.getElementById('scrollRight').addEventListener('touchend',stopScroll);
-
-// وظائف
-function splitClip(){alert('قص عند '+video.currentTime.toFixed(1)+'s')}
-function mergeVideo(){alert('تم الدمج')}
+// الفيديو - تشغيل الاوترو في الاخر
+video.onended = () => {
+  outroScreen.style.display = 'flex';
+  setTimeout(()=>{outroScreen.style.display='none'}, 3000);
+}
 
 video.ontimeupdate = () => {
   if(video.duration){
     playhead.style.left = (video.currentTime / video.duration * 100) + '%';
+    if(video.duration - video.currentTime < 2 &&!hasOutro){
+      addOutro();
+    }
   }
 }
 
 function exportVideo(){
   const q = document.getElementById('quality').value;
   const f = document.getElementById('fps').value;
-  alert(`جاري التصدير: ${q} - ${f}\nSHADOWKING WATERMARK ACTIVE`);
+  addOutro();
+  alert(`🚀 جاري التصدير:\nالجودة: ${q}\nالفريمات: ${f}\n\n✓ علامة مائية شفافة طول الفيديو\n✓ اوترو 3 ثواني + صوت في الاخر\nSHADOWKING VIDEO PRO`);
 }
 </script>
 </body>
