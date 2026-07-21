@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>SHADOWKING MARKET</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--neon:#00e5ff;--neon2:#00ff88;--glass:rgba(20,20,30,0.7)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#0a0a0a;color:#fff;padding:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;background:var(--glass);backdrop-filter:blur(20px);padding:15px;border-radius:15px;margin-bottom:20px;border:1px solid var(--neon)44}
+.logo{font-size:1.8em;font-weight:900;color:var(--neon)}
+.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px 20px;border:none;border-radius:10px;font-weight:900;cursor:pointer}
+.container{display:grid;grid-template-columns:280px 1fr;gap:20px}
+.sidebar{background:var(--glass);padding:15px;border-radius:15px;border:1px solid var(--neon)44}
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px}
+.card{background:var(--glass);border:1px solid var(--neon)33;border-radius:12px;padding:12px;transition:0.3s}
+.card:hover{border-color:var(--neon2);transform:translateY(-3px)}
+.card img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#000}
+.card h4{color:var(--neon2);margin:8px 0}
+.price{color:var(--neon);font-weight:900;font-size:1.2em}
+input,select,textarea{width:100%;padding:10px;background:#000;border:1px solid var(--neon);border-radius:8px;color:#fff;margin:5px 0}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">🏪 SHADOWKING MARKET</div>
+  <div>
+    <button class="btn" onclick="showCreate()">➕ انشاء منتج</button>
+    <button class="btn" onclick="showSeller()">👤 حسابي</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="sidebar">
+    <h3>🔍 بحث</h3>
+    <input id="search" placeholder="ابحث: LUT, Transition..." onkeyup="render()">
+    <h3 style="margin-top:15px">📂 الفئة</h3>
+    <select id="filter" onchange="render()">
+      <option>الكل</option><option>مؤثر بصري</option><option>انتقال</option><option>فلتر LUT</option><option>AI Preset</option>
+    </select>
+  </div>
+
+  <div id="marketGrid" class="market-grid"></div>
+</div>
+
+<!-- نافذة انشاء منتج -->
+<div id="createModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999;justify-content:center;align-items:center">
+  <div class="card" style="width:400px">
+    <h3>➕ انشاء منتج جديد</h3>
+    <input id="pName" placeholder="اسم المنتج: Fire LUT">
+    <textarea id="pDesc" rows="2" placeholder="الوصف"></textarea>
+    <select id="pType"><option>مؤثر بصري</option><option>انتقال</option><option>فلتر LUT</option><option>AI Preset</option></select>
+    <input type="file" id="pImg" accept="image/*">
+    <img id="pPreview" style="width:100%;height:120px;object-fit:cover;border-radius:8px;display:none">
+    <div style="display:flex;gap:10px">
+      <select id="pPriceType" style="flex:1" onchange="document.getElementById('pPrice').style.display=this.value=='paid'?'block':'none'">
+        <option value="free">مجاني</option><option value="paid">مدفوع</option>
+      </select>
+      <input id="pPrice" type="number" placeholder="5.99" style="width:100px;display:none">
+    </div>
+    <button class="btn" onclick="publish()">🚀 نشر</button>
+    <button class="btn" style="background:#333;color:#fff" onclick="closeModal()">الغاء</button>
+  </div>
+</div>
+
+<script>
+let ITEMS = JSON.parse(localStorage.getItem('sk_market')) || [
+  {name:"Cinematic Fire LUT",desc:"فلتر نار سينمائي قوي",type:"فلتر LUT",price:"مجاني",img:"https://via.placeholder.com/300/ff5500/fff?text=LUT"},
+  {name:"Glitch Transition Pack",desc:"20 انتقال Glitch احترافي",type:"انتقال",price:"$4.99",img:"https://via.placeholder.com/300/00e5ff/000?text=FX"},
+  {name:"AI Voice Clone",desc:"انسخ اي صوت بـ AI",type:"AI Preset",price:"$9.99",img:"https://via.placeholder.com/300/ff00ff/fff?text=AI"}
+];
+
+document.getElementById('pImg').onchange = e => {
+  const reader = new FileReader();
+  reader.onload = () => {document.getElementById('pPreview').src=reader.result;document.getElementById('pPreview').style.display='block'}
+  reader.readAsDataURL(e.target.files[0])
+}
+
+function showCreate(){document.getElementById('createModal').style.display='flex'}
+function closeModal(){document.getElementById('createModal').style.display='none'}
+function showSeller(){alert('👤 صفحة البائع\nالمبيعات: 45$\nمنتجاتك: ' + ITEMS.length)}
+
+function publish(){
+  const newItem = {
+    name:document.getElementById('pName').value,
+    desc:document.getElementById('pDesc').value,
+    type:document.getElementById('pType').value,
+    price:document.getElementById('pPriceType').value=='free'?'مجاني':`$${document.getElementById('pPrice').value}`,
+    img:document.getElementById('pPreview').src || 'https://via.placeholder.com/300/00e5ff/000?text=FX'
+  };
+  ITEMS.unshift(newItem);
+  localStorage.setItem('sk_market',JSON.stringify(ITEMS));
+  alert(`✅ تم نشر ${newItem.name}`);
+  closeModal(); render();
+}
+
+function render(){
+  const grid=document.getElementById('marketGrid');
+  const search=document.getElementById('search').value;
+  const filter=document.getElementById('filter').value;
+  grid.innerHTML = ITEMS.filter(i=>
+    i.name.includes(search) && (filter=='الكل'||i.type==filter)
+  ).map(i=>`
+    <div class="card">
+      <img src="${i.img}">
+      <h4>${i.name}</h4>
+      <p style="font-size:0.85em;opacity:0.8">${i.desc}</p>
+      <p style="font-size:0.8em;opacity:0.6">${i.type}</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <div class="price">${i.price}</div>
+        <button class="btn" style="padding:6px 12px" onclick="buy('${i.name}')">⬇️ شراء</button>
+      </div>
+    </div>
+  `).join('');
+}
+function buy(name){alert(`✅ تمت اضافة ${name} لمكتبتك`)}
+render();
+</script>
+</body>
+</html>

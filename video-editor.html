@@ -140,7 +140,8 @@ select,input,textarea{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#
       </div>
       <div class="card">
         <h3>🧩 Plugin Store</h3>
-        <button class="btn" onclick="openPluginStore()">🏪 فتح المتجر</button>
+        <!-- هنا التعديل الوحيد -->
+        <button class="btn" onclick="window.open('market.html','_blank')">🏪 فتح متجر Fab الجديد</button>
       </div>
     </div>
 
@@ -192,7 +193,7 @@ function beatSync(){alert('🎵 AI: تم وضع 15 علامة على دقات ا
 
 // 6. Direct Upload + Plugin Store
 function upload(platform){alert(`🌐 جاري الرفع على ${platform}... تم!`)}
-function openPluginStore(){alert('🏪 Plugin Store: 200 اضافة جاهزة للتحميل')}
+function openPluginStore(){window.open('market.html','_blank')} // عدلتها عشان تفتح الصفحة
 
 // 7. الباقي
 function openTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active')}
