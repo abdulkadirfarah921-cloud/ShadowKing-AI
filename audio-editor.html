@@ -9,27 +9,26 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 
-/* ده اللي هيقلب الواجهة بس */
+/* السر هنا: نخلي اللف من النص */
 #app{
   width:100vw;
   height:100vh;
   display:flex;
   flex-direction:column;
-  transition:0.3s;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-/* لو الموبايل بالطول لف الواجهة يمين */
+/* لو بالطول لفها ووسطها بالضبط */
 @media (orientation: portrait) {
   #app {
-    transform: rotate(90deg);
-    transform-origin: center center;
+    transform: rotate(90deg) translate(-50%, -50%);
+    transform-origin: top left;
     width: 100vh;
     height: 100vw;
-    position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -50vh;
-    margin-top: -50vw;
   }
 }
 
@@ -42,7 +41,7 @@ html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 .tool{background:#111;border:1px solid #333;border-radius:10px;padding:10px 5px;text-align:center;font-size:10px;color:#aaa;cursor:pointer}
 .tool.active{background:var(--neon);color:#000;box-shadow:0 0 15px var(--neon);font-weight:900}
 
-.player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px;gap:15px;overflow-y:auto}
+.player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px;gap:15px;overflow:hidden}
 .drop-zone{width:95%;max-width:500px;height:120px;background:#0a0a0a;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#666;font-size:14px;text-align:center;cursor:pointer}
 .drop-zone:hover{border-color:var(--neon); color:var(--neon)}
 .controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -104,8 +103,8 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
         <div class="filter-grid" id="filterGrid"></div>
       </div>
 
-      <div id="eq-tab" style="display:none"><div class="tab">EQ 10 Bands قريبا</div></div>
-      <div id="fx-tab" style="display:none"><div class="tab">مؤثرات قريبا</div></div>
+      <div id="eq-tab" style="display:none"><div class="tab">EQ 10 Bands</div></div>
+      <div id="fx-tab" style="display:none"><div class="tab">مؤثرات</div></div>
       <div id="ai-tab" style="display:none">
         <div class="tab">AI تحويل نص لصوت</div>
         <textarea id="aiText" placeholder="اكتب النص هنا بالعربي"></textarea>
@@ -120,7 +119,6 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
 <script>
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-// تشغيل الصوت الحقي
 let audioCtx, source, gainNode, audioBuffer;
 let isPlaying = false;
 
@@ -137,7 +135,6 @@ function initAudio(){
   gainNode.connect(audioCtx.destination);
 }
 
-// اختيار ملف
 document.getElementById('drop').onclick = () => document.getElementById('fileInput').click();
 document.getElementById('fileInput').onchange = e => {
   const file = e.target.files[0]; if(!file) return;
@@ -153,7 +150,6 @@ document.getElementById('fileInput').onchange = e => {
   reader.readAsArrayBuffer(file);
 };
 
-// التشغيل
 document.getElementById('playBtn').onclick = () => {
   if(!audioBuffer) return alert('اختار ملف اول');
   if(isPlaying) return;
@@ -163,9 +159,9 @@ document.getElementById('playBtn').onclick = () => {
   source.connect(gainNode);
   source.start(0);
   isPlaying = true;
+  source.onended = () => isPlaying = false;
 };
 
-// الايقاف
 document.getElementById('pauseBtn').onclick = () => {
   if(source && isPlaying) {
     source.stop();
@@ -173,13 +169,11 @@ document.getElementById('pauseBtn').onclick = () => {
   }
 };
 
-// الاعادة
 document.getElementById('resetBtn').onclick = () => {
   if(source) source.stop();
   isPlaying = false;
 };
 
-// الصوت والسرعة
 document.getElementById('vol').oninput = e => {
   if(gainNode) gainNode.gain.value = e.target.value;
   document.getElementById('volVal').innerText = parseFloat(e.target.value).toFixed(2);
@@ -189,7 +183,6 @@ document.getElementById('speed').oninput = e => {
   document.getElementById('speedVal').innerText = parseFloat(e.target.value).toFixed(2);
 };
 
-// التبويبات
 document.querySelectorAll('.tool').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.style.display='none');
@@ -199,7 +192,6 @@ document.querySelectorAll('.tool').forEach(btn => {
   }
 });
 
-// الفلاتر
 filterPresets.forEach((f)=>{
   const btn = document.createElement('div');
   btn.className = 'filter-btn';
@@ -207,12 +199,10 @@ filterPresets.forEach((f)=>{
   btn.onclick = ()=>{
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    alert('تم تفعيل: '+f.name);
   }
   document.getElementById('filterGrid').appendChild(btn);
 });
 
-// AI
 document.getElementById('aiBtn').onclick = () => {
   const text = document.getElementById('aiText').value;
   if(!text){ alert('اكتب النص اول'); return; }
@@ -222,17 +212,7 @@ document.getElementById('aiBtn').onclick = () => {
   speechSynthesis.speak(utterance);
 };
 
-// التصدير
-document.getElementById('exportBtn').onclick = () => alert('للتصدير: سجل الشاشة حاليا');
-
-// اجبار الواجهة تقلب
-window.addEventListener('resize', () => {
-  if(window.innerHeight > window.innerWidth){
-    document.getElementById('app').style.transform = 'rotate(90deg)';
-  } else {
-    document.getElementById('app').style.transform = 'rotate(0deg)';
-  }
-});
+document.getElementById('exportBtn').onclick = () => alert('للتصدير: سجل الشاشة');
 </script>
 </body>
 </html>
