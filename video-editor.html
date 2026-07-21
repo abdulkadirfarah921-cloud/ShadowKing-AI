@@ -14,10 +14,8 @@ body{background:radial-gradient(circle at 50% 0%,#1a1a2e 0%,#000 100%);color:#ff
 .container{max-width:1700px;margin:10px auto;padding:10px}
 .main-grid{display:grid;grid-template-columns:1fr 380px;gap:12px}
 
-/* ===== مضغوط جدا ===== */
 .preview-area{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:8px;position:relative}
-video{width:100%;height:200px;object-fit:cover;border-radius:10px;background:#000;border:2px solid var(--neon)} /* 200px بس */
-
+video{width:100%;height:200px;object-fit:cover;border-radius:10px;background:#000;border:2px solid var(--neon)}
 .sidebar{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:12px;max-height:88vh;overflow-y:auto}
 .tabs{display:flex;gap:6px;margin-bottom:10px}
 .tab-btn{flex:1;background:rgba(0,229,255,0.1);color:var(--neon);padding:10px;border:1px solid var(--neon);border-radius:10px;cursor:pointer;font-weight:900;font-size:0.9em}
@@ -28,14 +26,25 @@ h3{color:var(--neon2);margin-bottom:8px;font-size:0.95em;border-right:3px solid 
 .btn-export{background:linear-gradient(90deg,#00ff88,#00e5ff)}
 select,input{width:100%;padding:8px;background:rgba(0,0,0,0.5);color:#fff;border:1px solid var(--neon);border-radius:8px;margin:4px 0;font-size:0.9em}
 
-/* ===== تايم لاين رفيع ===== */
+/* ===== زرين التمرير الجداد ===== */
+.scroll-controls{display:flex;justify-content:center;gap:10px;margin-bottom:8px}
+.scroll-btn{
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  color:#000;border:none;padding:8px 20px;border-radius:10px;
+  font-size:1.5em;font-weight:900;cursor:pointer;
+  box-shadow:0 0 15px var(--neon);
+  user-select:none;
+}
+.scroll-btn:active{transform:scale(0.9);box-shadow:0 0 30px var(--neon2)}
+
+/* ===== تايم لاين ===== */
 .timeline-wrap{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:8px;margin-top:10px}
 .timeline-controls{display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.9em}
 .zoom-btn{background:var(--neon);color:#000;border:none;padding:4px 10px;border-radius:6px;font-weight:900;cursor:pointer;font-size:0.9em}
 .time-ruler{height:18px;display:flex;font-size:0.7em;color:var(--neon);margin-bottom:3px}
-.timeline-track{height:45px;background:#050505;border-radius:10px;position:relative;overflow-x:auto;border:1px solid var(--neon)22} /* 45px بس */
+.timeline-track{height:45px;background:#050505;border-radius:10px;position:relative;overflow-x:auto;border:1px solid var(--neon)22}
 .track-row{height:100%;position:relative;display:flex;align-items:center;min-width:8000px}
-.clip-item{height:35px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:6px;margin:0 2px;position:relative;cursor:grab;display:flex;align-items:center;padding:3px;min-width:100px;font-size:0.7em} /* 35px بس */
+.clip-item{height:35px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:6px;margin:0 2px;position:relative;cursor:grab;display:flex;align-items:center;padding:3px;min-width:100px;font-size:0.7em}
 .clip-item.selected{border:2px solid #fff!important}
 .trim-handle{position:absolute;width:8px;height:100%;background:#fff;top:0;cursor:ew-resize;opacity:0.95}
 .trim-left{left:0;border-radius:6px 0 0 6px}
@@ -64,6 +73,12 @@ select,input{width:100%;padding:8px;background:rgba(0,0,0,0.5);color:#fff;border
       <video id="preview" controls></video>
     </div>
 
+    <!-- زرين التمرير هون مكان العلامة الخضرا -->
+    <div class="scroll-controls">
+      <button class="scroll-btn" id="scrollLeft">◀️</button>
+      <button class="scroll-btn" id="scrollRight">▶️</button>
+    </div>
+
     <div class="timeline-wrap">
       <div class="timeline-controls">
         <h3>📼 التايم لاين</h3>
@@ -74,7 +89,7 @@ select,input{width:100%;padding:8px;background:rgba(0,0,0,0.5);color:#fff;border
         </div>
       </div>
       <div class="time-ruler" id="timeRuler"></div>
-      <div class="timeline-track">
+      <div class="timeline-track" id="timelineTrack">
         <div class="playhead" id="playhead"></div>
         <div class="track-row" id="trackRow">
           <div class="btn" style="width:50px;padding:5px;font-size:0.8em" onclick="document.getElementById('videoInput').click()">+</div>
@@ -96,17 +111,12 @@ select,input{width:100%;padding:8px;background:rgba(0,0,0,0.5);color:#fff;border
         <button class="btn" onclick="mergeVideo()">🔗 دمج</button>
         <button class="btn" onclick="deleteClip()">🗑️ حذف</button>
       </div>
-      <div class="card"><h3>نص</h3>
-        <input type="text" id="textInput" placeholder="النص">
-        <button class="btn" onclick="addTextClip()">📝 اضافة</button>
-      </div>
     </div>
 
     <div id="ai" class="tab">
       <div class="card"><h3>🤖 AI</h3>
         <button class="btn" onclick="removeBg()">🎭 حذف خلفية</button>
         <button class="btn" onclick="subtitles()">📜 ترجمة</button>
-        <button class="btn" onclick="autoCut()">✂️ قص تلقائي</button>
       </div>
     </div>
 
@@ -117,7 +127,6 @@ select,input{width:100%;padding:8px;background:rgba(0,0,0,0.5);color:#fff;border
           <option>30 FPS</option><option>60 FPS</option><option>120 FPS</option>
           <option>144 FPS</option><option>240 FPS</option><option>360 FPS</option>
         </select>
-        <select id="format"><option>MP4</option><option>MOV</option></select>
         <button class="btn btn-export" onclick="exportVideo()">تصدير</button>
       </div>
     </div>
@@ -135,8 +144,10 @@ function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='
 const video = document.getElementById('preview');
 const playhead = document.getElementById('playhead');
 const trackRow = document.getElementById('trackRow');
+const timelineTrack = document.getElementById('timelineTrack');
 const outro = document.getElementById('outro');
 let selectedClip = null;let zoom = 1;
+let scrollInterval = null; // للتمرير المستمر
 
 document.getElementById('videoInput').onchange=e=>{
   const file = e.target.files[0];video.src = URL.createObjectURL(file);
@@ -162,11 +173,34 @@ function generateTimeRuler(){
   }
 }
 
+// ===== كود زرين التمرير =====
+function startScroll(direction){
+  scrollInterval = setInterval(()=>{
+    window.scrollBy({left: direction * 30, behavior: 'smooth'});
+  }, 50);
+}
+function stopScroll(){
+  clearInterval(scrollInterval);
+}
+
+document.getElementById('scrollLeft').addEventListener('mousedown',()=>startScroll(-1));
+document.getElementById('scrollLeft').addEventListener('mouseup',stopScroll);
+document.getElementById('scrollLeft').addEventListener('mouseleave',stopScroll);
+
+document.getElementById('scrollRight').addEventListener('mousedown',()=>startScroll(1));
+document.getElementById('scrollRight').addEventListener('mouseup',stopScroll);
+document.getElementById('scrollRight').addEventListener('mouseleave',stopScroll);
+// للموبايل
+document.getElementById('scrollLeft').addEventListener('touchstart',()=>startScroll(-1));
+document.getElementById('scrollLeft').addEventListener('touchend',stopScroll);
+document.getElementById('scrollRight').addEventListener('touchstart',()=>startScroll(1));
+document.getElementById('scrollRight').addEventListener('touchend',stopScroll);
+
 function openTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active')}
 function splitClip(){alert('قص عند '+video.currentTime.toFixed(1)+'s')}
 function mergeVideo(){alert('تم الدمج')}function deleteClip(){if(selectedClip) selectedClip.remove()}
 function addTextClip(){const text=prompt('النص:');if(text) addClipToTimeline(text)}
-function removeBg(){alert('AI حذف خلفية')}function subtitles(){alert('AI ترجمة')}function autoCut(){alert('AI قص')}
+function removeBg(){alert('AI حذف خلفية')}function subtitles(){alert('AI ترجمة')}
 
 video.ontimeupdate = () => {
   if(video.duration){
