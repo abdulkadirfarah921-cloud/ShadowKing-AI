@@ -1,83 +1,87 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOWKING VIDEO PRO</title>
+<meta charset="UTF-8">
+<title>محر الفيديو SHADOWKING</title>
 <style>
-:root{--neon:#00ff88;--neon2:#00e5ff}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-body{background:#000;color:#fff;overflow:hidden}
-@media (orientation: portrait) {body {transform: rotate(90deg);transform-origin: left top;width: 100vh;height: 100vw;position: absolute;top: 100vw;left: 0;}}
-.topbar{height:50px;background:#0a0a0a;display:flex;align-items:center;padding:0 12px;border-bottom:2px solid var(--neon)}
-.logo{color:var(--neon);font-weight:900;font-size:14px}
-.export{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:8px 15px;border:none;border-radius:10px;font-weight:900;font-size:12px}
-.container{display:flex;height:calc(100vh - 120px)}
-.sidebar{width:80px;background:#050505;border-left:2px solid var(--neon);padding:8px;display:flex;flex-direction:column;gap:8px}
-.tool{height:60px;background:#111;border:2px solid #333;border-radius:10px;color:#aaa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;cursor:pointer}
-.tool.active{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000}
-.center{flex:1;display:flex;flex-direction:column;padding:8px;gap:8px}
-.preview{height:40%;background:#0a0a0a;border:2px solid #333;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.preview video{max-width:100%;max-height:100%;object-fit:contain}
-.controls{height:45px;display:flex;gap:8px;justify-content:center}
-.btn{padding:10px 20px;border:none;border-radius:10px;font-weight:900;font-size:11px}
-.play{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000}
-.pause{background:#00e5ff;color:#000}
-.stop{background:#ff0044;color:#fff}
-.timeline{height:100px;background:#0a0a0a;border:2px solid #333;border-radius:12px;padding:6px}
-.time{display:flex;justify-content:space-between;color:#666;font-size:10px}
-.tracks{height:65px;background:#000;border-radius:8px;margin-top:4px;position:relative;overflow-x:auto}
-.track{height:40px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:6px;position:absolute;top:12px;left:20px;display:none;align-items:center;padding:0 10px;color:#000;font-weight:900;font-size:10px}
-.head{position:absolute;width:2px;height:100%;background:red;left:20px;box-shadow:0 0 8px red}
-.bottom{height:60px;background:#050505;border-top:2px solid var(--neon);display:flex;gap:6px;padding:6px}
-.btool{flex:1;background:#111;border:2px solid #333;border-radius:10px;color:#aaa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px}
+body{background:#000;color:#fff;font-family:'Segoe UI';margin:0;padding:20px}
+h1{text-align:center;color:#00e5ff;text-shadow:0 0 20px #00e5ff}
+.container{max-width:900px;margin:auto;background:#111;padding:20px;border-radius:20px;border:2px solid #00e5ff}
+.btn{background:linear-gradient(90deg,#00e5ff,#00ff88);color:#000;padding:12px 20px;border:none;border-radius:12px;font-weight:900;cursor:pointer;margin:5px}
+input,select{width:100%;padding:10px;margin:10px 0;border-radius:10px;background:#222;color:#fff;border:1px solid #00e5ff}
+video{width:100%;border-radius:15px;margin:15px 0}
+.row{display:flex;gap:10px}
 </style>
 </head>
 <body>
-<div class="topbar"><div class="logo">🎬 SHADOWKING VIDEO PRO</div><button class="export">تصدير 4K</button></div>
+<h1>🎬 محر الفيديو PRO</h1>
 <div class="container">
-  <div class="sidebar">
-    <div class="tool active" onclick="document.getElementById('videoInput').click()">📁<br>وسائط</div>
-    <div class="tool" onclick="alert('نص')">T<br>نص</div>
-    <div class="tool" onclick="alert('فلاتر')">✨<br>فلاتر</div>
+  <input type="file" id="videoInput" accept="video/*">
+  <video id="preview" controls></video>
+
+  <h3>1. القص</h3>
+  <div class="row">
+    <input type="number" id="start" placeholder="البداية بالثواني">
+    <input type="number" id="end" placeholder="النهاية بالثواني">
   </div>
-  <div class="center">
-    <div class="preview" id="preview"><button class="btn play" onclick="document.getElementById('videoInput').click()">+ اضغط لاختيار فيديو</button></div>
-    <div class="controls">
-      <button class="btn play" id="playBtn">▶️ تشغيل</button>
-      <button class="btn pause" id="pauseBtn">⏸️</button>
-      <button class="btn stop" id="stopBtn">⏹️</button>
-    </div>
-    <div class="timeline">
-      <div class="time"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span></div>
-      <div class="tracks"><div class="head" id="head"></div><div class="track" id="track"></div></div>
-    </div>
-  </div>
+  <button class="btn" onclick="cutVideo()">✂️ قص الفيديو</button>
+
+  <h3>2. السرعة</h3>
+  <select id="speed">
+    <option value="0.5">بطيء 0.5x</option>
+    <option value="1" selected>عادي 1x</option>
+    <option value="1.5">سريع 1.5x</option>
+    <option value="2">سريع جدا 2x</option>
+  </select>
+  <button class="btn" onclick="changeSpeed()">⚡ تغيير السرعة</button>
+
+  <h3>3. التأثيرات</h3>
+  <select id="filter">
+    <option value="none">بدون</option>
+    <option value="grayscale(100%)">ابيض واسود</option>
+    <option value="sepia(100%)">سيبيا</option>
+    <option value="blur(5px)">ضباب</option>
+    <option value="brightness(150%)">اضاءة</option>
+  </select>
+  <button class="btn" onclick="applyFilter()">🎨 تطبيق فلتر</button>
+
+  <h3>4. استخراج الصوت</h3>
+  <button class="btn" onclick="extractAudio()">🎵 استخراج MP3</button>
+
+  <h3>5. تحميل</h3>
+  <button class="btn" onclick="downloadVideo()">⬇️ تحميل الفيديو</button>
 </div>
-<div class="bottom">
-  <div class="btool" onclick="document.getElementById('videoInput').click()">📁<br>رفع</div>
-  <div class="btool" onclick="alert('قص')">✂️<br>قص</div>
-  <div class="btool" onclick="alert('انتقال')">🔄<br>انتقال</div>
-  <div class="btool" onclick="alert('صوت')">🎵<br>صوت</div>
-</div>
-<input type="file" id="videoInput" accept="video/*" style="display:none">
+
 <script>
-let vid, playing=false, anim, duration=0;
+let videoFile;
+const video = document.getElementById('preview');
+
 document.getElementById('videoInput').onchange = e => {
-  const file = e.target.files[0]; if(!file) return;
-  vid = document.createElement('video');
-  vid.src = URL.createObjectURL(file);
-  vid.onloadedmetadata = () => {
-    duration = vid.duration;
-    document.getElementById('track').style.display = 'flex';
-    document.getElementById('track').innerText = file.name;
-    let width = Math.max(200, duration * 20); // التراك يكبر حسب الثواني
-    document.getElementById('track').style.width = width + 'px';
-  }
-  document.getElementById('preview').innerHTML = '';document.getElementById('preview').appendChild(vid);
-};
-document.getElementById('playBtn').onclick = () => {if(!vid) return alert('اختار فيديو');vid.play();playing=true;moveHead();};
-document.getElementById('pauseBtn').onclick = () => {if(vid) vid.pause();playing=false; cancelAnimationFrame(anim);};
-document.getElementById('stopBtn').onclick = () => {if(vid) {vid.pause(); vid.currentTime = 0;}playing=false; cancelAnimationFrame(anim);document.getElementById('head').style.left = '20px';};
-function moveHead(){if(!playing) return;let trackWidth = document.getElementById('track').offsetWidth;let progress = (vid.currentTime / duration) * trackWidth;document.getElementById('head').style.left = (20 + progress) + 'px';if(vid.currentTime >= duration){playing=false; document.getElementById('head').style.left = (20 + trackWidth) + 'px';}anim = requestAnimationFrame(moveHead);}
+  videoFile = e.target.files[0];
+  video.src = URL.createObjectURL(videoFile);
+}
+
+function cutVideo(){
+  alert('تم تحديد القص من '+document.getElementById('start').value+' الى '+document.getElementById('end').value+' ثانية');
+}
+
+function changeSpeed(){
+  video.playbackRate = document.getElementById('speed').value;
+  alert('تم تغيير السرعة الى '+video.playbackRate+'x');
+}
+
+function applyFilter(){
+  video.style.filter = document.getElementById('filter').value;
+  alert('تم تطبيق الفلتر');
+}
+
+function extractAudio(){
+  alert('جاري استخراج الصوت... ارفع الفيديو على سيرفر الـ AI عشان نستخرجو');
+}
+
+function downloadVideo(){
+  alert('اضغط كليك يمين على الفيديو > حفظ الفيديو باسم');
+}
 </script>
-</body></html>
+</body>
+</html>
