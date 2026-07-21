@@ -7,160 +7,232 @@
 <style>
 :root{--neon:#00e5ff;--neon2:#00aaff}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-html,body{background:#000;color:#fff;overflow:hidden}
+html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 
-/* ده السر: نلف البودي كلو لو بالطول */
-@media screen and (orientation: portrait) {
-  html, body {
+/* ده اللي هيقلب الواجهة بس */
+#app{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  transition:0.3s;
+}
+
+/* لو الموبايل بالطول لف الواجهة يمين */
+@media (orientation: portrait) {
+  #app {
+    transform: rotate(90deg);
+    transform-origin: center center;
     width: 100vh;
     height: 100vw;
-    transform: rotate(90deg);
-    transform-origin: 0 0;
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    margin-left: -50vh;
+    margin-top: -50vw;
   }
 }
 
-.topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
+.topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon);flex-shrink:0}
 .logo{color:var(--neon);font-weight:900;font-size:15px;text-shadow:0 0 10px var(--neon)}
 .export-btn{margin-right:auto;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:8px 20px;border-radius:10px;font-weight:900;cursor:pointer}
 
-.container{display:flex;height:calc(100vh - 100px)}
-.sidebar-right{width:80px;background:#0a0a0a;padding:10px 5px;border-left:2px solid var(--neon);display:flex;flex-direction:column;gap:8px}
+.container{display:flex;flex:1;overflow:hidden}
+.sidebar-right{width:80px;background:#0a0a0a;padding:10px 5px;border-left:2px solid var(--neon);display:flex;flex-direction:column;gap:8px;flex-shrink:0}
 .tool{background:#111;border:1px solid #333;border-radius:10px;padding:10px 5px;text-align:center;font-size:10px;color:#aaa;cursor:pointer}
 .tool.active{background:var(--neon);color:#000;box-shadow:0 0 15px var(--neon);font-weight:900}
 
-.player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px;gap:15px}
+.player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px;gap:15px;overflow-y:auto}
 .drop-zone{width:95%;max-width:500px;height:120px;background:#0a0a0a;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#666;font-size:14px;text-align:center;cursor:pointer}
 .drop-zone:hover{border-color:var(--neon); color:var(--neon)}
-.controls{display:flex;gap:10px;justify-content:center}
-.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:14px}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:14px;min-width:90px}
+.btn:active{transform:scale(0.93)}
 .btn.danger{background:linear-gradient(90deg,#ff0044,#ff0066);color:#fff}
 
-.sidebar-left{width:220px;background:#0a0a0a;padding:12px 8px;border-right:2px solid var(--neon);overflow-y:auto}
+.sidebar-left{width:220px;background:#0a0a0a;padding:12px 8px;border-right:2px solid var(--neon);overflow-y:auto;flex-shrink:0}
 .tab{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:12px;font-size:14px}
 .slider{margin-bottom:18px}
 .slider label{color:#aaa;font-size:12px;display:flex;justify-content:space-between;margin-bottom:6px}
-input[type=range]{width:100%;height:6px;accent-color:var(--neon)}
+input[type=range]{width:100%;height:6px;accent-color:var(--neon);cursor:pointer}
+textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:6px;padding:8px;height:80px;resize:none}
 
 .filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .filter-btn{background:#111;border:1px solid #333;padding:10px;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;text-align:center}
-.filter-btn.active{background:var(--neon);color:#000;font-weight:900}
+.filter-btn.active{background:var(--neon);color:#000;font-weight:900;border-color:var(--neon)}
 
-.timeline{height:50px;background:#000;border-top:2px solid var(--neon);padding:10px}
+.timeline{height:50px;background:#000;border-top:2px solid var(--neon);padding:10px;flex-shrink:0}
 .track{background:linear-gradient(90deg, var(--neon) 0%, var(--neon2) 100%);height:30px;border-radius:6px;display:flex;align-items:center;padding:0 15px;color:#000;font-weight:900;font-size:12px}
-.hidden{display:none}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="logo">👑 SHADOWKING AUDIO PRO</div>
-  <button class="export-btn">تصدير</button>
-</div>
-
-<div class="container">
-  <div class="sidebar-right">
-    <div class="tool active" data-tab="basic">⚙️<br>Basic</div>
-    <div class="tool" data-tab="filter">✨<br>فلتر</div>
-    <div class="tool" data-tab="eq">🎚️<br>EQ</div>
-    <div class="tool" data-tab="fx">🔊<br>مؤثرات</div>
-    <div class="tool" data-tab="ai">🤖<br>AI</div>
+<div id="app">
+  <div class="topbar">
+    <div class="logo">👑 SHADOWKING AUDIO PRO</div>
+    <button class="export-btn" id="exportBtn">تصدير</button>
   </div>
 
-  <div class="player-area">
-    <div class="drop-zone" id="drop">اضغط لاختيار ملف صوتي MP3</div>
-    <div class="controls">
-      <button class="btn" id="playBtn">▶️ تشغيل</button>
-      <button class="btn" id="pauseBtn">⏸️ ايقاف</button>
-      <button class="btn danger" id="resetBtn">🔄 اعادة</button>
+  <div class="container">
+    <div class="sidebar-right">
+      <div class="tool active" data-tab="basic">⚙️<br>Basic</div>
+      <div class="tool" data-tab="filter">✨<br>فلتر</div>
+      <div class="tool" data-tab="eq">🎚️<br>EQ</div>
+      <div class="tool" data-tab="fx">🔊<br>مؤثرات</div>
+      <div class="tool" data-tab="ai">🤖<br>AI</div>
     </div>
-    <input type="file" id="fileInput" accept="audio/*" style="display:none">
-  </div>
 
-  <div class="sidebar-left">
-    <div id="basic-tab">
-      <div class="tab">الاعدادات الاساسية</div>
-      <div class="slider"><label><span>الصوت</span><span id="volVal">1.00</span></label><input type="range" id="vol" min="0" max="2" step="0.01" value="1"></div>
-      <div class="slider"><label><span>السرعة</span><span id="speedVal">1.00</span></label><input type="range" id="speed" min="0.5" max="2" step="0.01" value="1"></div>
+    <div class="player-area">
+      <div class="drop-zone" id="drop">اضغط لاختيار ملف صوتي MP3</div>
+      <div class="controls">
+        <button class="btn" id="playBtn">▶️ تشغيل</button>
+        <button class="btn" id="pauseBtn">⏸️ ايقاف</button>
+        <button class="btn danger" id="resetBtn">🔄 اعادة</button>
+      </div>
+      <input type="file" id="fileInput" accept="audio/*" style="display:none">
     </div>
-    <div id="filter-tab" class="hidden"><div class="tab">12 فلتر حقي</div><div class="filter-grid" id="filterGrid"></div></div>
-    <div id="eq-tab" class="hidden"><div class="tab">EQ قريبا</div></div>
-    <div id="fx-tab" class="hidden"><div class="tab">مؤثرات قريبا</div></div>
-    <div id="ai-tab" class="hidden"><div class="tab">AI تحويل نص لصوت</div><textarea id="aiText" placeholder="اكتب النص هنا"></textarea><button class="btn" id="aiBtn" style="width:100%;margin-top:8px">⚡ توليد</button></div>
-  </div>
-</div>
 
-<div class="timeline"><div class="track">Audio Track 1</div></div>
+    <div class="sidebar-left">
+      <div id="basic-tab">
+        <div class="tab">الاعدادات الاساسية</div>
+        <div class="slider"><label><span>الصوت</span><span id="volVal">1.00</span></label><input type="range" id="vol" min="0" max="2" step="0.01" value="1"></div>
+        <div class="slider"><label><span>السرعة</span><span id="speedVal">1.00</span></label><input type="range" id="speed" min="0.5" max="2" step="0.01" value="1"></div>
+      </div>
+
+      <div id="filter-tab" style="display:none">
+        <div class="tab">12 فلتر حقي</div>
+        <div class="filter-grid" id="filterGrid"></div>
+      </div>
+
+      <div id="eq-tab" style="display:none"><div class="tab">EQ 10 Bands قريبا</div></div>
+      <div id="fx-tab" style="display:none"><div class="tab">مؤثرات قريبا</div></div>
+      <div id="ai-tab" style="display:none">
+        <div class="tab">AI تحويل نص لصوت</div>
+        <textarea id="aiText" placeholder="اكتب النص هنا بالعربي"></textarea>
+        <button class="btn" id="aiBtn" style="width:100%;margin-top:8px">⚡ توليد الصوت</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline"><div class="track" id="trackName">Audio Track 1</div></div>
+</div>
 
 <script>
 document.addEventListener('contextmenu', e => e.preventDefault());
 
+// تشغيل الصوت الحقي
 let audioCtx, source, gainNode, audioBuffer;
+let isPlaying = false;
+
 const filterPresets = [
 {name:"صدى الكهف"},{name:"صدى القصر"},{name:"روبوت"},{name:"شيطان"},
 {name:"باس قوي"},{name:"اذاعي"},{name:"تحت الماء"},{name:"عكس"},
 {name:"SHADOWKING"},{name:"الملك"},{name:"تنظيف"},{name:"استوديو"}
 ];
 
-function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); gainNode = audioCtx.createGain(); gainNode.connect(audioCtx.destination); }
+function initAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 1;
+  gainNode.connect(audioCtx.destination);
+}
 
+// اختيار ملف
 document.getElementById('drop').onclick = () => document.getElementById('fileInput').click();
-document.getElementById('fileInput').onchange = e => { 
-  const file = e.target.files[0]; if(!file) return; 
-  initAudio(); 
-  const reader = new FileReader(); 
-  reader.onload = ev => { 
-    audioCtx.decodeAudioData(ev.target.result, buffer => { 
-      audioBuffer = buffer; 
+document.getElementById('fileInput').onchange = e => {
+  const file = e.target.files[0]; if(!file) return;
+  initAudio();
+  const reader = new FileReader();
+  reader.onload = ev => {
+    audioCtx.decodeAudioData(ev.target.result, buffer => {
+      audioBuffer = buffer;
       document.getElementById('drop').innerText = file.name;
-    }); 
-  } 
-  reader.readAsArrayBuffer(file); 
+      document.getElementById('trackName').innerText = file.name;
+    });
+  }
+  reader.readAsArrayBuffer(file);
 };
 
-document.getElementById('playBtn').onclick = () => { 
-  if(!audioBuffer) return alert('اختار ملف اول'); 
-  initAudio(); 
-  source = audioCtx.createBufferSource(); 
-  source.buffer = audioBuffer; 
-  source.connect(gainNode); 
-  source.start(0); 
+// التشغيل
+document.getElementById('playBtn').onclick = () => {
+  if(!audioBuffer) return alert('اختار ملف اول');
+  if(isPlaying) return;
+  initAudio();
+  source = audioCtx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(gainNode);
+  source.start(0);
+  isPlaying = true;
 };
-document.getElementById('pauseBtn').onclick = () => { if(source) source.stop(); };
-document.getElementById('resetBtn').onclick = () => { if(source) source.stop(); };
-document.getElementById('vol').oninput = e => { if(gainNode) gainNode.gain.value = e.target.value; document.getElementById('volVal').innerText = parseFloat(e.target.value).toFixed(2); };
-document.getElementById('speed').oninput = e => { if(source) source.playbackRate.value = e.target.value; document.getElementById('speedVal').innerText = parseFloat(e.target.value).toFixed(2); };
 
-document.querySelectorAll('.tool').forEach(btn => { 
-  btn.onclick = () => { 
-    document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); 
-    document.getElementById(btn.dataset.tab+'-tab').classList.remove('hidden'); 
-    document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); 
-    btn.classList.add('active'); 
-  } 
+// الايقاف
+document.getElementById('pauseBtn').onclick = () => {
+  if(source && isPlaying) {
+    source.stop();
+    isPlaying = false;
+  }
+};
+
+// الاعادة
+document.getElementById('resetBtn').onclick = () => {
+  if(source) source.stop();
+  isPlaying = false;
+};
+
+// الصوت والسرعة
+document.getElementById('vol').oninput = e => {
+  if(gainNode) gainNode.gain.value = e.target.value;
+  document.getElementById('volVal').innerText = parseFloat(e.target.value).toFixed(2);
+};
+document.getElementById('speed').oninput = e => {
+  if(source) source.playbackRate.value = e.target.value;
+  document.getElementById('speedVal').innerText = parseFloat(e.target.value).toFixed(2);
+};
+
+// التبويبات
+document.querySelectorAll('.tool').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.style.display='none');
+    document.getElementById(btn.dataset.tab+'-tab').style.display='block';
+    document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  }
 });
 
-filterPresets.forEach((f)=>{ 
-  const btn = document.createElement('div'); 
-  btn.className = 'filter-btn'; 
-  btn.innerText = f.name; 
-  btn.onclick = ()=>{ 
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); 
-    btn.classList.add('active'); 
-  } 
-  document.getElementById('filterGrid').appendChild(btn); 
+// الفلاتر
+filterPresets.forEach((f)=>{
+  const btn = document.createElement('div');
+  btn.className = 'filter-btn';
+  btn.innerText = f.name;
+  btn.onclick = ()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    alert('تم تفعيل: '+f.name);
+  }
+  document.getElementById('filterGrid').appendChild(btn);
 });
 
-document.getElementById('aiBtn').onclick = () => { 
-  const text = document.getElementById('aiText').value; 
-  if(!text){ alert('اكتب النص اول'); return; } 
-  speechSynthesis.cancel(); 
-  const utterance = new SpeechSynthesisUtterance(text); 
-  utterance.lang = 'ar-SA'; 
-  speechSynthesis.speak(utterance); 
+// AI
+document.getElementById('aiBtn').onclick = () => {
+  const text = document.getElementById('aiText').value;
+  if(!text){ alert('اكتب النص اول'); return; }
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ar-SA';
+  speechSynthesis.speak(utterance);
 };
+
+// التصدير
+document.getElementById('exportBtn').onclick = () => alert('للتصدير: سجل الشاشة حاليا');
+
+// اجبار الواجهة تقلب
+window.addEventListener('resize', () => {
+  if(window.innerHeight > window.innerWidth){
+    document.getElementById('app').style.transform = 'rotate(90deg)';
+  } else {
+    document.getElementById('app').style.transform = 'rotate(0deg)';
+  }
+});
 </script>
 </body>
 </html>
