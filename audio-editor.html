@@ -3,19 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src 'self' blob:; img-src 'self' data:;">
+<meta name="screen-orientation" content="landscape">
+<meta name="x5-orientation" content="landscape">
 <title>SHADOWKING AUDIO PRO</title>
 <style>
 :root{--neon:#00e5ff;--neon2:#00aaff}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 
-/* ده اللي هيقلب الصفحة اجباري */
-#rotate-wrapper{
-  width:100vw;
-  height:100vh;
-  transform-origin: center;
-  transition: transform 0.3s ease;
+/* ده اللي هيقلب الصفحة اجباري اول ما تفتح */
+@media (orientation: portrait) {
+  body {
+    transform: rotate(90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height: 100vw;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
 }
 
 .topbar{background:#000;height:50px;display:flex;align-items:center;padding:0 15px;border-bottom:2px solid var(--neon)}
@@ -27,18 +33,14 @@ html,body{background:#000;color:#fff;height:100vh;width:100vw;overflow:hidden}
 .tool.active{background:var(--neon);color:#000;box-shadow:0 0 15px var(--neon)}
 .player-area{flex:1;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:15px}
 .drop-zone{width:90%;max-width:500px;height:140px;background:#0a0a0a;border:2px dashed #333;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#666;font-size:14px;text-align:center;cursor:pointer}
-.drop-zone:hover{border-color:var(--neon)}
 .controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .btn{background:var(--neon);color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:900;cursor:pointer;font-size:15px}
-.btn:active{transform:scale(0.95)}
 .btn.danger{background:#ff0044;color:#fff}
-.btn.ai{background:#ffaa00;color:#000;width:100%}
 .sidebar-left{width:200px;background:#000;padding:12px 8px;border-right:2px solid var(--neon);overflow-y:auto}
 .tab{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px;border-radius:8px;text-align:center;font-weight:900;margin-bottom:12px;font-size:14px}
 .slider{margin-bottom:15px}
 .slider label{color:#aaa;font-size:11px;display:block;margin-bottom:5px}
 input[type=range]{width:100%;accent-color:var(--neon)}
-textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:6px;padding:8px;height:80px;resize:none}
 .filter-btn{background:#111;border:1px solid #333;padding:10px;border-radius:6px;font-size:12px;color:#aaa;cursor:pointer;text-align:right;width:100%;margin-bottom:8px}
 .filter-btn.active{background:var(--neon);color:#000;font-weight:900}
 .timeline{height:50px;background:#000;border-top:2px solid var(--neon);padding:10px}
@@ -48,10 +50,9 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
 </head>
 <body>
 
-<div id="rotate-wrapper">
 <div class="topbar">
   <div class="logo">👑 SHADOWKING AUDIO PRO</div>
-  <button class="export-btn" onclick="exportAudio()">تصدير</button>
+  <button class="export-btn">تصدير</button>
 </div>
 
 <div class="container">
@@ -85,63 +86,53 @@ textarea{width:100%;background:#111;border:1px solid #333;color:#fff;border-radi
     <div id="ai-tab" class="hidden"><div class="tab">AI صوت</div><textarea id="aiText" placeholder="اكتب النص هنا"></textarea><button class="btn ai" id="aiBtn">توليد الصوت ⚡</button></div>
   </div>
 </div>
-
 <div class="timeline"><div class="track">Audio Track 1</div></div>
-</div>
 
 <script>
 // حماية
 document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('keydown', e => { if(e.key === 'F12') e.preventDefault(); });
 
-// اجبار اللف اوتوماتيك
-function forceLandscape(){
-  const wrapper = document.getElementById('rotate-wrapper');
-  if(window.innerHeight > window.innerWidth){ // لو الموبايل بالطول
-    wrapper.style.transform = 'rotate(90deg)';
-    wrapper.style.width = '100vh';
-    wrapper.style.height = '100vw';
-    wrapper.style.position = 'absolute';
-    wrapper.style.top = '100%';
-    wrapper.style.left = '0';
-  } else { // لو بالعرض
-    wrapper.style.transform = 'rotate(0deg)';
-    wrapper.style.width = '100vw';
-    wrapper.style.height = '100vh';
-    wrapper.style.position = 'static';
+// اجبار اللف اول ما الصفحة تحمل
+window.addEventListener('load', async () => {
+  // محاولة قفل الشاشة بالعرض
+  if (screen.orientation && screen.orientation.lock) {
+    try {
+      await screen.orientation.lock('landscape-primary');
+    } catch(e) {
+      console.log("المتصفح منع القفل التلقائي");
+    }
   }
-}
-window.addEventListener('load', forceLandscape);
-window.addEventListener('resize', forceLandscape);
 
+  // لو لسه بالطول لفها بالـ CSS
+  if(window.innerHeight > window.innerWidth){
+    document.body.style.transform = 'rotate(90deg)';
+    document.body.style.transformOrigin = 'left top';
+    document.body.style.width = '100vh';
+    document.body.style.height = '100vw';
+    document.body.style.position = 'absolute';
+    document.body.style.top = '100%';
+    document.body.style.left = '0';
+  }
+});
+
+// باقي الكود
 let audioCtx, source, gainNode, audioBuffer;
 const filterPresets = [
 {name:"صدى الكهف"},{name:"صدى القصر"},{name:"روبوت"},{name:"شيطان"},
 {name:"باس قوي"},{name:"اذاعي"},{name:"تحت الماء"},{name:"عكس"},
 {name:"SHADOWKING"},{name:"الملك"},{name:"تنظيف صوت"},{name:"استوديو"}
 ];
-
 function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); gainNode = audioCtx.createGain(); gainNode.connect(audioCtx.destination); }
 document.getElementById('drop').onclick = () => document.getElementById('fileInput').click();
-document.getElementById('fileInput').onchange = loadAudio;
-document.getElementById('playBtn').onclick = playAudio;
-document.getElementById('pauseBtn').onclick = pauseAudio;
-document.getElementById('resetBtn').onclick = resetAudio;
-document.getElementById('vol').oninput = e => { setVolume(e.target.value) };
-document.getElementById('speed').oninput = e => { setSpeed(e.target.value) };
-document.getElementById('aiBtn').onclick = generateAIvoice;
-document.querySelectorAll('.tool').forEach(btn => { btn.onclick = () => showTab(btn.dataset.tab, btn); });
-
-function loadAudio(e){ const file = e.target.files[0]; if(!file) return; initAudio(); const reader = new FileReader(); reader.onload = ev => { audioCtx.decodeAudioData(ev.target.result, buffer => { audioBuffer = buffer; document.getElementById('drop').innerText = file.name; }); } reader.readAsArrayBuffer(file); }
-function playAudio(){ if(!audioBuffer) return alert('اختار ملف اول'); initAudio(); source = audioCtx.createBufferSource(); source.buffer = audioBuffer; source.connect(gainNode); source.start(0); }
-function pauseAudio(){ if(source) source.stop(); }
-function resetAudio(){ pauseAudio(); }
-function setVolume(v){ if(gainNode) gainNode.gain.value = v; document.getElementById('volVal').innerText = parseFloat(v).toFixed(2); }
-function setSpeed(v){ if(source) source.playbackRate.value = v; document.getElementById('speedVal').innerText = parseFloat(v).toFixed(2); }
-function showTab(tab, btn){ document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); document.getElementById(tab+'-tab').classList.remove('hidden'); document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
-filterPresets.forEach((f)=>{ const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerText = f.name; btn.onclick = ()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); alert('تم تفعيل: '+f.name); } document.getElementById('filterGrid').appendChild(btn); });
-function generateAIvoice(){ const text = document.getElementById('aiText').value; if(!text){ alert('اكتب النص اول'); return; } speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'ar-SA'; speechSynthesis.speak(utterance); }
-function exportAudio(){ alert('التصدير يحتاج سيرفر. حاليا سجل الشاشة'); }
+document.getElementById('fileInput').onchange = e => { const file = e.target.files[0]; if(!file) return; initAudio(); const reader = new FileReader(); reader.onload = ev => { audioCtx.decodeAudioData(ev.target.result, buffer => { audioBuffer = buffer; document.getElementById('drop').innerText = file.name; }); } reader.readAsArrayBuffer(file); };
+document.getElementById('playBtn').onclick = () => { if(!audioBuffer) return alert('اختار ملف اول'); initAudio(); source = audioCtx.createBufferSource(); source.buffer = audioBuffer; source.connect(gainNode); source.start(0); };
+document.getElementById('pauseBtn').onclick = () => { if(source) source.stop(); };
+document.getElementById('resetBtn').onclick = () => { if(source) source.stop(); };
+document.getElementById('vol').oninput = e => { if(gainNode) gainNode.gain.value = e.target.value; document.getElementById('volVal').innerText = parseFloat(e.target.value).toFixed(2); };
+document.getElementById('speed').oninput = e => { if(source) source.playbackRate.value = e.target.value; document.getElementById('speedVal').innerText = parseFloat(e.target.value).toFixed(2); };
+document.querySelectorAll('.tool').forEach(btn => { btn.onclick = () => { document.querySelectorAll('#basic-tab,#filter-tab,#eq-tab,#fx-tab,#ai-tab').forEach(el=>el.classList.add('hidden')); document.getElementById(btn.dataset.tab+'-tab').classList.remove('hidden'); document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); } });
+filterPresets.forEach((f)=>{ const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerText = f.name; btn.onclick = ()=>{ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); } document.getElementById('filterGrid').appendChild(btn); });
+document.getElementById('aiBtn').onclick = () => { const text = document.getElementById('aiText').value; if(!text){ alert('اكتب النص اول'); return; } speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'ar-SA'; speechSynthesis.speak(utterance); };
 </script>
 </body>
 </html>
