@@ -11,25 +11,20 @@
 body{background:var(--bg);color:var(--text)}
 [dir="ltr"]{direction:ltr;text-align:left}
 [dir="rtl"]{direction:rtl;text-align:right}
-
 .header{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid #222;padding:14px 40px;display:flex;justify-content:space-between;align-items:center;max-width:1920px;margin:auto}
 .logo{font-size:2em;font-weight:900}.logo span{color:var(--green)}
 .icons{display:flex;gap:20px;font-size:1.5em;align-items:center}
 .icons button, .icons select{background:var(--card);border:1px solid #333;color:var(--text);cursor:pointer;padding:8px 12px;border-radius:8px;font-weight:700}
 .badge{position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:0.6em;display:flex;align-items:center;justify-content:center;font-weight:900}
-
 .banner{max-width:1920px;margin:24px auto;padding:0 40px}.banner-card{background:linear-gradient(-45deg,#0078F2,#00FF88,#0078F2);background-size:400% 400%;animation:gradient 5s ease infinite;padding:60px;border-radius:20px;text-align:center;box-shadow:0 0 40px rgba(0,120,242,0.4)}
 @keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
 .container{max-width:1920px;margin:auto;padding:0 40px 120px}
 .search-bar{width:100%;padding:18px;background:var(--card);border:1px solid #333;border-radius:12px;color:var(--text);font-size:1.1em;margin-bottom:24px}
 .filters{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto}
 .filter-btn{background:var(--card);border:1px solid #333;padding:14px 26px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer;font-size:1em;white-space:nowrap}
 .filter-btn.active{background:var(--blue);border-color:var(--blue)}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
 @media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
-
 .card{background:var(--card);border:1px solid #222;border-radius:16px;overflow:hidden;transition:0.3s}
 .card:hover{transform:translateY(-8px);background:var(--card-hover);box-shadow:0 10px 30px rgba(0,120,242,0.25);border-color:var(--blue)}
 .card-img-wrapper{position:relative;aspect-ratio:16/9;background:#111}
@@ -44,7 +39,6 @@ body{background:var(--bg);color:var(--text)}
 .btn{background:var(--blue);color:#fff;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:1em}
 .btn:hover{background:#0090FF}
 .btn-green{background:var(--green);color:#000}
-
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.96);justify-content:center;align-items:center;z-index:2000}
 .modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:850px;max-height:90vh;overflow-y:auto;border:1px solid #333}
 input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:10px 0;font-size:1em}
@@ -97,23 +91,10 @@ input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #
   <div id="otherPage" style="display:none"></div>
 </div>
 
-<!-- مودال المنتج -->
 <div id="productModal" class="modal"><div class="modal-content" id="productContent"></div></div>
 
-<!-- مودال الدفع -->
-<div id="payModal" class="modal"><div class="modal-content">
-  <h2 data-key="payTitle">💳 دفع رسوم النشر</h2>
-  <p data-key="payDesc">عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$</p>
-  <div style="background:#111;padding:20px;border-radius:12px;border:2px solid var(--green);margin:20px 0">
-    <h3 data-key="amount">المبلغ: $5.00</h3>
-    <input placeholder="4242 4242 4242 4242">
-    <div style="display:flex;gap:10px"><input placeholder="MM/YY"><input placeholder="CVC"></div>
-  </div>
-  <button class="btn btn-green" onclick="confirmPayment()" data-key="payBtn">ادفع وانشر</button>
-  <button class="btn" style="background:#333" onclick="payModal.style.display='none'" data-key="cancel">الغاء</button>
-</div></div>
+<!-- مودال الدفع القديم انحذف - صار يحول على السيرفر مباشرة -->
 
-<!-- مودال اضافة -->
 <div id="m" class="modal"><div class="modal-content">
   <h3 data-key="addTitle">➕ اضافة منتج جديد</h3>
   <input id="n" data-key="pName" placeholder="اسم المنتج">
@@ -133,11 +114,7 @@ input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #
 <script>
 const LANGS = {
   ar:{dir:"rtl",all:"الكل",trans:"انتقالات",free:"مجاني",fabStore:"FAB STORE",offer:"🔥 عرض الاسبوع -50% 🔥",search:"🔍 ابحث عن LUT, انتقال, AI...",addProduct:"نشر منتج",payTitle:"💳 دفع رسوم النشر",payDesc:"عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$",amount:"المبلغ: $5.00",payBtn:"ادفع وانشر",cancel:"الغاء",addTitle:"➕ اضافة منتج جديد",pName:"اسم المنتج",pAuthor:"اسم الاستوديو",pDesc:"وصف المنتج",pImg:"رابط صورة الغلاف",pVideo:"رابط فيديو يوتيوب",pLink:"رابط التحميل",pPrice:"السعر",publish:"نشر المنتج",template:"قالب",cart:"السلة",library:"المكتبة",favorites:"المفضلة",empty:"فاضية",buy:"شراء",preview:"معاينة",download:"تحميل",by:"بواسطة",reviews:"التعليقات",noReviews:"لا يوجد تعليقات"},
-  en:{dir:"ltr",all:"All",trans:"Transitions",free:"Free",fabStore:"FAB STORE",offer:"🔥 Deal of the Week -50% 🔥",search:"🔍 Search for LUT, Transition, AI...",addProduct:"Add Product",payTitle:"💳 Publishing Fee",payDesc:"To maintain quality, publishing fee = $5",amount:"Amount: $5.00",payBtn:"Pay & Publish",cancel:"Cancel",addTitle:"➕ Add New Product",pName:"Product Name",pAuthor:"Studio Name",pDesc:"Product Description",pImg:"Cover Image URL",pVideo:"YouTube Video URL",pLink:"Download Link",pPrice:"Price",publish:"Publish Product",template:"Template",cart:"Cart",library:"Library",favorites:"Favorites",empty:"Empty",buy:"Buy",preview:"Preview",download:"Download",by:"By",reviews:"Reviews",noReviews:"No reviews yet"},
-  tr:{dir:"ltr",all:"Tümü",trans:"Geçişler",free:"Ücretsiz",fabStore:"FAB MAĞAZA",offer:"🔥 Haftanın Fırsatı -%50 🔥",search:"🔍 LUT, Geçiş, AI ara...",addProduct:"Ürün Ekle",payTitle:"💳 Yayınlama Ücreti",payDesc:"Kaliteyi korumak için yayınlama ücreti = 5$",amount:"Tutar: $5.00",payBtn:"Öde ve Yayınla",cancel:"İptal",addTitle:"➕ Yeni Ürün Ekle",pName:"Ürün Adı",pAuthor:"Stüdyo Adı",pDesc:"Ürün Açıklaması",pImg:"Kapak Görseli URL",pVideo:"YouTube Video URL",pLink:"İndirme Bağlantısı",pPrice:"Fiyat",publish:"Ürünü Yayınla",template:"Şablon",cart:"Sepet",library:"Kütüphane",favorites:"Favoriler",empty:"Boş",buy:"Satın Al",preview:"Önizleme",download:"İndir",by:"Tarafından",reviews:"Yorumlar",noReviews:"Henüz yorum yok"},
-  fr:{dir:"ltr",all:"Tous",trans:"Transitions",free:"Gratuit",fabStore:"BOUTIQUE FAB",offer:"🔥 Offre de la semaine -50% 🔥",search:"🔍 Rechercher LUT, Transition, AI...",addProduct:"Ajouter Produit",payTitle:"💳 Frais de publication",payDesc:"Pour maintenir la qualité, frais = 5$",amount:"Montant: $5.00",payBtn:"Payer et Publier",cancel:"Annuler",addTitle:"➕ Ajouter un produit",pName:"Nom du produit",pAuthor:"Nom du studio",pDesc:"Description",pImg:"URL de l'image",pVideo:"URL YouTube",pLink:"Lien de téléchargement",pPrice:"Prix",publish:"Publier",template:"Modèle",cart:"Panier",library:"Bibliothèque",favorites:"Favoris",empty:"Vide",buy:"Acheter",preview:"Aperçu",download:"Télécharger",by:"Par",reviews:"Avis",noReviews:"Aucun avis"},
-  es:{dir:"ltr",all:"Todo",trans:"Transiciones",free:"Gratis",fabStore:"TIENDA FAB",offer:"🔥 Oferta de la Semana -50% 🔥",search:"🔍 Buscar LUT, Transición, AI...",addProduct:"Añadir Producto",payTitle:"💳 Tarifa de Publicación",payDesc:"Para mantener la calidad, tarifa = $5",amount:"Cantidad: $5.00",payBtn:"Pagar y Publicar",cancel:"Cancelar",addTitle:"➕ Añadir Producto",pName:"Nombre",pAuthor:"Estudio",pDesc:"Descripción",pImg:"URL Imagen",pVideo:"URL YouTube",pLink:"Enlace Descarga",pPrice:"Precio",publish:"Publicar",template:"Plantilla",cart:"Carrito",library:"Biblioteca",favorites:"Favoritos",empty:"Vacío",buy:"Comprar",preview:"Vista",download:"Descargar",by:"Por",reviews:"Reseñas",noReviews:"Sin reseñas"}
-  // تقدر تضيف باقي اللغات بنفس الطريقة. حطيتلك اهم 5. الباقي بنفس النظام
+  en:{dir:"ltr",all:"All",trans:"Transitions",free:"Free",fabStore:"FAB STORE",offer:"🔥 Deal of the Week -50% 🔥",search:"🔍 Search for LUT, Transition, AI...",addProduct:"Add Product",payTitle:"💳 Publishing Fee",payDesc:"To maintain quality, publishing fee = $5",amount:"Amount: $5.00",payBtn:"Pay & Publish",cancel:"Cancel",addTitle:"➕ Add New Product",pName:"Product Name",pAuthor:"Studio Name",pDesc:"Product Description",pImg:"Cover Image URL",pVideo:"YouTube Video URL",pLink:"Download Link",pPrice:"Price",publish:"Publish Product",template:"Template",cart:"Cart",library:"Library",favorites:"Favorites",empty:"Empty",buy:"Buy",preview:"Preview",download:"Download",by:"By",reviews:"Reviews",noReviews:"No reviews yet"}
 };
 
 let CURRENT_LANG = localStorage.getItem('lang') || 'ar';
@@ -145,8 +122,9 @@ let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v6')) || [];
 let CART = JSON.parse(localStorage.getItem('cart_fab_v6')) || [];
 let LIB = JSON.parse(localStorage.getItem('lib_fab_v6')) || [];
 let FAV = JSON.parse(localStorage.getItem('fav_fab_v6')) || [];
-let CAT = 'all'; let PAID = false;
+let CAT = 'all'; let PAID = localStorage.getItem('sk_paid') === 'true';
 const DEFAULT_IMG = "https://via.placeholder.com/600x338/141414/00FF88?text=SHADOWKING";
+const PAYMENT_URL = "https://protection-cybersecurity.onrender.com";
 
 if(ITEMS.length==0){
   ITEMS = [
@@ -161,6 +139,7 @@ function save(){
   localStorage.setItem('lib_fab_v6',JSON.stringify(LIB));
   localStorage.setItem('fav_fab_v6',JSON.stringify(FAV));
   localStorage.setItem('lang',CURRENT_LANG);
+  localStorage.setItem('sk_paid',PAID);
 }
 
 function t(key){return LANGS[CURRENT_LANG][key] || key}
@@ -179,12 +158,21 @@ function changeLang(lang){
 function toast(msg){let e=document.getElementById('toast');e.innerText=msg;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}
 function setCat(c,btn){CAT=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
 
-function checkPayment(){PAID?m.style.display='flex':payModal.style.display='flex';}
-function confirmPayment(){PAID=true;payModal.style.display='none';toast(t('payBtn')+" ✅");m.style.display='flex';}
+// === التعديل الوحيد هنا ===
+function checkPayment(){
+  if(PAID){ m.style.display='flex'; return; }
+  
+  let publisherName = prompt("اكتب اسم الاستوديو تبعك:");
+  if(publisherName){
+    localStorage.setItem('sk_publisher_temp', publisherName);
+    // نحول على موقع الدفع الحقي
+    window.location.href = `${PAYMENT_URL}/pay/${encodeURIComponent(publisherName)}`;
+  }
+}
 
 function add(){
   ITEMS.unshift({id:Date.now(),n:n.value,author:author.value||"SHADOWKING Studio",d:d.value,i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value,rating:5,reviews:[],downloads:0});
-  save(); m.style.display='none'; PAID=false; toast("✅ "+t('publish')); render();
+  save(); m.style.display='none'; PAID=false; localStorage.setItem('sk_paid',false); toast("✅ "+t('publish')); render();
 }
 
 function buy(x){if(!CART.find(i=>i.id==x.id))CART.push(x);save();updateCounts();toast("🛒 "+t('buy'));}
@@ -221,6 +209,19 @@ function showPage(p){
 }
 
 function updateCounts(){cartCount.innerText=CART.length}
-changeLang(CURRENT_LANG); updateCounts(); render();
+
+// === تشييك اذا رجع من الدفع ===
+window.onload = function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.get('paid') === 'true'){
+    PAID = true;
+    save();
+    toast("✅ تم الدفع بنجاح! تقدر تنشر هلق");
+    m.style.display='flex';
+  }
+  changeLang(CURRENT_LANG); 
+  updateCounts(); 
+  render();
+}
 </script>
 </body></html>
