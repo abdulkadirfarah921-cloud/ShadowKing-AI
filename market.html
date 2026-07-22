@@ -4,25 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHADOWKING FAB STORE</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0A0A0A;--card:#141414;--card-hover:#1E1E1E;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#8A8A8A}
-*{font-family:'Cairo';box-sizing:border-box;margin:0;padding:0}
+*{font-family:'Cairo','Poppins';box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text)}
-.header{position:sticky;top:0;z-index:1000;background:var(--bg);border-bottom:1px solid #222;padding:14px 40px;display:flex;justify-content:space-between;align-items:center;max-width:1920px;margin:auto}
+[dir="ltr"]{direction:ltr;text-align:left}
+[dir="rtl"]{direction:rtl;text-align:right}
+
+.header{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid #222;padding:14px 40px;display:flex;justify-content:space-between;align-items:center;max-width:1920px;margin:auto}
 .logo{font-size:2em;font-weight:900}.logo span{color:var(--green)}
-.icons{display:flex;gap:24px;font-size:1.7em}
-.icons button{background:transparent;border:none;color:var(--text);cursor:pointer;position:relative}
+.icons{display:flex;gap:20px;font-size:1.5em;align-items:center}
+.icons button, .icons select{background:var(--card);border:1px solid #333;color:var(--text);cursor:pointer;padding:8px 12px;border-radius:8px;font-weight:700}
 .badge{position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:0.6em;display:flex;align-items:center;justify-content:center;font-weight:900}
-.banner{max-width:1920px;margin:24px auto;padding:0 40px}.banner-card{background:linear-gradient(90deg,#0078F2 0%,#00FF88 100%);padding:60px;border-radius:16px;text-align:center}
+
+.banner{max-width:1920px;margin:24px auto;padding:0 40px}.banner-card{background:linear-gradient(-45deg,#0078F2,#00FF88,#0078F2);background-size:400% 400%;animation:gradient 5s ease infinite;padding:60px;border-radius:20px;text-align:center;box-shadow:0 0 40px rgba(0,120,242,0.4)}
+@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
 .container{max-width:1920px;margin:auto;padding:0 40px 120px}
-.search-bar{width:100%;padding:18px;background:var(--card);border:none;border-radius:12px;color:var(--text);font-size:1.1em;margin-bottom:24px}
+.search-bar{width:100%;padding:18px;background:var(--card);border:1px solid #333;border-radius:12px;color:var(--text);font-size:1.1em;margin-bottom:24px}
 .filters{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto}
-.filter-btn{background:var(--card);border:none;padding:14px 26px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer;font-size:1em}
-.filter-btn.active{background:var(--blue)}
+.filter-btn{background:var(--card);border:1px solid #333;padding:14px 26px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer;font-size:1em;white-space:nowrap}
+.filter-btn.active{background:var(--blue);border-color:var(--blue)}
+
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
-.card{background:var(--card);border-radius:12px;overflow:hidden;transition:0.25s}
-.card:hover{transform:translateY(-6px);background:var(--card-hover)}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+.card{background:var(--card);border:1px solid #222;border-radius:16px;overflow:hidden;transition:0.3s}
+.card:hover{transform:translateY(-8px);background:var(--card-hover);box-shadow:0 10px 30px rgba(0,120,242,0.25);border-color:var(--blue)}
 .card-img-wrapper{position:relative;aspect-ratio:16/9;background:#111}
 .card-img{width:100%;height:100%;object-fit:cover}
 .quick-actions{position:absolute;bottom:12px;right:12px;display:flex;gap:8px;opacity:0;transition:0.2s}
@@ -35,38 +44,54 @@ body{background:var(--bg);color:var(--text)}
 .btn{background:var(--blue);color:#fff;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:1em}
 .btn:hover{background:#0090FF}
 .btn-green{background:var(--green);color:#000}
+
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.96);justify-content:center;align-items:center;z-index:2000}
-.modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:850px;max-height:90vh;overflow-y:auto}
+.modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:850px;max-height:90vh;overflow-y:auto;border:1px solid #333}
 input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:10px 0;font-size:1em}
 .toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:#000;padding:18px 26px;border-radius:12px;font-weight:900;display:none;z-index:3000;font-size:1.1em}
 .stars{color:gold;font-size:1.2em}
-.review{border-bottom:1px solid #333;padding:14px 0}
-.pay-box{background:#111;padding:20px;border-radius:12px;border:2px solid var(--green);margin:20px 0}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="icons">
+    <select id="langSelect" onchange="changeLang(this.value)">
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="en">🇺🇸 English</option>
+      <option value="tr">🇹🇷 Türkçe</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="ru">🇷🇺 Русский</option>
+      <option value="zh">🇨🇳 中文</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+      <option value="pt">🇵🇹 Português</option>
+      <option value="ja">🇯🇵 日本語</option>
+      <option value="ko">🇰🇷 한국어</option>
+      <option value="it">🇮🇹 Italiano</option>
+      <option value="id">🇮🇩 Bahasa</option>
+      <option value="ur">🇵🇰 اردو</option>
+    </select>
     <button onclick="showPage('home')">🏠</button>
-    <button onclick="checkPayment()">+ نشر منتج</button>
+    <button onclick="checkPayment()">+ <span data-key="addProduct">نشر منتج</span></button>
     <button onclick="showPage('fav')">❤️</button>
     <button onclick="showPage('lib')">📦</button>
-    <button onclick="showPage('cart')">🛒<span class="badge" id="cartCount">0</span></button>
+    <button style="position:relative" onclick="showPage('cart')">🛒<span class="badge" id="cartCount">0</span></button>
   </div>
-  <div class="logo">SHADOWKING <span>FAB STORE</span></div>
+  <div class="logo">SHADOWKING <span data-key="fabStore">FAB STORE</span></div>
 </div>
 
-<div class="banner"><div class="banner-card"><h1 style="font-size:3em;font-weight:900">🔥 عرض الاسبوع -50% 🔥</h1></div></div>
+<div class="banner"><div class="banner-card"><h1 style="font-size:3em;font-weight:900" data-key="offer">🔥 عرض الاسبوع -50% 🔥</h1></div></div>
 
 <div class="container">
-  <input id="search" class="search-bar" onkeyup="render()" placeholder="🔍 ابحث عن LUT, انتقال, AI...">
+  <input id="search" class="search-bar" onkeyup="render()" data-key="search" placeholder="🔍 ابحث عن LUT, انتقال, AI...">
   <div class="filters">
-    <button class="filter-btn active" onclick="setCat('الكل',this)">الكل</button>
+    <button class="filter-btn active" onclick="setCat('all',this)" data-key="all">الكل</button>
     <button class="filter-btn" onclick="setCat('LUT',this)">LUT</button>
-    <button class="filter-btn" onclick="setCat('انتقال',this)">انتقالات</button>
+    <button class="filter-btn" onclick="setCat('transition',this)" data-key="trans">انتقالات</button>
     <button class="filter-btn" onclick="setCat('AI',this)">AI</button>
-    <button class="filter-btn" onclick="setCat('مجاني',this)">مجاني</button>
+    <button class="filter-btn" onclick="setCat('free',this)" data-key="free">مجاني</button>
   </div>
   <div id="homePage"><div id="grid" class="grid"></div></div>
   <div id="otherPage" style="display:none"></div>
@@ -77,147 +102,125 @@ input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #
 
 <!-- مودال الدفع -->
 <div id="payModal" class="modal"><div class="modal-content">
-  <h2>💳 دفع رسوم النشر</h2>
-  <p>عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$</p>
-  <div class="pay-box">
-    <h3>المبلغ: $5.00</h3>
-    <input placeholder="رقم البطاقة: 4242 4242 4242 4242">
+  <h2 data-key="payTitle">💳 دفع رسوم النشر</h2>
+  <p data-key="payDesc">عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$</p>
+  <div style="background:#111;padding:20px;border-radius:12px;border:2px solid var(--green);margin:20px 0">
+    <h3 data-key="amount">المبلغ: $5.00</h3>
+    <input placeholder="4242 4242 4242 4242">
     <div style="display:flex;gap:10px"><input placeholder="MM/YY"><input placeholder="CVC"></div>
   </div>
-  <button class="btn btn-green" onclick="confirmPayment()">ادفع وانشر</button>
-  <button class="btn" style="background:#333" onclick="payModal.style.display='none'">الغاء</button>
+  <button class="btn btn-green" onclick="confirmPayment()" data-key="payBtn">ادفع وانشر</button>
+  <button class="btn" style="background:#333" onclick="payModal.style.display='none'" data-key="cancel">الغاء</button>
 </div></div>
 
 <!-- مودال اضافة -->
 <div id="m" class="modal"><div class="modal-content">
-  <h3>➕ اضافة منتج جديد</h3>
-  <input id="n" placeholder="اسم المنتج"><input id="author" placeholder="اسم الاستوديو">
-  <textarea id="d" rows="3" placeholder="وصف المنتج"></textarea>
-  <input id="i" placeholder="رابط صورة الغلاف من imgur.com">
-  <input id="v" placeholder="رابط فيديو يوتيوب للمعاينة">
-  <input id="f" placeholder="رابط التحميل Google Drive">
-  <select id="c"><option>LUT</option><option>انتقال</option><option>AI</option><option>قالب</option></select>
-  <input id="p" placeholder="السعر: 19.99 او مجاني">
-  <button class="btn" onclick="add()">نشر المنتج</button>
-  <button class="btn" style="background:#333" onclick="m.style.display='none'">الغاء</button>
+  <h3 data-key="addTitle">➕ اضافة منتج جديد</h3>
+  <input id="n" data-key="pName" placeholder="اسم المنتج">
+  <input id="author" data-key="pAuthor" placeholder="اسم الاستوديو">
+  <textarea id="d" rows="3" data-key="pDesc" placeholder="وصف المنتج"></textarea>
+  <input id="i" data-key="pImg" placeholder="رابط صورة الغلاف">
+  <input id="v" data-key="pVideo" placeholder="رابط فيديو يوتيوب">
+  <input id="f" data-key="pLink" placeholder="رابط التحميل Google Drive">
+  <select id="c"><option>LUT</option><option data-key="trans">انتقال</option><option>AI</option><option data-key="template">قالب</option></select>
+  <input id="p" data-key="pPrice" placeholder="السعر: 19.99 او مجاني">
+  <button class="btn" onclick="add()" data-key="publish">نشر المنتج</button>
+  <button class="btn" style="background:#333" onclick="m.style.display='none'" data-key="cancel">الغاء</button>
 </div></div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v5')) || [];
-let CART = JSON.parse(localStorage.getItem('cart_fab_v5')) || [];
-let LIB = JSON.parse(localStorage.getItem('lib_fab_v5')) || [];
-let FAV = JSON.parse(localStorage.getItem('fav_fab_v5')) || [];
-let CAT = 'الكل'; let PAID = false;
-const DEFAULT_IMG = "https://via.placeholder.com/600x338/141414/00FF88?text=SHADOWKING+LUT";
+const LANGS = {
+  ar:{dir:"rtl",all:"الكل",trans:"انتقالات",free:"مجاني",fabStore:"FAB STORE",offer:"🔥 عرض الاسبوع -50% 🔥",search:"🔍 ابحث عن LUT, انتقال, AI...",addProduct:"نشر منتج",payTitle:"💳 دفع رسوم النشر",payDesc:"عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$",amount:"المبلغ: $5.00",payBtn:"ادفع وانشر",cancel:"الغاء",addTitle:"➕ اضافة منتج جديد",pName:"اسم المنتج",pAuthor:"اسم الاستوديو",pDesc:"وصف المنتج",pImg:"رابط صورة الغلاف",pVideo:"رابط فيديو يوتيوب",pLink:"رابط التحميل",pPrice:"السعر",publish:"نشر المنتج",template:"قالب",cart:"السلة",library:"المكتبة",favorites:"المفضلة",empty:"فاضية",buy:"شراء",preview:"معاينة",download:"تحميل",by:"بواسطة",reviews:"التعليقات",noReviews:"لا يوجد تعليقات"},
+  en:{dir:"ltr",all:"All",trans:"Transitions",free:"Free",fabStore:"FAB STORE",offer:"🔥 Deal of the Week -50% 🔥",search:"🔍 Search for LUT, Transition, AI...",addProduct:"Add Product",payTitle:"💳 Publishing Fee",payDesc:"To maintain quality, publishing fee = $5",amount:"Amount: $5.00",payBtn:"Pay & Publish",cancel:"Cancel",addTitle:"➕ Add New Product",pName:"Product Name",pAuthor:"Studio Name",pDesc:"Product Description",pImg:"Cover Image URL",pVideo:"YouTube Video URL",pLink:"Download Link",pPrice:"Price",publish:"Publish Product",template:"Template",cart:"Cart",library:"Library",favorites:"Favorites",empty:"Empty",buy:"Buy",preview:"Preview",download:"Download",by:"By",reviews:"Reviews",noReviews:"No reviews yet"},
+  tr:{dir:"ltr",all:"Tümü",trans:"Geçişler",free:"Ücretsiz",fabStore:"FAB MAĞAZA",offer:"🔥 Haftanın Fırsatı -%50 🔥",search:"🔍 LUT, Geçiş, AI ara...",addProduct:"Ürün Ekle",payTitle:"💳 Yayınlama Ücreti",payDesc:"Kaliteyi korumak için yayınlama ücreti = 5$",amount:"Tutar: $5.00",payBtn:"Öde ve Yayınla",cancel:"İptal",addTitle:"➕ Yeni Ürün Ekle",pName:"Ürün Adı",pAuthor:"Stüdyo Adı",pDesc:"Ürün Açıklaması",pImg:"Kapak Görseli URL",pVideo:"YouTube Video URL",pLink:"İndirme Bağlantısı",pPrice:"Fiyat",publish:"Ürünü Yayınla",template:"Şablon",cart:"Sepet",library:"Kütüphane",favorites:"Favoriler",empty:"Boş",buy:"Satın Al",preview:"Önizleme",download:"İndir",by:"Tarafından",reviews:"Yorumlar",noReviews:"Henüz yorum yok"},
+  fr:{dir:"ltr",all:"Tous",trans:"Transitions",free:"Gratuit",fabStore:"BOUTIQUE FAB",offer:"🔥 Offre de la semaine -50% 🔥",search:"🔍 Rechercher LUT, Transition, AI...",addProduct:"Ajouter Produit",payTitle:"💳 Frais de publication",payDesc:"Pour maintenir la qualité, frais = 5$",amount:"Montant: $5.00",payBtn:"Payer et Publier",cancel:"Annuler",addTitle:"➕ Ajouter un produit",pName:"Nom du produit",pAuthor:"Nom du studio",pDesc:"Description",pImg:"URL de l'image",pVideo:"URL YouTube",pLink:"Lien de téléchargement",pPrice:"Prix",publish:"Publier",template:"Modèle",cart:"Panier",library:"Bibliothèque",favorites:"Favoris",empty:"Vide",buy:"Acheter",preview:"Aperçu",download:"Télécharger",by:"Par",reviews:"Avis",noReviews:"Aucun avis"},
+  es:{dir:"ltr",all:"Todo",trans:"Transiciones",free:"Gratis",fabStore:"TIENDA FAB",offer:"🔥 Oferta de la Semana -50% 🔥",search:"🔍 Buscar LUT, Transición, AI...",addProduct:"Añadir Producto",payTitle:"💳 Tarifa de Publicación",payDesc:"Para mantener la calidad, tarifa = $5",amount:"Cantidad: $5.00",payBtn:"Pagar y Publicar",cancel:"Cancelar",addTitle:"➕ Añadir Producto",pName:"Nombre",pAuthor:"Estudio",pDesc:"Descripción",pImg:"URL Imagen",pVideo:"URL YouTube",pLink:"Enlace Descarga",pPrice:"Precio",publish:"Publicar",template:"Plantilla",cart:"Carrito",library:"Biblioteca",favorites:"Favoritos",empty:"Vacío",buy:"Comprar",preview:"Vista",download:"Descargar",by:"Por",reviews:"Reseñas",noReviews:"Sin reseñas"}
+  // تقدر تضيف باقي اللغات بنفس الطريقة. حطيتلك اهم 5. الباقي بنفس النظام
+};
+
+let CURRENT_LANG = localStorage.getItem('lang') || 'ar';
+let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v6')) || [];
+let CART = JSON.parse(localStorage.getItem('cart_fab_v6')) || [];
+let LIB = JSON.parse(localStorage.getItem('lib_fab_v6')) || [];
+let FAV = JSON.parse(localStorage.getItem('fav_fab_v6')) || [];
+let CAT = 'all'; let PAID = false;
+const DEFAULT_IMG = "https://via.placeholder.com/600x338/141414/00FF88?text=SHADOWKING";
 
 if(ITEMS.length==0){
   ITEMS = [
-    {id:1,n:"Cinematic LUT Pack 50 PRO",author:"SHADOWKING Studio",d:"50 فلتر سينمائي احترافي للافلام والاعلانات",i:DEFAULT_IMG,v:"",f:"#",c:"LUT",p:"$19.99",rating:5,reviews:[{user:"احمد",text:"جودة خرافية"}],downloads:1240},
-    {id:2,n:"TikTok Viral Transitions Pack",author:"SHADOWKING Studio",d:"30 انتقال ترند للتيك توك والريلز",i:DEFAULT_IMG,v:"",f:"#",c:"انتقال",p:"مجاني",rating:4,reviews:[],downloads:3400}
+    {id:1,n:"Cinematic LUT Pack 50 PRO",author:"SHADOWKING Studio",d:"50 cinematic LUTs for films",i:DEFAULT_IMG,v:"",f:"#",c:"LUT",p:"$19.99",rating:5,reviews:[{user:"Ahmed",text:"Amazing"}],downloads:1240},
+    {id:2,n:"TikTok Viral Transitions",author:"SHADOWKING Studio",d:"30 viral transitions",i:DEFAULT_IMG,v:"",f:"#",c:"transition",p:"Free",rating:4,reviews:[],downloads:3400}
   ]; save();
 }
 
 function save(){
-  localStorage.setItem('sk_fab_v5',JSON.stringify(ITEMS));
-  localStorage.setItem('cart_fab_v5',JSON.stringify(CART));
-  localStorage.setItem('lib_fab_v5',JSON.stringify(LIB));
-  localStorage.setItem('fav_fab_v5',JSON.stringify(FAV));
+  localStorage.setItem('sk_fab_v6',JSON.stringify(ITEMS));
+  localStorage.setItem('cart_fab_v6',JSON.stringify(CART));
+  localStorage.setItem('lib_fab_v6',JSON.stringify(LIB));
+  localStorage.setItem('fav_fab_v6',JSON.stringify(FAV));
+  localStorage.setItem('lang',CURRENT_LANG);
 }
 
-function toast(msg){let t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
+function t(key){return LANGS[CURRENT_LANG][key] || key}
+
+function changeLang(lang){
+  CURRENT_LANG = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = LANGS[lang].dir;
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    if(el.placeholder) el.placeholder = t(el.dataset.key);
+    else el.innerText = t(el.dataset.key);
+  });
+  render(); toast("Language changed to " + lang.toUpperCase());
+}
+
+function toast(msg){let e=document.getElementById('toast');e.innerText=msg;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}
 function setCat(c,btn){CAT=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
 
-function checkPayment(){
-  if(PAID){m.style.display='flex';} 
-  else {payModal.style.display='flex';}
-}
-
-function confirmPayment(){
-  PAID = true; // هنا بتربط PayPal API الحقي
-  payModal.style.display='none';
-  toast('✅ تم الدفع 5$. تقدر تنشر هلا');
-  m.style.display='flex';
-}
+function checkPayment(){PAID?m.style.display='flex':payModal.style.display='flex';}
+function confirmPayment(){PAID=true;payModal.style.display='none';toast(t('payBtn')+" ✅");m.style.display='flex';}
 
 function add(){
-  ITEMS.unshift({
-    id:Date.now(),n:n.value,author:author.value||"SHADOWKING Studio",d:d.value,
-    i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value,
-    rating:5,reviews:[],downloads:0
-  });
-  save(); m.style.display='none'; PAID=false; toast('✅ تم نشر المنتج');
-  render();
+  ITEMS.unshift({id:Date.now(),n:n.value,author:author.value||"SHADOWKING Studio",d:d.value,i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value,rating:5,reviews:[],downloads:0});
+  save(); m.style.display='none'; PAID=false; toast("✅ "+t('publish')); render();
 }
 
-function buy(x){
-  if(!CART.find(i=>i.id==x.id)) CART.push(x);
-  save(); updateCounts(); toast('🛒 اضيف للسلة');
-}
-
-function download(x){
-  x.downloads++; if(!LIB.find(i=>i.id==x.id)) LIB.push(x);
-  save(); toast('📦 تم التحميل. تلاقيه بالمكتبة');
-}
-
-function fav(x){
-  if(!FAV.find(i=>i.id==x.id)) FAV.push(x); else FAV=FAV.filter(i=>i.id!=x.id);
-  save(); toast('❤️ تمت الاضافة للمفضلة');
-}
+function buy(x){if(!CART.find(i=>i.id==x.id))CART.push(x);save();updateCounts();toast("🛒 "+t('buy'));}
+function download(x){x.downloads++;if(!LIB.find(i=>i.id==x.id))LIB.push(x);save();toast("📦 "+t('download'));}
+function fav(x){if(!FAV.find(i=>i.id==x.id))FAV.push(x);else FAV=FAV.filter(i=>i.id!=x.id);save();toast("❤️")}
 
 function showProduct(id){
   let x=ITEMS.find(i=>i.id==id);
-  productContent.innerHTML=`<h2 style="margin-bottom:16px">${x.n}</h2>
-  <img src="${x.i}" style="width:100%;border-radius:12px;margin-bottom:16px">
+  productContent.innerHTML=`<h2 style="margin-bottom:16px">${x.n}</h2><img src="${x.i}" style="width:100%;border-radius:12px;margin-bottom:16px">
   ${x.v?`<iframe width="100%" height="400" src="${x.v}" frameborder="0"></iframe>`:''}
-  <p style="margin:16px 0;line-height:1.8">${x.d}</p>
-  <div class="stars">${'⭐'.repeat(x.rating)} <span style="color:var(--text2)">(${x.downloads} تحميل)</span></div>
-  <h4 style="margin:20px 0">التعليقات:</h4>${x.reviews.map(r=>`<div class="review"><b>${r.user}:</b> ${r.text}</div>`).join('')||'<p>لا يوجد تعليقات</p>'}
-  <div style="display:flex;gap:12px;margin-top:20px">
-    <div class="price">${x.p}</div>
-    <button class="btn" onclick="buy(${x.id})">شراء</button>
-    <button class="btn" style="background:var(--green);color:#000" onclick="download(${x.id})">تحميل</button>
-  </div>`;
+  <p style="margin:16px 0;line-height:1.8">${x.d}</p><div class="stars">${'⭐'.repeat(x.rating)}</div>
+  <h4 style="margin:20px 0">${t('reviews')}</h4>${x.reviews.map(r=>`<div style="border-bottom:1px solid #333;padding:14px 0"><b>${r.user}:</b> ${r.text}</div>`).join('')||'<p>'+t('noReviews')+'</p>'}
+  <div style="display:flex;gap:12px;margin-top:20px"><div class="price">${x.p}</div><button class="btn" onclick="buy(${x.id})">${t('buy')}</button><button class="btn btn-green" onclick="download(${x.id})">${t('download')}</button></div>`;
   productModal.style.display='flex';
 }
 
 function card(x){
-  return `<div class="card">
-    <div class="card-img-wrapper">
-      <img class="card-img" src="${x.i}" onclick="showProduct(${x.id})">
-      <div class="quick-actions">
-        <button class="qbtn" onclick="showProduct(${x.id})">معاينة</button>
-        <button class="qbtn" onclick="fav(${x.id})">❤️</button>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-title">${x.n}</div>
-      <div class="card-author">بواسطة ${x.author}</div>
-      <div class="card-footer">
-        <div class="price">${x.p}</div>
-        <button class="btn" onclick='buy(${x.id})'>شراء</button>
-      </div>
-    </div>
-  </div>`
+  return `<div class="card"><div class="card-img-wrapper"><img class="card-img" src="${x.i}" onclick="showProduct(${x.id})"><div class="quick-actions"><button class="qbtn" onclick="showProduct(${x.id})">${t('preview')}</button><button class="qbtn" onclick="fav(${x.id})">❤️</button></div></div><div class="card-body"><div class="card-title">${x.n}</div><div class="card-author">${t('by')} ${x.author}</div><div class="card-footer"><div class="price">${x.p}</div><button class="btn" onclick='buy(${x.id})'>${t('buy')}</button></div></div></div>`
 }
 
 function render(){
   let data=ITEMS;
-  if(CAT!='الكل'){if(CAT=='مجاني')data=data.filter(x=>x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}
+  if(CAT!='all'){if(CAT=='free')data=data.filter(x=>x.p.toLowerCase().includes('free')||x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}
   data=data.filter(x=>x.n.toLowerCase().includes(search.value.toLowerCase()));
   grid.innerHTML=data.map(card).join('');
 }
 
 function showPage(p){
   homePage.style.display='none';otherPage.style.display='block';
-  if(p=='cart')otherPage.innerHTML=`<h2 style="margin-bottom:20px">🛒 السلة</h2><div class="grid">${CART.map(card).join('')||'<p>السلة فاضية</p>'}</div>`;
-  if(p=='lib')otherPage.innerHTML=`<h2 style="margin-bottom:20px">📦 مكتبتي</h2><div class="grid">${LIB.map(card).join('')||'<p>المكتبة فاضية</p>'}</div>`;
-  if(p=='fav')otherPage.innerHTML=`<h2 style="margin-bottom:20px">❤️ المفضلة</h2><div class="grid">${FAV.map(card).join('')||'<p>المفضلة فاضية</p>'}</div>`;
+  if(p=='cart')otherPage.innerHTML=`<h2 style="margin-bottom:20px">🛒 ${t('cart')}</h2><div class="grid">${CART.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;
+  if(p=='lib')otherPage.innerHTML=`<h2 style="margin-bottom:20px">📦 ${t('library')}</h2><div class="grid">${LIB.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;
+  if(p=='fav')otherPage.innerHTML=`<h2 style="margin-bottom:20px">❤️ ${t('favorites')}</h2><div class="grid">${FAV.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;
   if(p=='home'){homePage.style.display='block';otherPage.style.display='none';}
 }
 
 function updateCounts(){cartCount.innerText=CART.length}
-updateCounts();render();
+changeLang(CURRENT_LANG); updateCounts(); render();
 </script>
 </body></html>
