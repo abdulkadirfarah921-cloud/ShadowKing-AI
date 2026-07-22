@@ -3,48 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOWKING FAB STORE - المتجر رقم 1</title>
+<title>SHADOWKING FAB STORE</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0A0A0A;--card:#151515;--card-hover:#1F1F1F;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#999}
-body.light{--bg:#F5F5F5;--card:#FFF;--text:#000}
+:root{--bg:#0A0A0A;--card:#141414;--card-hover:#1E1E1E;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#8A8A8A}
 *{font-family:'Cairo';box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text)}
-.header{position:sticky;top:0;z-index:1000;background:var(--bg);border-bottom:1px solid #222;padding:14px 32px;display:flex;justify-content:space-between;align-items:center;max-width:1920px;margin:auto}
-.logo{font-size:1.9em;font-weight:900}.logo span{color:var(--green)}
-.icons{display:flex;gap:20px;font-size:1.6em}
+.header{position:sticky;top:0;z-index:1000;background:var(--bg);border-bottom:1px solid #222;padding:14px 40px;display:flex;justify-content:space-between;align-items:center;max-width:1920px;margin:auto}
+.logo{font-size:2em;font-weight:900}.logo span{color:var(--green)}
+.icons{display:flex;gap:24px;font-size:1.7em}
 .icons button{background:transparent;border:none;color:var(--text);cursor:pointer;position:relative}
-.badge{position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:0.6em;display:flex;align-items:center;justify-content:center}
-.banner{max-width:1920px;margin:20px auto;padding:0 32px}.banner-card{background:linear-gradient(90deg,var(--blue),var(--green));padding:50px;border-radius:16px;text-align:center}
-.container{max-width:1920px;margin:auto;padding:0 32px 100px}
-.filters{display:flex;gap:10px;margin:20px 0;overflow-x:auto}
-.filter-btn{background:var(--card);border:none;padding:12px 24px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer}
+.badge{position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:0.6em;display:flex;align-items:center;justify-content:center;font-weight:900}
+.banner{max-width:1920px;margin:24px auto;padding:0 40px}.banner-card{background:linear-gradient(90deg,#0078F2 0%,#00FF88 100%);padding:60px;border-radius:16px;text-align:center}
+.container{max-width:1920px;margin:auto;padding:0 40px 120px}
+.search-bar{width:100%;padding:18px;background:var(--card);border:none;border-radius:12px;color:var(--text);font-size:1.1em;margin-bottom:24px}
+.filters{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto}
+.filter-btn{background:var(--card);border:none;padding:14px 26px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer;font-size:1em}
 .filter-btn.active{background:var(--blue)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.card{background:var(--card);border-radius:12px;overflow:hidden;transition:0.2s;cursor:pointer}
-.card:hover{background:var(--card-hover)}
-.card-img-wrapper{position:relative;aspect-ratio:16/9}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+.card{background:var(--card);border-radius:12px;overflow:hidden;transition:0.25s}
+.card:hover{transform:translateY(-6px);background:var(--card-hover)}
+.card-img-wrapper{position:relative;aspect-ratio:16/9;background:#111}
 .card-img{width:100%;height:100%;object-fit:cover}
-.quick-btn{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.8);color:#fff;border:none;padding:8px 12px;border-radius:6px;opacity:0;transition:0.2s}
-.card:hover .quick-btn{opacity:1}
-.card-body{padding:14px}.card-title{font-weight:900;margin-bottom:5px;height:40px}.card-author{color:var(--text2);font-size:0.85em}
-.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.price{color:var(--green);font-weight:900;font-size:1.3em}
-.btn{background:var(--blue);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:900;cursor:pointer}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);justify-content:center;align-items:center;z-index:2000}
-.modal-content{background:var(--card);padding:24px;border-radius:12px;width:90%;max-width:800px;max-height:90vh;overflow-y:auto}
-.toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#000;padding:14px 20px;border-radius:8px;font-weight:900;display:none;z-index:3000}
-.stars{color:gold}
-.review{border-bottom:1px solid #333;padding:10px 0}
+.quick-actions{position:absolute;bottom:12px;right:12px;display:flex;gap:8px;opacity:0;transition:0.2s}
+.card:hover .quick-actions{opacity:1}
+.qbtn{background:rgba(0,0,0,0.8);color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:700}
+.card-body{padding:16px}.card-title{font-weight:900;font-size:1.1em;margin-bottom:6px;height:44px;overflow:hidden}
+.card-author{color:var(--text2);font-size:0.9em;margin-bottom:10px}
+.card-footer{display:flex;justify-content:space-between;align-items:center}
+.price{color:var(--green);font-weight:900;font-size:1.4em}
+.btn{background:var(--blue);color:#fff;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:1em}
+.btn:hover{background:#0090FF}
+.btn-green{background:var(--green);color:#000}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.96);justify-content:center;align-items:center;z-index:2000}
+.modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:850px;max-height:90vh;overflow-y:auto}
+input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:10px 0;font-size:1em}
+.toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:#000;padding:18px 26px;border-radius:12px;font-weight:900;display:none;z-index:3000;font-size:1.1em}
+.stars{color:gold;font-size:1.2em}
+.review{border-bottom:1px solid #333;padding:14px 0}
+.pay-box{background:#111;padding:20px;border-radius:12px;border:2px solid var(--green);margin:20px 0}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="icons">
-    <button onclick="toggleTheme()">🌓</button>
     <button onclick="showPage('home')">🏠</button>
-    <button onclick="m.style.display='flex'">+</button>
+    <button onclick="checkPayment()">+ نشر منتج</button>
     <button onclick="showPage('fav')">❤️</button>
     <button onclick="showPage('lib')">📦</button>
     <button onclick="showPage('cart')">🛒<span class="badge" id="cartCount">0</span></button>
@@ -52,10 +57,10 @@ body{background:var(--bg);color:var(--text)}
   <div class="logo">SHADOWKING <span>FAB STORE</span></div>
 </div>
 
-<div class="banner"><div class="banner-card"><h1>🔥 عرض الاسبوع -50% 🔥</h1><div id="countdown"></div></div></div>
+<div class="banner"><div class="banner-card"><h1 style="font-size:3em;font-weight:900">🔥 عرض الاسبوع -50% 🔥</h1></div></div>
 
 <div class="container">
-  <input id="search" onkeyup="render()" placeholder="🔍 ابحث..." style="width:100%;padding:16px;background:var(--card);border:none;border-radius:12px;color:var(--text);font-size:1.1em;margin-bottom:20px">
+  <input id="search" class="search-bar" onkeyup="render()" placeholder="🔍 ابحث عن LUT, انتقال, AI...">
   <div class="filters">
     <button class="filter-btn active" onclick="setCat('الكل',this)">الكل</button>
     <button class="filter-btn" onclick="setCat('LUT',this)">LUT</button>
@@ -69,56 +74,150 @@ body{background:var(--bg);color:var(--text)}
 
 <!-- مودال المنتج -->
 <div id="productModal" class="modal"><div class="modal-content" id="productContent"></div></div>
+
+<!-- مودال الدفع -->
+<div id="payModal" class="modal"><div class="modal-content">
+  <h2>💳 دفع رسوم النشر</h2>
+  <p>عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$</p>
+  <div class="pay-box">
+    <h3>المبلغ: $5.00</h3>
+    <input placeholder="رقم البطاقة: 4242 4242 4242 4242">
+    <div style="display:flex;gap:10px"><input placeholder="MM/YY"><input placeholder="CVC"></div>
+  </div>
+  <button class="btn btn-green" onclick="confirmPayment()">ادفع وانشر</button>
+  <button class="btn" style="background:#333" onclick="payModal.style.display='none'">الغاء</button>
+</div></div>
+
 <!-- مودال اضافة -->
 <div id="m" class="modal"><div class="modal-content">
-  <h3>➕ اضافة منتج</h3>
-  <input id="n" placeholder="الاسم"><input id="author" placeholder="الاستوديو">
-  <textarea id="d" placeholder="الوصف"></textarea><input id="i" placeholder="رابط الصورة">
-  <input id="v" placeholder="رابط فيديو يوتيوب"><input id="f" placeholder="رابط التحميل">
-  <select id="c"><option>LUT</option><option>انتقال</option><option>AI</option></select>
-  <input id="p" placeholder="السعر"><button class="btn" onclick="add()">نشر</button>
+  <h3>➕ اضافة منتج جديد</h3>
+  <input id="n" placeholder="اسم المنتج"><input id="author" placeholder="اسم الاستوديو">
+  <textarea id="d" rows="3" placeholder="وصف المنتج"></textarea>
+  <input id="i" placeholder="رابط صورة الغلاف من imgur.com">
+  <input id="v" placeholder="رابط فيديو يوتيوب للمعاينة">
+  <input id="f" placeholder="رابط التحميل Google Drive">
+  <select id="c"><option>LUT</option><option>انتقال</option><option>AI</option><option>قالب</option></select>
+  <input id="p" placeholder="السعر: 19.99 او مجاني">
+  <button class="btn" onclick="add()">نشر المنتج</button>
   <button class="btn" style="background:#333" onclick="m.style.display='none'">الغاء</button>
 </div></div>
+
 <div id="toast" class="toast"></div>
 
 <script>
-let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v4')) || [];
-let CART = JSON.parse(localStorage.getItem('cart_fab_v4')) || [];
-let LIB = JSON.parse(localStorage.getItem('lib_fab_v4')) || [];
-let FAV = JSON.parse(localStorage.getItem('fav_fab_v4')) || [];
-let CAT = 'الكل';
-const DEFAULT_IMG = "https://via.placeholder.com/600x338/151515/00FF88?text=SHADOWKING";
+let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v5')) || [];
+let CART = JSON.parse(localStorage.getItem('cart_fab_v5')) || [];
+let LIB = JSON.parse(localStorage.getItem('lib_fab_v5')) || [];
+let FAV = JSON.parse(localStorage.getItem('fav_fab_v5')) || [];
+let CAT = 'الكل'; let PAID = false;
+const DEFAULT_IMG = "https://via.placeholder.com/600x338/141414/00FF88?text=SHADOWKING+LUT";
 
 if(ITEMS.length==0){
-  ITEMS = [{id:1,n:"Cinematic LUT Pack 50",author:"SHADOWKING",d:"50 فلتر سينمائي",i:DEFAULT_IMG,v:"",f:"#",c:"LUT",p:"$19.99",rating:5,reviews:[{user:"احمد",text:"رهيب"}],downloads:500}]; save();
+  ITEMS = [
+    {id:1,n:"Cinematic LUT Pack 50 PRO",author:"SHADOWKING Studio",d:"50 فلتر سينمائي احترافي للافلام والاعلانات",i:DEFAULT_IMG,v:"",f:"#",c:"LUT",p:"$19.99",rating:5,reviews:[{user:"احمد",text:"جودة خرافية"}],downloads:1240},
+    {id:2,n:"TikTok Viral Transitions Pack",author:"SHADOWKING Studio",d:"30 انتقال ترند للتيك توك والريلز",i:DEFAULT_IMG,v:"",f:"#",c:"انتقال",p:"مجاني",rating:4,reviews:[],downloads:3400}
+  ]; save();
 }
 
-function save(){localStorage.setItem('sk_fab_v4',JSON.stringify(ITEMS));localStorage.setItem('cart_fab_v4',JSON.stringify(CART));localStorage.setItem('lib_fab_v4',JSON.stringify(LIB));localStorage.setItem('fav_fab_v4',JSON.stringify(FAV));}
-function toast(msg){let t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
-function toggleTheme(){document.body.classList.toggle('light')}
+function save(){
+  localStorage.setItem('sk_fab_v5',JSON.stringify(ITEMS));
+  localStorage.setItem('cart_fab_v5',JSON.stringify(CART));
+  localStorage.setItem('lib_fab_v5',JSON.stringify(LIB));
+  localStorage.setItem('fav_fab_v5',JSON.stringify(FAV));
+}
+
+function toast(msg){let t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
 function setCat(c,btn){CAT=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
-function add(){ITEMS.unshift({id:Date.now(),n:n.value,author:author.value,d:d.value,i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value,rating:5,reviews:[],downloads:0});save();m.style.display='none';toast('تم النشر');render();}
-function buy(x){if(!CART.find(i=>i.id==x.id))CART.push(x);save();updateCounts();toast('اضيف للسلة')}
+
+function checkPayment(){
+  if(PAID){m.style.display='flex';} 
+  else {payModal.style.display='flex';}
+}
+
+function confirmPayment(){
+  PAID = true; // هنا بتربط PayPal API الحقي
+  payModal.style.display='none';
+  toast('✅ تم الدفع 5$. تقدر تنشر هلا');
+  m.style.display='flex';
+}
+
+function add(){
+  ITEMS.unshift({
+    id:Date.now(),n:n.value,author:author.value||"SHADOWKING Studio",d:d.value,
+    i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value,
+    rating:5,reviews:[],downloads:0
+  });
+  save(); m.style.display='none'; PAID=false; toast('✅ تم نشر المنتج');
+  render();
+}
+
+function buy(x){
+  if(!CART.find(i=>i.id==x.id)) CART.push(x);
+  save(); updateCounts(); toast('🛒 اضيف للسلة');
+}
+
+function download(x){
+  x.downloads++; if(!LIB.find(i=>i.id==x.id)) LIB.push(x);
+  save(); toast('📦 تم التحميل. تلاقيه بالمكتبة');
+}
+
+function fav(x){
+  if(!FAV.find(i=>i.id==x.id)) FAV.push(x); else FAV=FAV.filter(i=>i.id!=x.id);
+  save(); toast('❤️ تمت الاضافة للمفضلة');
+}
+
 function showProduct(id){
-  let x=ITEMS.find(i=>i.id==id);x.downloads++;save();
-  productContent.innerHTML=`<h2>${x.n}</h2><img src="${x.i}" style="width:100%;border-radius:12px"><p>${x.d}</p>
-  <div class="stars">${'⭐'.repeat(x.rating)}</div>
-  <h4>التعليقات:</h4>${x.reviews.map(r=>`<div class="review"><b>${r.user}:</b> ${r.text}</div>`).join('')}
-  <div style="display:flex;gap:10px;margin-top:20px"><div class="price">${x.p}</div><button class="btn" onclick="buy(${x.id})">شراء</button></div>`;
+  let x=ITEMS.find(i=>i.id==id);
+  productContent.innerHTML=`<h2 style="margin-bottom:16px">${x.n}</h2>
+  <img src="${x.i}" style="width:100%;border-radius:12px;margin-bottom:16px">
+  ${x.v?`<iframe width="100%" height="400" src="${x.v}" frameborder="0"></iframe>`:''}
+  <p style="margin:16px 0;line-height:1.8">${x.d}</p>
+  <div class="stars">${'⭐'.repeat(x.rating)} <span style="color:var(--text2)">(${x.downloads} تحميل)</span></div>
+  <h4 style="margin:20px 0">التعليقات:</h4>${x.reviews.map(r=>`<div class="review"><b>${r.user}:</b> ${r.text}</div>`).join('')||'<p>لا يوجد تعليقات</p>'}
+  <div style="display:flex;gap:12px;margin-top:20px">
+    <div class="price">${x.p}</div>
+    <button class="btn" onclick="buy(${x.id})">شراء</button>
+    <button class="btn" style="background:var(--green);color:#000" onclick="download(${x.id})">تحميل</button>
+  </div>`;
   productModal.style.display='flex';
 }
-function card(x){return `<div class="card"><div class="card-img-wrapper"><img class="card-img" src="${x.i}" onclick="showProduct(${x.id})"><button class="quick-btn" onclick="showProduct(${x.id})">معاينة</button></div><div class="card-body"><div class="card-title">${x.n}</div><div class="card-author">${x.author}</div><div class="card-footer"><div class="price">${x.p}</div><button class="btn" onclick='buy(${x.id})'>شراء</button></div></div></div>`}
-function render(){
-  let data=ITEMS;if(CAT!='الكل'){if(CAT=='مجاني')data=data.filter(x=>x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}
-  data=data.filter(x=>x.n.includes(search.value));grid.innerHTML=data.map(card).join('');
+
+function card(x){
+  return `<div class="card">
+    <div class="card-img-wrapper">
+      <img class="card-img" src="${x.i}" onclick="showProduct(${x.id})">
+      <div class="quick-actions">
+        <button class="qbtn" onclick="showProduct(${x.id})">معاينة</button>
+        <button class="qbtn" onclick="fav(${x.id})">❤️</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">${x.n}</div>
+      <div class="card-author">بواسطة ${x.author}</div>
+      <div class="card-footer">
+        <div class="price">${x.p}</div>
+        <button class="btn" onclick='buy(${x.id})'>شراء</button>
+      </div>
+    </div>
+  </div>`
 }
-function showPage(p){homePage.style.display='none';otherPage.style.display='block';
-  if(p=='cart')otherPage.innerHTML=`<h2>السلة</h2><div class="grid">${CART.map(card).join('')}</div>`;
-  if(p=='lib')otherPage.innerHTML=`<h2>المكتبة</h2><div class="grid">${LIB.map(card).join('')}</div>`;
-  if(p=='fav')otherPage.innerHTML=`<h2>المفضلة</h2><div class="grid">${FAV.map(card).join('')}</div>`;
+
+function render(){
+  let data=ITEMS;
+  if(CAT!='الكل'){if(CAT=='مجاني')data=data.filter(x=>x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}
+  data=data.filter(x=>x.n.toLowerCase().includes(search.value.toLowerCase()));
+  grid.innerHTML=data.map(card).join('');
+}
+
+function showPage(p){
+  homePage.style.display='none';otherPage.style.display='block';
+  if(p=='cart')otherPage.innerHTML=`<h2 style="margin-bottom:20px">🛒 السلة</h2><div class="grid">${CART.map(card).join('')||'<p>السلة فاضية</p>'}</div>`;
+  if(p=='lib')otherPage.innerHTML=`<h2 style="margin-bottom:20px">📦 مكتبتي</h2><div class="grid">${LIB.map(card).join('')||'<p>المكتبة فاضية</p>'}</div>`;
+  if(p=='fav')otherPage.innerHTML=`<h2 style="margin-bottom:20px">❤️ المفضلة</h2><div class="grid">${FAV.map(card).join('')||'<p>المفضلة فاضية</p>'}</div>`;
   if(p=='home'){homePage.style.display='block';otherPage.style.display='none';}
+}
+
 function updateCounts(){cartCount.innerText=CART.length}
-setInterval(()=>{let d=new Date();countdown.innerText=`ينتهي خلال ${23-d.getHours()} ساعة`},1000)
 updateCounts();render();
 </script>
 </body></html>
