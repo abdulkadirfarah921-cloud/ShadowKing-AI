@@ -2,121 +2,263 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>SHADOWKING MARKET</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHADOWKING MARKET ULTRA</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--neon:#00e5ff;--neon2:#00ff88;--glass:rgba(20,20,30,0.7)}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:#0a0a0a;color:#fff;padding:20px}
-.topbar{display:flex;justify-content:space-between;align-items:center;background:var(--glass);backdrop-filter:blur(20px);padding:15px;border-radius:15px;margin-bottom:20px;border:1px solid var(--neon)44}
-.logo{font-size:1.8em;font-weight:900;color:var(--neon)}
-.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px 20px;border:none;border-radius:10px;font-weight:900;cursor:pointer}
-.container{display:grid;grid-template-columns:280px 1fr;gap:20px}
-.sidebar{background:var(--glass);padding:15px;border-radius:15px;border:1px solid var(--neon)44}
-.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px}
-.card{background:var(--glass);border:1px solid var(--neon)33;border-radius:12px;padding:12px;transition:0.3s}
-.card:hover{border-color:var(--neon2);transform:translateY(-3px)}
-.card img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#000}
-.card h4{color:var(--neon2);margin:8px 0}
-.price{color:var(--neon);font-weight:900;font-size:1.2em}
-input,select,textarea{width:100%;padding:10px;background:#000;border:1px solid var(--neon);border-radius:8px;color:#fff;margin:5px 0}
+:root{--neon:#00e5ff;--neon2:#00ff88;--bg:#0a0a0a;--card:rgba(20,20,30,0.8);--text:#fff}
+body.light{--bg:#f5f5f5;--card:#fff;--text:#000}
+*{font-family:'Cairo';box-sizing:border-box}
+body{background:var(--bg);color:var(--text);margin:0;padding:20px;transition:0.3s}
+.topbar{position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center;background:var(--card);backdrop-filter:blur(10px);padding:15px;border-radius:15px;border:1px solid var(--neon)44;margin-bottom:20px}
+.logo{font-size:1.8em;font-weight:900;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:10px 18px;border:none;border-radius:10px;font-weight:900;cursor:pointer;transition:0.2s}
+.btn:hover{transform:scale(1.05)}
+.btn-small{padding:6px 12px;font-size:0.9em}
+.btn-danger{background:#ff0044;color:#fff}
+.search-bar{display:flex;gap:10px;margin-bottom:15px}
+.search-bar input{flex:1;padding:12px;background:#000;border:2px solid var(--neon);border-radius:10px;color:#fff;font-size:1em}
+.filters{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap}
+.filter-btn{background:#111;border:1px solid var(--neon);padding:8px 15px;border-radius:20px;color:#fff;cursor:pointer}
+.filter-btn.active{background:var(--neon);color:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;animation:fadeIn 0.5s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border:1px solid var(--neon)33;border-radius:15px;padding:15px;position:relative;overflow:hidden;transition:0.3s}
+.card:hover{border-color:var(--neon);transform:translateY(-5px);box-shadow:0 0 20px var(--neon)33}
+.card img{width:100%;height:160px;object-fit:cover;border-radius:10px}
+.badge{position:absolute;top:10px;left:10px;background:var(--neon2);color:#000;padding:4px 10px;border-radius:15px;font-size:0.8em;font-weight:900}
+.heart{position:absolute;top:10px;right:10px;font-size:1.6em;cursor:pointer;z-index:2}
+.price{color:var(--neon);font-weight:900;font-size:1.4em}
+.stars{color:gold}
+.stats{font-size:0.85em;opacity:0.7}
+.tag{background:#333;padding:3px 8px;border-radius:5px;font-size:0.75em;margin-right:5px}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);justify-content:center;align-items:center;z-index:999;backdrop-filter:blur(5px)}
+.modal-content{background:var(--card);padding:25px;border-radius:15px;width:90%;max-width:500px;border:1px solid var(--neon)}
+input,select,textarea{width:100%;padding:12px;background:#000;border:1px solid var(--neon);border-radius:8px;color:#fff;margin:8px 0}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--neon2);color:#000;padding:15px 20px;border-radius:10px;font-weight:900;display:none;z-index:1000}
+.pages{display:flex;gap:5px;justify-content:center;margin:20px 0}
+.page-btn{background:#111;border:1px solid var(--neon);padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer}
+.page-btn.active{background:var(--neon);color:#000}
+.countdown{background:#ff0044;color:#fff;padding:5px 10px;border-radius:8px;font-size:0.8em}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo">🏪 SHADOWKING MARKET</div>
+  <div class="logo">🏪 SHADOWKING ULTRA</div>
   <div>
-    <button class="btn" onclick="showCreate()">➕ انشاء منتج</button>
-    <button class="btn" onclick="showSeller()">👤 حسابي</button>
+    <button class="btn btn-small" onclick="toggleTheme()">🌓</button>
+    <button class="btn btn-small" onclick="showPage('home')">الرئيسية</button>
+    <button class="btn btn-small" onclick="showPage('fav')">❤️ (<span id="favCount">0</span>)</button>
+    <button class="btn btn-small" onclick="showPage('lib')">📦 (<span id="libCount">0</span>)</button>
+    <button class="btn btn-small" onclick="showPage('cart')">🛒 (<span id="cartCount">0</span>)</button>
+    <button class="btn btn-small" onclick="showPage('admin')">⚙️</button>
+    <button class="btn btn-small" onclick="m.style.display='flex'">➕</button>
   </div>
 </div>
 
-<div class="container">
-  <div class="sidebar">
-    <h3>🔍 بحث</h3>
-    <input id="search" placeholder="ابحث: LUT, Transition..." onkeyup="render()">
-    <h3 style="margin-top:15px">📂 الفئة</h3>
-    <select id="filter" onchange="render()">
-      <option>الكل</option><option>مؤثر بصري</option><option>انتقال</option><option>فلتر LUT</option><option>AI Preset</option>
+<div id="homePage">
+  <div class="search-bar">
+    <input id="search" onkeyup="render()" placeholder="🔍 ابحث عن LUT, انتقال, AI, قالب...">
+    <select id="sort" onchange="render()" style="width:180px">
+      <option value="new">الاحدث</option>
+      <option value="priceLow">الارخص</option>
+      <option value="priceHigh">الاغلى</option>
+      <option value="views">الاكثر مشاهدة</option>
+      <option value="rating">الاعلى تقييم</option>
     </select>
   </div>
 
-  <div id="marketGrid" class="market-grid"></div>
+  <div style="display:flex;gap:10px;margin-bottom:15px">
+    <input id="coupon" placeholder="كود خصم: FAB50" style="width:200px">
+    <button class="btn btn-small" onclick="applyCoupon()">تفعيل</button>
+    <span id="discountText"></span>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setCat('الكل',this)">الكل</button>
+    <button class="filter-btn" onclick="setCat('LUT',this)">LUT</button>
+    <button class="filter-btn" onclick="setCat('انتقال',this)">انتقال</button>
+    <button class="filter-btn" onclick="setCat('AI',this)">AI</button>
+    <button class="filter-btn" onclick="setCat('قالب',this)">قالب</button>
+    <button class="filter-btn" onclick="setCat('مجاني',this)">مجاني</button>
+  </div>
+
+  <div id="grid" class="grid"></div>
+  <div id="pagination" class="pages"></div>
 </div>
 
-<!-- نافذة انشاء منتج -->
-<div id="createModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999;justify-content:center;align-items:center">
-  <div class="card" style="width:400px">
-    <h3>➕ انشاء منتج جديد</h3>
-    <input id="pName" placeholder="اسم المنتج: Fire LUT">
-    <textarea id="pDesc" rows="2" placeholder="الوصف"></textarea>
-    <select id="pType"><option>مؤثر بصري</option><option>انتقال</option><option>فلتر LUT</option><option>AI Preset</option></select>
-    <input type="file" id="pImg" accept="image/*">
-    <img id="pPreview" style="width:100%;height:120px;object-fit:cover;border-radius:8px;display:none">
-    <div style="display:flex;gap:10px">
-      <select id="pPriceType" style="flex:1" onchange="document.getElementById('pPrice').style.display=this.value=='paid'?'block':'none'">
-        <option value="free">مجاني</option><option value="paid">مدفوع</option>
-      </select>
-      <input id="pPrice" type="number" placeholder="5.99" style="width:100px;display:none">
-    </div>
-    <button class="btn" onclick="publish()">🚀 نشر</button>
-    <button class="btn" style="background:#333;color:#fff" onclick="closeModal()">الغاء</button>
-  </div>
-</div>
+<div id="otherPage" style="display:none"></div>
+
+<!-- مودال انشاء -->
+<div id="m" class="modal"><div class="modal-content">
+  <h3>➕ منتج جديد</h3>
+  <input id="n" placeholder="اسم المنتج">
+  <textarea id="d" placeholder="الوصف الكامل"></textarea>
+  <input id="i" placeholder="رابط الصورة Imgur">
+  <input id="v" placeholder="رابط فيديو المعاينة Youtube">
+  <input id="f" placeholder="رابط التحميل Google Drive">
+  <input id="tags" placeholder="تاجات: سينمائي, ترند">
+  <select id="c"><option>LUT</option><option>انتقال</option><option>AI</option><option>قالب</option></select>
+  <input id="p" placeholder="السعر: 4.99 او مجاني">
+  <button class="btn" onclick="add()">نشر المنتج</button>
+  <button class="btn btn-danger" onclick="m.style.display='none'">الغاء</button>
+</div></div>
+
+<!-- مودال تفاصيل -->
+<div id="detailModal" class="modal"><div class="modal-content" id="detailContent"></div></div>
+
+<div id="toast" class="toast"></div>
 
 <script>
-let ITEMS = JSON.parse(localStorage.getItem('sk_market')) || [
-  {name:"Cinematic Fire LUT",desc:"فلتر نار سينمائي قوي",type:"فلتر LUT",price:"مجاني",img:"https://via.placeholder.com/300/ff5500/fff?text=LUT"},
-  {name:"Glitch Transition Pack",desc:"20 انتقال Glitch احترافي",type:"انتقال",price:"$4.99",img:"https://via.placeholder.com/300/00e5ff/000?text=FX"},
-  {name:"AI Voice Clone",desc:"انسخ اي صوت بـ AI",type:"AI Preset",price:"$9.99",img:"https://via.placeholder.com/300/ff00ff/fff?text=AI"}
-];
+let ITEMS = JSON.parse(localStorage.getItem('sk_ultra')) || [];
+let LIB = JSON.parse(localStorage.getItem('lib_ultra')) || [];
+let FAV = JSON.parse(localStorage.getItem('fav_ultra')) || [];
+let CART = JSON.parse(localStorage.getItem('cart_ultra')) || [];
+let CAT = 'الكل'; let DISCOUNT = 1; let PAGE = 1; const PER_PAGE = 9;
 
-document.getElementById('pImg').onchange = e => {
-  const reader = new FileReader();
-  reader.onload = () => {document.getElementById('pPreview').src=reader.result;document.getElementById('pPreview').style.display='block'}
-  reader.readAsDataURL(e.target.files[0])
+// بيانات تجريبية اول مرة
+if(ITEMS.length==0){
+  ITEMS = [
+    {id:1,n:"Cinematic LUT Pack",d:"50 LUT سينمائي احترافي",i:"https://i.imgur.com/8Km9tLL.jpg",v:"",f:"#",tags:"سينمائي,ترند",c:"LUT",p:"$14.99",views:234,rating:5,downloads:45,new:true},
+    {id:2,n:"TikTok Transitions",d:"30 انتقال ترند تيك توك",i:"https://i.imgur.com/8Km9tLL.jpg",v:"",f:"#",tags:"ترند,تيك_توك",c:"انتقال",p:"مجاني",views:567,rating:4,downloads:120,new:false}
+  ]; save();
 }
 
-function showCreate(){document.getElementById('createModal').style.display='flex'}
-function closeModal(){document.getElementById('createModal').style.display='none'}
-function showSeller(){alert('👤 صفحة البائع\nالمبيعات: 45$\nمنتجاتك: ' + ITEMS.length)}
+function save(){
+  localStorage.setItem('sk_ultra',JSON.stringify(ITEMS));
+  localStorage.setItem('lib_ultra',JSON.stringify(LIB));
+  localStorage.setItem('fav_ultra',JSON.stringify(FAV));
+  localStorage.setItem('cart_ultra',JSON.stringify(CART));
+}
 
-function publish(){
-  const newItem = {
-    name:document.getElementById('pName').value,
-    desc:document.getElementById('pDesc').value,
-    type:document.getElementById('pType').value,
-    price:document.getElementById('pPriceType').value=='free'?'مجاني':`$${document.getElementById('pPrice').value}`,
-    img:document.getElementById('pPreview').src || 'https://via.placeholder.com/300/00e5ff/000?text=FX'
-  };
-  ITEMS.unshift(newItem);
-  localStorage.setItem('sk_market',JSON.stringify(ITEMS));
-  alert(`✅ تم نشر ${newItem.name}`);
-  closeModal(); render();
+function toast(msg){
+  let t=document.getElementById('toast'); t.innerText=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none',2000);
+}
+
+function setCat(c,btn){CAT=c; document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); PAGE=1; render();}
+function toggleTheme(){document.body.classList.toggle('light')}
+
+function applyCoupon(){
+  if(coupon.value.toUpperCase()=='FAB50'){DISCOUNT=0.5; discountText.innerText='✅ خصم 50%'; toast('تم تفعيل الخصم')}
+  else{DISCOUNT=1; discountText.innerText=''; toast('كود خطأ')}
+  render();
+}
+
+function add(){
+  ITEMS.unshift({id:Date.now(),n:n.value,d:d.value,i:i.value,v:v.value,f:f.value,tags:tags.value,c:c.value,p:p.value,views:0,rating:5,downloads:0,new:true});
+  save(); m.style.display='none'; toast('تم نشر المنتج'); render();
+}
+
+function buy(item){
+  if(!CART.find(x=>x.id==item.id)) CART.push(item);
+  save(); updateCounts(); toast('تمت الاضافة للسلة');
+}
+
+function buyNow(item){
+  buy(item); showPage('cart');
+}
+
+function addToLib(item){
+  item.downloads++; 
+  if(!LIB.find(x=>x.id==item.id)) LIB.push(item);
+  save(); updateCounts(); toast('تمت الاضافة لمكتبتك');
+}
+
+function toggleFav(id){
+  let idx = FAV.findIndex(x=>x.id==id);
+  if(idx>-1) FAV.splice(idx,1); else FAV.push(ITEMS.find(x=>x.id==id));
+  save(); updateCounts(); render(); toast(idx>-1?'تم الحذف من المفضلة':'تمت الاضافة للمفضلة');
+}
+
+function showDetails(id){
+  let x = ITEMS.find(i=>i.id==id);
+  x.views++; save();
+  detailContent.innerHTML = `
+    <h2 style="color:var(--neon)">${x.n}</h2>
+    <img src="${x.i}" style="width:100%;border-radius:10px">
+    ${x.v?`<iframe width="100%" height="200" src="${x.v}" frameborder="0"></iframe>`:''}
+    <p>${x.d}</p>
+    <p>${x.tags.split(',').map(t=>`<span class="tag">#${t}</span>`).join('')}</p>
+    <p><span class="stars">⭐`.repeat(x.rating)+`</span> 👁️ ${x.views} ⬇️ ${x.downloads}</p>
+    <div style="display:flex;gap:10px">
+      <div class="price">${formatPrice(x.p)}</div>
+      <button class="btn" onclick="buyNow(${x.id})">شراء الان</button>
+      <button class="btn" style="background:#333" onclick="detailModal.style.display='none'">اغلاق</button>
+    </div>
+  `;
+  detailModal.style.display='flex';
+}
+
+function formatPrice(p){
+  if(p.includes('$')) return `$${(parseFloat(p.replace('$',''))*DISCOUNT).toFixed(2)}`;
+  return p;
+}
+
+function showPage(page){
+  document.getElementById('homePage').style.display='none';
+  otherPage.style.display='block';
+  if(page=='lib'){
+    otherPage.innerHTML = `<h2>📦 مكتبتي</h2>` + (LIB.map(x=>card(x,true)).join('') || '<p>فاضية</p>');
+  }
+  if(page=='fav'){
+    otherPage.innerHTML = `<h2>❤️ المفضلة</h2>` + (FAV.map(x=>card(x,false)).join('') || '<p>فاضية</p>');
+  }
+  if(page=='cart'){
+    let total = CART.reduce((a,b)=>a+parseFloat(b.p.replace('$','')||0),0)*DISCOUNT;
+    otherPage.innerHTML = `<h2>🛒 السلة</h2>` + CART.map(x=>card(x,false)).join('') + `<h3>الاجمالي: $${total.toFixed(2)}</h3><button class="btn">الدفع</button>`;
+  }
+  if(page=='admin'){
+    otherPage.innerHTML = `<h2>⚙️ لوحة الادمن</h2><p>عدد المنتجات: ${ITEMS.length}</p><p>عدد المبيعات: ${LIB.length}</p>`;
+  }
+  if(page=='home'){document.getElementById('homePage').style.display='block'; otherPage.style.display='none';}
+}
+
+function card(x,isLib){
+  return `<div class="card">
+    <div class="heart" onclick="toggleFav(${x.id})">${FAV.find(f=>f.id==x.id)?'❤️':'🤍'}</div>
+    ${x.new?'<div class="badge">جديد</div>':''}
+    <img src="${x.i}" onclick="showDetails(${x.id})">
+    <h4 style="color:var(--neon2);cursor:pointer" onclick="showDetails(${x.id})">${x.n}</h4>
+    <p style="font-size:0.9em">${x.d.substring(0,60)}...</p>
+    <p>${x.tags.split(',').map(t=>`<span class="tag">#${t}</span>`).join('')}</p>
+    <p class="stats"><span class="stars">⭐⭐⭐⭐⭐</span> 👁️ ${x.views} ⬇️ ${x.downloads}</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+      <div class="price">${formatPrice(x.p)}</div>
+      ${isLib?`<a href="${x.f}" class="btn btn-small" target="_blank">تحميل</a>`:`<button class="btn btn-small" onclick='buy(${x.id})'>اضافة للسلة</button>`}
+    </div>
+  </div>`
 }
 
 function render(){
-  const grid=document.getElementById('marketGrid');
-  const search=document.getElementById('search').value;
-  const filter=document.getElementById('filter').value;
-  grid.innerHTML = ITEMS.filter(i=>
-    i.name.includes(search) && (filter=='الكل'||i.type==filter)
-  ).map(i=>`
-    <div class="card">
-      <img src="${i.img}">
-      <h4>${i.name}</h4>
-      <p style="font-size:0.85em;opacity:0.8">${i.desc}</p>
-      <p style="font-size:0.8em;opacity:0.6">${i.type}</p>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-        <div class="price">${i.price}</div>
-        <button class="btn" style="padding:6px 12px" onclick="buy('${i.name}')">⬇️ شراء</button>
-      </div>
-    </div>
-  `).join('');
+  let data = [...ITEMS];
+  if(CAT!='الكل'){
+    if(CAT=='مجاني') data = data.filter(x=>x.p=='مجاني');
+    else data = data.filter(x=>x.c==CAT);
+  }
+  data = data.filter(x=>x.n.toLowerCase().includes(search.value.toLowerCase()));
+  
+  if(sort.value=='priceLow') data.sort((a,b)=>parseFloat(a.p.replace('$','')||0)-parseFloat(b.p.replace('$','')||0));
+  if(sort.value=='priceHigh') data.sort((a,b)=>parseFloat(b.p.replace('$','')||0)-parseFloat(a.p.replace('$','')||0));
+  if(sort.value=='views') data.sort((a,b)=>b.views-a.views);
+  if(sort.value=='rating') data.sort((a,b)=>b.rating-a.rating);
+  
+  let start = (PAGE-1)*PER_PAGE;
+  let paged = data.slice(start, start+PER_PAGE);
+  
+  grid.innerHTML = paged.map(x=>card(x,false)).join('');
+  
+  let pages = Math.ceil(data.length/PER_PAGE);
+  pagination.innerHTML = Array.from({length:pages},(_,i)=>`<button class="page-btn ${PAGE==i+1?'active':''}" onclick="PAGE=${i+1};render()">${i+1}</button>`).join('');
 }
-function buy(name){alert(`✅ تمت اضافة ${name} لمكتبتك`)}
-render();
+
+function updateCounts(){
+  libCount.innerText=LIB.length; 
+  favCount.innerText=FAV.length; 
+  cartCount.innerText=CART.length;
+}
+
+updateCounts(); render();
 </script>
-</body>
-</html>
+</body></html>
