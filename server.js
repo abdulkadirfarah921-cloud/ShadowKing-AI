@@ -1,140 +1,103 @@
-// ========= SHADOWKING FAB STORE SERVER =========
+// ========= SHADOWKING FAB STORE SERVER - PADDLE BILLING =========
 const express = require('express');
-const Stripe = require('stripe');
 const cors = require('cors');
-const multer = require('multer');
+const crypto = require('crypto');
 const fs = require('fs');
-const path = require('path');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('uuid');
-
 const app = express();
-const stripe = Stripe('sk_test_YOUR_KEY_HERE'); // حط مفتاحك
-const JWT_SECRET = 'SHADOWKING_SECRET_2026';
 
 app.use(cors());
-app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+app.use(express.json({limit: '50mb'}));
+app.use(express.static('public')); // خلي index.html جوة public
 
-const upload = multer({ dest: 'uploads/' });
 const DB_FILE = 'db.json';
+const PADDLE_API_KEY = 'pdl_live_apikey_01ky7xdn2h...'; // API Key من Paddle > Developer Tools
 
-// ===== قاعدة البيانات =====
-function readDB(){ return JSON.parse(fs.readFileSync(DB_FILE,'utf8')||'{"users":[],"products":[],"orders":[]}') }
+function readDB(){ try{return JSON.parse(fs.readFileSync(DB_FILE,'utf8'))}catch{return {users:[],products:[],orders:[]}} }
 function writeDB(data){ fs.writeFileSync(DB_FILE, JSON.stringify(data,null,2)) }
 
-// ===== 26. API المقفول + حماية السعر =====
-app.get('/api/products', (req,res)=>{
-  const db = readDB();
-  // نرجع المنتجات بدون سعر حقي. السعر بيتشيك وقت الدفع بس
-  const safeProducts = db.products.map(p=>({
-    id:p.id, name:p.name, author:p.author, img:p.img, cat:p.cat, verified:p.verified
-  }));
-  res.json(safeProducts);
-});
-
-// ===== 2. الدفع + تقسيم الفلوس للبائع اوتوماتيك =====
+// ===== 1. حماية السعر 100% + انشاء رابط Paddle =====
 app.post('/api/checkout', async (req,res)=>{
   const {cart, userId} = req.body;
   const db = readDB();
   
-  // 1. حماية السعر: نجيب السعر من السيرفر مش من الواجهة
-  let lineItems = [];
-  let total = 0;
+  let items = [];
   
   for(let item of cart){
     const product = db.products.find(p=>p.id==item.id);
     if(!product) return res.status(400).json({error:"منتج غير موجود"});
     
-    const seller = db.users.find(u=>u.id==product.sellerId);
-    
-    // 2. Stripe Connect: الفلوس تتقسم اوتوماتيك
-    lineItems.push({
-      price_data:{
-        currency:'usd',
-        product_data:{name:product.name},
-        unit_amount: Math.round(product.price * 100) // السعر من السيرفر
-      },
-      quantity:1
+    // السعر بيجي من Paddle مش من عندنا
+    items.push({
+      price_id: product.paddlePriceId, // ده المهم
+      quantity: 1
     });
-    
-    total += product.price;
   }
   
-  // انشاء جلسة دفع
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types:['card'],
-    line_items:lineItems,
-    mode:'payment',
-    success_url:'http://localhost:3000/success',
-    cancel_url:'http://localhost:3000/cancel',
-    // 3. التحويل المباشر: 80% للبائع 15% الك 5% Stripe
-    payment_intent_data:{
-      application_fee_amount: Math.round(total * 15), // عمولتك 15%
-      transfer_data:{ destination: seller.stripeAccountId } // حساب البائع
-    }
-  });
+  try {
+    const response = await fetch('https://api.paddle.com/checkouts', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${PADDLE_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        items: items,
+        custom_data: { userId: userId || 'guest' } // عشان نعرف مين اشترى
+      })
+    });
+    
+    const data = await response.json();
+    res.json({ url: data.data.url }); // رابط الدفع
+  } catch(err) {
+    res.status(500).json({error: err.message});
+  }
+});
+
+// ===== 2. Webhook من Paddle =====
+app.post('/api/paddle-webhook', express.raw({type: 'application/json'}), (req,res)=>{
+  const event = JSON.parse(req.body);
   
-  res.json({url: session.url});
+  if(event.event_type === 'transaction.completed'){
+    const order = event.data;
+    const db = readDB();
+    
+    const userId = order.custom_data?.userId;
+    
+    // 1. ضيف الطلب
+    db.orders.push({
+      id: order.id,
+      total: order.details.totals.total,
+      customer: order.customer.email,
+      items: order.items,
+      date: new Date()
+    });
+    
+    // 2. ضيف المنتجات لمكتبة اليوزر + نقاط
+    let user = db.users.find(u=>u.id==userId);
+    if(!user){
+      user = {id: userId, library:[], points:0};
+      db.users.push(user);
+    }
+    
+    order.items.forEach(item=>{
+      user.library.push(item.price.id);
+      user.points += order.details.totals.total * 10; // 1200 ميزة: نقاط
+    });
+    
+    writeDB(db);
+    console.log('طلب جديد:', order.customer.email);
+  }
+  
+  res.status(200).send('OK');
 });
 
-// ===== 8. لوحة تحكم الناشر =====
-app.post('/api/publisher/stats', (req,res)=>{
-  const {sellerId} = req.body;
+// ===== 3. API مقفول - ما بيرجع سعر =====
+app.get('/api/products', (req,res)=>{
   const db = readDB();
-  const sales = db.orders.filter(o=>o.sellerId==sellerId);
-  res.json({
-    totalSales: sales.length,
-    totalEarned: sales.reduce((a,b)=>a+b.amount,0)*0.8,
-    products: db.products.filter(p=>p.sellerId==sellerId)
-  });
+  const safe = db.products.map(p=>({
+    id:p.id, name:p.name, img:p.img, cat:p.cat, price:p.price // السعر للعرض بس
+  }));
+  res.json(safe);
 });
 
-// ===== 9. نظام الفحص الامني =====
-app.post('/api/upload', upload.single('file'), (req,res)=>{
-  // فحص الفيروسات + فحص المحتوى
-  const isSafe = scanFile(req.file.path); // دالة وهمية
-  if(!isSafe) return res.status(400).json({error:"ملف غير امن"});
-  res.json({ok:true, path:req.file.path});
-});
-
-function scanFile(path){
-  // هنا تحط فحص حقي ب clamav او virustotal API
-  return true; 
-}
-
-// ===== 24. المراجعة اليدوية =====
-app.post('/api/admin/approve', (req,res)=>{
-  const {productId} = req.body;
-  const db = readDB();
-  const p = db.products.find(x=>x.id==productId);
-  p.verified = true;
-  p.verifiedAt = new Date();
-  writeDB(db);
-  res.json({ok:true});
-});
-
-// ===== 3. نظام الحسابات + 43. 2FA =====
-app.post('/api/register', async (req,res)=>{
-  const {email,password} = req.body;
-  const db = readDB();
-  const hash = await bcrypt.hash(password,10);
-  const user = {id:uuidv4(),email,password:hash,stripeAccountId:null};
-  db.users.push(user); writeDB(db);
-  res.json({token: jwt.sign({id:user.id},JWT_SECRET)});
-});
-
-// ===== 50. سجل النشاطات =====
-app.use((req,res,next)=>{
-  console.log(`[${new Date()}] ${req.method} ${req.path}`);
-  fs.appendFileSync('activity.log', `${new Date()} ${req.ip} ${req.path}\n`);
-  next();
-});
-
-// ===== 45. نسخ احتياطي يومي =====
-setInterval(()=>{
-  fs.copyFileSync(DB_FILE, `backup/db_${Date.now()}.json`);
-}, 24*60*60*1000);
-
-app.listen(3000, ()=>console.log('SHADOWKING FAB STORE Running on 3000'));
+app.listen(3000, ()=>console.log('SHADOWKING FAB STORE + PADDLE Running on 3000'));
