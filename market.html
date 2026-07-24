@@ -6,7 +6,7 @@
 <title>SHADOWKING FAB STORE</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0A0A0A;--card:#141414;--card-hover:#1E1E1E;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#8A8A8A}
+:root{--bg:#0A0A0A;--card:#141414;--card-hover:#1E1E1E;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#8A8A8A;--orange:#FFAA00;--red:#FF0044}
 *{font-family:'Cairo','Poppins';box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text)}
 [dir="ltr"]{direction:ltr;text-align:left}
@@ -39,11 +39,16 @@ body{background:var(--bg);color:var(--text)}
 .btn{background:var(--blue);color:#fff;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:1em}
 .btn:hover{background:#0090FF}
 .btn-green{background:var(--green);color:#000}
+.btn-orange{background:var(--orange);color:#000}
+.btn-red{background:var(--red);color:#fff}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.96);justify-content:center;align-items:center;z-index:2000}
-.modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:850px;max-height:90vh;overflow-y:auto;border:1px solid #333}
-input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:10px 0;font-size:1em}
+.modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:850px;max-height:90vh;overflow-y:auto;border:1px solid #333;text-align:center}
+input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:10px 0;font-size:1em;text-align:right}
 .toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:#000;padding:18px 26px;border-radius:12px;font-weight:900;display:none;z-index:3000;font-size:1.1em}
 .stars{color:gold;font-size:1.2em}
+.checkmark{font-size:80px;color:var(--green);animation:pop 0.5s}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.action-btn{padding:14px 28px;margin:10px;border:none;border-radius:10px;cursor:pointer;font-weight:900;font-size:1.1em}
 </style>
 </head>
 <body>
@@ -54,18 +59,6 @@ input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #
       <option value="ar">🇸🇦 العربية</option>
       <option value="en">🇺🇸 English</option>
       <option value="tr">🇹🇷 Türkçe</option>
-      <option value="fr">🇫🇷 Français</option>
-      <option value="es">🇪🇸 Español</option>
-      <option value="de">🇩🇪 Deutsch</option>
-      <option value="ru">🇷🇺 Русский</option>
-      <option value="zh">🇨🇳 中文</option>
-      <option value="hi">🇮🇳 हिन्दी</option>
-      <option value="pt">🇵🇹 Português</option>
-      <option value="ja">🇯🇵 日本語</option>
-      <option value="ko">🇰🇷 한국어</option>
-      <option value="it">🇮🇹 Italiano</option>
-      <option value="id">🇮🇩 Bahasa</option>
-      <option value="ur">🇵🇰 اردو</option>
     </select>
     <button onclick="showPage('home')">🏠</button>
     <button onclick="checkPayment()">+ <span data-key="addProduct">نشر منتج</span></button>
@@ -93,10 +86,20 @@ input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #
 
 <div id="productModal" class="modal"><div class="modal-content" id="productContent"></div></div>
 
-<!-- مودال الدفع القديم انحذف - صار يحول على السيرفر مباشرة -->
+<!-- 1. Modal الدفع -->
+<div id="paymentModal" class="modal"><div class="modal-content">
+  <h3>💳 دفع رسوم النشر</h3>
+  <p data-key="payDesc">عشان تحافظ على جودة المتجر, رسوم نشر المنتج = 5$</p>
+  <h2 style="color:var(--green);margin:20px 0">5.00$</h2>
+  <button class="action-btn btn-green" onclick="payNow()">ادفع وانشر</button>
+  <button class="action-btn" style="background:#333" onclick="closeModal('paymentModal')">الغاء</button>
+</div></div>
 
-<div id="m" class="modal"><div class="modal-content">
-  <h3 data-key="addTitle">➕ اضافة منتج جديد</h3>
+<!-- 2. Modal النجاح + الرفع -->
+<div id="successModal" class="modal"><div class="modal-content">
+  <div class="checkmark">✓</div>
+  <h3>تم الدفع بنجاح</h3>
+  <p>الأن يمكنك اضافة منتجك الى المتجر</p>
   <input id="n" data-key="pName" placeholder="اسم المنتج">
   <input id="author" data-key="pAuthor" placeholder="اسم الاستوديو">
   <textarea id="d" rows="3" data-key="pDesc" placeholder="وصف المنتج"></textarea>
@@ -105,16 +108,45 @@ input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #
   <input id="f" data-key="pLink" placeholder="رابط التحميل Google Drive">
   <select id="c"><option>LUT</option><option data-key="trans">انتقال</option><option>AI</option><option data-key="template">قالب</option></select>
   <input id="p" data-key="pPrice" placeholder="السعر: 19.99 او مجاني">
-  <button class="btn" onclick="add()" data-key="publish">نشر المنتج</button>
-  <button class="btn" style="background:#333" onclick="m.style.display='none'" data-key="cancel">الغاء</button>
+  <button class="action-btn btn-green" onclick="uploadFile()">رفع وفحص الملف</button>
+</div></div>
+
+<!-- 3. Modal الفحص -->
+<div id="scanModal" class="modal"><div class="modal-content">
+  <h3>جارية فحص ملفك بالكامل</h3>
+  <p>هل تريد المتابعة ؟</p>
+  <button class="action-btn btn-green" onclick="continueScan()">المتابعة</button>
+  <button class="action-btn btn-red" onclick="cancelUpload()">إلغاء</button>
+</div></div>
+
+<!-- 4. Modal الضرر -->
+<div id="damageModal" class="modal"><div class="modal-content">
+  <h3 style="color:var(--orange)">⚠️ هناك ضرر في ملفك يرجى اصلاحه</h3>
+  <button class="action-btn btn-orange" onclick="autoFix()">إصلاح</button>
+  <button class="action-btn btn-red" onclick="cancelUpload()">إلغاء</button>
+</div></div>
+
+<!-- 5. Modal بعد الإصلاح -->
+<div id="afterFixModal" class="modal"><div class="modal-content">
+  <h3 style="color:var(--green)">تم إصلاح ملفك الأن</h3>
+  <button class="action-btn btn-green" onclick="finalPublish()">نشر المنتج</button>
+  <button class="action-btn btn-blue" onclick="editProduct()">تعديل المنتج</button>
+</div></div>
+
+<!-- 6. Modal النشر النهائي -->
+<div id="publishedModal" class="modal"><div class="modal-content">
+  <div class="checkmark">✅</div>
+  <h3>تم نشر منتجك و تم الفحص بنجاح</h3>
+  <p>لم نجد اي ضرر</p>
+  <button class="action-btn btn-green" onclick="goToStore()">متابعة</button>
 </div></div>
 
 <div id="toast" class="toast"></div>
 
 <script>
 const LANGS = {
-  ar:{dir:"rtl",all:"الكل",trans:"انتقالات",free:"مجاني",fabStore:"FAB STORE",offer:"🔥 عرض الاسبوع -50% 🔥",search:"🔍 ابحث عن LUT, انتقال, AI...",addProduct:"نشر منتج",payTitle:"💳 دفع رسوم النشر",payDesc:"عشان تحافظ على جودة المتجر، رسوم نشر المنتج = 5$",amount:"المبلغ: $5.00",payBtn:"ادفع وانشر",cancel:"الغاء",addTitle:"➕ اضافة منتج جديد",pName:"اسم المنتج",pAuthor:"اسم الاستوديو",pDesc:"وصف المنتج",pImg:"رابط صورة الغلاف",pVideo:"رابط فيديو يوتيوب",pLink:"رابط التحميل",pPrice:"السعر",publish:"نشر المنتج",template:"قالب",cart:"السلة",library:"المكتبة",favorites:"المفضلة",empty:"فاضية",buy:"شراء",preview:"معاينة",download:"تحميل",by:"بواسطة",reviews:"التعليقات",noReviews:"لا يوجد تعليقات"},
-  en:{dir:"ltr",all:"All",trans:"Transitions",free:"Free",fabStore:"FAB STORE",offer:"🔥 Deal of the Week -50% 🔥",search:"🔍 Search for LUT, Transition, AI...",addProduct:"Add Product",payTitle:"💳 Publishing Fee",payDesc:"To maintain quality, publishing fee = $5",amount:"Amount: $5.00",payBtn:"Pay & Publish",cancel:"Cancel",addTitle:"➕ Add New Product",pName:"Product Name",pAuthor:"Studio Name",pDesc:"Product Description",pImg:"Cover Image URL",pVideo:"YouTube Video URL",pLink:"Download Link",pPrice:"Price",publish:"Publish Product",template:"Template",cart:"Cart",library:"Library",favorites:"Favorites",empty:"Empty",buy:"Buy",preview:"Preview",download:"Download",by:"By",reviews:"Reviews",noReviews:"No reviews yet"}
+  ar:{dir:"rtl",all:"الكل",trans:"انتقالات",free:"مجاني",fabStore:"FAB STORE",offer:"🔥 عرض الاسبوع -50% 🔥",search:"🔍 ابحث عن LUT, انتقال, AI...",addProduct:"نشر منتج",payDesc:"عشان تحافظ على جودة المتجر, رسوم نشر المنتج = 5$",addTitle:"➕ اضافة منتج جديد",pName:"اسم المنتج",pAuthor:"اسم الاستوديو",pDesc:"وصف المنتج",pImg:"رابط صورة الغلاف",pVideo:"رابط فيديو يوتيوب",pLink:"رابط التحميل",pPrice:"السعر",publish:"نشر المنتج",template:"قالب",cart:"السلة",library:"المكتبة",favorites:"المفضلة",empty:"فاضية",buy:"شراء",preview:"معاينة",download:"تحميل",by:"بواسطة",reviews:"التعليقات",noReviews:"لا يوجد تعليقات"},
+  en:{dir:"ltr",all:"All",trans:"Transitions",free:"Free",fabStore:"FAB STORE",offer:"🔥 Deal of the Week -50% 🔥",search:"🔍 Search for LUT, Transition, AI...",addProduct:"Add Product",payDesc:"To maintain store quality, publishing fee = 5$",addTitle:"➕ Add New Product",pName:"Product Name",pAuthor:"Studio Name",pDesc:"Product Description",pImg:"Cover Image URL",pVideo:"YouTube Video URL",pLink:"Download Link",pPrice:"Price",publish:"Publish Product",template:"Template",cart:"Cart",library:"Library",favorites:"Favorites",empty:"Empty",buy:"Buy",preview:"Preview",download:"Download",by:"By",reviews:"Reviews",noReviews:"No reviews yet"}
 };
 
 let CURRENT_LANG = localStorage.getItem('lang') || 'ar';
@@ -122,9 +154,11 @@ let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v6')) || [];
 let CART = JSON.parse(localStorage.getItem('cart_fab_v6')) || [];
 let LIB = JSON.parse(localStorage.getItem('lib_fab_v6')) || [];
 let FAV = JSON.parse(localStorage.getItem('fav_fab_v6')) || [];
-let CAT = 'all'; let PAID = localStorage.getItem('sk_paid') === 'true';
+let CAT = 'all'; 
+let PAID = sessionStorage.getItem('sk_paid_session') === 'true';
+let CURRENT_FILE = null;
+const SERVER = "https://protection-cybersecurity.onrender.com";
 const DEFAULT_IMG = "https://via.placeholder.com/600x338/141414/00FF88?text=SHADOWKING";
-const PAYMENT_URL = "https://protection-cybersecurity.onrender.com";
 
 if(ITEMS.length==0){
   ITEMS = [
@@ -139,89 +173,72 @@ function save(){
   localStorage.setItem('lib_fab_v6',JSON.stringify(LIB));
   localStorage.setItem('fav_fab_v6',JSON.stringify(FAV));
   localStorage.setItem('lang',CURRENT_LANG);
-  localStorage.setItem('sk_paid',PAID);
 }
 
 function t(key){return LANGS[CURRENT_LANG][key] || key}
-
-function changeLang(lang){
-  CURRENT_LANG = lang;
-  document.documentElement.lang = lang;
-  document.documentElement.dir = LANGS[lang].dir;
-  document.querySelectorAll('[data-key]').forEach(el=>{
-    if(el.placeholder) el.placeholder = t(el.dataset.key);
-    else el.innerText = t(el.dataset.key);
-  });
-  render(); toast("Language changed to " + lang.toUpperCase());
-}
-
+function changeLang(lang){CURRENT_LANG = lang;document.documentElement.lang = lang;document.documentElement.dir = LANGS[lang].dir;document.querySelectorAll('[data-key]').forEach(el=>{if(el.placeholder) el.placeholder = t(el.dataset.key);else el.innerText = t(el.dataset.key);});render();}
 function toast(msg){let e=document.getElementById('toast');e.innerText=msg;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}
 function setCat(c,btn){CAT=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+function closeModal(id){document.getElementById(id).style.display='none';}
 
-// === التعديل الوحيد هنا ===
-function checkPayment(){
-  if(PAID){ m.style.display='flex'; return; }
-  
-  let publisherName = prompt("اكتب اسم الاستوديو تبعك:");
-  if(publisherName){
-    localStorage.setItem('sk_publisher_temp', publisherName);
-    // نحول على موقع الدفع الحقي
-    window.location.href = `${PAYMENT_URL}/pay/${encodeURIComponent(publisherName)}`;
-  }
+// === الدفع Stripe ===
+function checkPayment(){ if(PAID){ successModal.style.display='flex'; } else { paymentModal.style.display='flex'; } }
+function payNow(){
+  let publisherName = author.value || "Publisher";
+  window.location.href = `${SERVER}/pay/${publisherName}`;
 }
 
-function add(){
-  ITEMS.unshift({id:Date.now(),n:n.value,author:author.value||"SHADOWKING Studio",d:d.value,i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value,rating:5,reviews:[],downloads:0});
-  save(); m.style.display='none'; PAID=false; localStorage.setItem('sk_paid',false); toast("✅ "+t('publish')); render();
+// === الرفع والفحص ===
+function uploadFile(){
+  CURRENT_FILE = {n:n.value,author:author.value,d:d.value,i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value};
+  fetch(`${SERVER}/api/save-draft`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'user@test.com', file:CURRENT_FILE})});
+  closeModal('successModal'); scanModal.style.display='flex';
 }
+
+function continueScan(){
+  closeModal('scanModal');
+  fetch(`${SERVER}/api/upload-product`,{method: 'POST',headers: {'Content-Type':'application/json'},body: JSON.stringify({email: 'user@test.com', file: CURRENT_FILE})})
+  .then(r=>r.json()).then(data=>{ if(data.needRepair) damageModal.style.display='flex'; else { finalPublish(); } });
+}
+
+function cancelUpload(){
+  closeModal('scanModal'); closeModal('damageModal');
+  if(PAID){ toast("تم الالغاء. تقدر ترجع تنشر مجانا لانك دفعت"); }
+}
+
+function autoFix(){
+  fetch(`${SERVER}/api/auto-fix`,{method: 'POST',headers: {'Content-Type':'application/json'},body: JSON.stringify({content: JSON.stringify(CURRENT_FILE)})})
+  .then(r=>r.json()).then(data=>{ CURRENT_FILE = JSON.parse(data.fixed); closeModal('damageModal'); afterFixModal.style.display='flex'; });
+}
+
+function editProduct(){ closeModal('afterFixModal'); successModal.style.display='flex'; }
+
+function finalPublish(){
+  closeModal('afterFixModal');
+  fetch(`${SERVER}/api/final-publish`,{method: 'POST',headers: {'Content-Type':'application/json'},body: JSON.stringify({email: 'user@test.com', file: CURRENT_FILE})})
+  .then(r=>r.json()).then(data=>{ if(data.success){ ITEMS.unshift({id:Date.now(),...CURRENT_FILE,rating:5,reviews:[],downloads:0}); save(); PAID=false; sessionStorage.removeItem('sk_paid_session'); publishedModal.style.display='flex'; } });
+}
+
+function goToStore(){ closeModal('publishedModal'); render(); }
 
 function buy(x){if(!CART.find(i=>i.id==x.id))CART.push(x);save();updateCounts();toast("🛒 "+t('buy'));}
 function download(x){x.downloads++;if(!LIB.find(i=>i.id==x.id))LIB.push(x);save();toast("📦 "+t('download'));}
 function fav(x){if(!FAV.find(i=>i.id==x.id))FAV.push(x);else FAV=FAV.filter(i=>i.id!=x.id);save();toast("❤️")}
-
-function showProduct(id){
-  let x=ITEMS.find(i=>i.id==id);
-  productContent.innerHTML=`<h2 style="margin-bottom:16px">${x.n}</h2><img src="${x.i}" style="width:100%;border-radius:12px;margin-bottom:16px">
-  ${x.v?`<iframe width="100%" height="400" src="${x.v}" frameborder="0"></iframe>`:''}
-  <p style="margin:16px 0;line-height:1.8">${x.d}</p><div class="stars">${'⭐'.repeat(x.rating)}</div>
-  <h4 style="margin:20px 0">${t('reviews')}</h4>${x.reviews.map(r=>`<div style="border-bottom:1px solid #333;padding:14px 0"><b>${r.user}:</b> ${r.text}</div>`).join('')||'<p>'+t('noReviews')+'</p>'}
-  <div style="display:flex;gap:12px;margin-top:20px"><div class="price">${x.p}</div><button class="btn" onclick="buy(${x.id})">${t('buy')}</button><button class="btn btn-green" onclick="download(${x.id})">${t('download')}</button></div>`;
-  productModal.style.display='flex';
-}
-
-function card(x){
-  return `<div class="card"><div class="card-img-wrapper"><img class="card-img" src="${x.i}" onclick="showProduct(${x.id})"><div class="quick-actions"><button class="qbtn" onclick="showProduct(${x.id})">${t('preview')}</button><button class="qbtn" onclick="fav(${x.id})">❤️</button></div></div><div class="card-body"><div class="card-title">${x.n}</div><div class="card-author">${t('by')} ${x.author}</div><div class="card-footer"><div class="price">${x.p}</div><button class="btn" onclick='buy(${x.id})'>${t('buy')}</button></div></div></div>`
-}
-
-function render(){
-  let data=ITEMS;
-  if(CAT!='all'){if(CAT=='free')data=data.filter(x=>x.p.toLowerCase().includes('free')||x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}
-  data=data.filter(x=>x.n.toLowerCase().includes(search.value.toLowerCase()));
-  grid.innerHTML=data.map(card).join('');
-}
-
-function showPage(p){
-  homePage.style.display='none';otherPage.style.display='block';
-  if(p=='cart')otherPage.innerHTML=`<h2 style="margin-bottom:20px">🛒 ${t('cart')}</h2><div class="grid">${CART.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;
-  if(p=='lib')otherPage.innerHTML=`<h2 style="margin-bottom:20px">📦 ${t('library')}</h2><div class="grid">${LIB.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;
-  if(p=='fav')otherPage.innerHTML=`<h2 style="margin-bottom:20px">❤️ ${t('favorites')}</h2><div class="grid">${FAV.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;
-  if(p=='home'){homePage.style.display='block';otherPage.style.display='none';}
-}
-
+function showProduct(id){let x=ITEMS.find(i=>i.id==id);productContent.innerHTML=`<h2 style="margin-bottom:16px">${x.n}</h2><img src="${x.i}" style="width:100%;border-radius:12px;margin-bottom:16px">${x.v?`<iframe width="100%" height="400" src="${x.v}" frameborder="0"></iframe>`:''}<p style="margin:16px 0;line-height:1.8">${x.d}</p><div class="stars">${'⭐'.repeat(x.rating)}</div><h4 style="margin:20px 0">${t('reviews')}</h4>${x.reviews.map(r=>`<div style="border-bottom:1px solid #333;padding:14px 0"><b>${r.user}:</b> ${r.text}</div>`).join('')||'<p>'+t('noReviews')+'</p>'}<div style="display:flex;gap:12px;margin-top:20px"><div class="price">${x.p}</div><button class="btn" onclick="buy(${x.id})">${t('buy')}</button><button class="btn btn-green" onclick="download(${x.id})">${t('download')}</button></div>`;productModal.style.display='flex';}
+function card(x){return `<div class="card"><div class="card-img-wrapper"><img class="card-img" src="${x.i}" onclick="showProduct(${x.id})"><div class="quick-actions"><button class="qbtn" onclick="showProduct(${x.id})">${t('preview')}</button><button class="qbtn" onclick="fav(${x.id})">❤️</button></div></div><div class="card-body"><div class="card-title">${x.n}</div><div class="card-author">${t('by')} ${x.author}</div><div class="card-footer"><div class="price">${x.p}</div><button class="btn" onclick='buy(${x.id})'>${t('buy')}</button></div></div></div>`}
+function render(){let data=ITEMS;if(CAT!='all'){if(CAT=='free')data=data.filter(x=>x.p.toLowerCase().includes('free')||x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}data=data.filter(x=>x.n.toLowerCase().includes(search.value.toLowerCase()));grid.innerHTML=data.map(card).join('');}
+function showPage(p){homePage.style.display='none';otherPage.style.display='block';if(p=='cart')otherPage.innerHTML=`<h2 style="margin-bottom:20px">🛒 ${t('cart')}</h2><div class="grid">${CART.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;if(p=='lib')otherPage.innerHTML=`<h2 style="margin-bottom:20px">📦 ${t('library')}</h2><div class="grid">${LIB.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;if(p=='fav')otherPage.innerHTML=`<h2 style="margin-bottom:20px">❤️ ${t('favorites')}</h2><div class="grid">${FAV.map(card).join('')||'<p>'+t('empty')+'</p>'}</div>`;if(p=='home'){homePage.style.display='block';otherPage.style.display='none';}}
 function updateCounts(){cartCount.innerText=CART.length}
 
-// === تشييك اذا رجع من الدفع ===
 window.onload = function(){
   const urlParams = new URLSearchParams(window.location.search);
   if(urlParams.get('paid') === 'true'){
     PAID = true;
-    save();
+    sessionStorage.setItem('sk_paid_session', 'true');
     toast("✅ تم الدفع بنجاح! تقدر تنشر هلق");
-    m.style.display='flex';
+    successModal.style.display='flex';
   }
-  changeLang(CURRENT_LANG); 
-  updateCounts(); 
-  render();
+  changeLang(CURRENT_LANG); updateCounts(); render();
 }
 </script>
 </body></html>
