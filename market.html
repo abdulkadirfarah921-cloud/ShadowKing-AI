@@ -2,193 +2,276 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHADOWKING FAB STORE</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script> <!-- اضافة Paddle -->
 <style>
-:root{--bg:#0A0A0A;--card:#141414;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#8A8A8A}
-*{font-family:'Cairo';box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);overflow-x:hidden}
-.header{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);border-bottom:1px solid #222;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:1.5em;font-weight:900}.logo span{color:var(--green)}
-.icons{display:flex;gap:12px;font-size:1.3em;align-items:center}
-.icons button, .icons select{background:var(--card);border:1px solid #333;color:var(--text);cursor:pointer;padding:6px 10px;border-radius:8px;font-weight:700;font-size:0.9em}
-.badge{position:absolute;top:-6px;left:-6px;background:var(--blue);color:#fff;border-radius:50%;width:18px;height:18px;font-size:0.6em;display:flex;align-items:center;justify-content:center;font-weight:900}
-.banner{margin:16px;padding:40px 20px;background:linear-gradient(-45deg,#0078F2,#00FF88);border-radius:16px;text-align:center}
-.container{padding:0 16px 100px}
-.search-bar{width:100%;padding:14px;background:var(--card);border:1px solid #333;border-radius:12px;color:var(--text);font-size:1em;margin-bottom:16px}
-.filters{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto}
-.filter-btn{background:var(--card);border:1px solid #333;padding:10px 18px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer;font-size:0.9em;white-space:nowrap}
+:root{--bg:#0A0A0A;--card:#141414;--card-hover:#1E1E1E;--blue:#0078F2;--green:#00FF88;--text:#FFF;--text2:#8A8A8A;--orange:#FFAA00;--red:#FF0044}
+*{font-family:'Cairo','Poppins';box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text)}
+[dir="ltr"]{direction:ltr;text-align:left}
+[dir="rtl"]{direction:rtl;text-align:right}
+.header{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid #222;padding:14px 40px;display:flex;justify-content:space-between;align-items:center;max-width:1920px;margin:auto}
+.logo{font-size:2em;font-weight:900}.logo span{color:var(--green)}
+.icons{display:flex;gap:20px;font-size:1.5em;align-items:center}
+.icons button,.icons select{background:var(--card);border:1px solid #333;color:var(--text);cursor:pointer;padding:8px 12px;border-radius:8px;font-weight:700}
+.badge{position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:0.6em;display:flex;align-items:center;justify-content:center;font-weight:900}
+.banner{max-width:1920px;margin:24px auto;padding:0 40px}.banner-card{background:linear-gradient(-45deg,#0078F2,#00FF88,#0078F2);background-size:400% 400%;animation:gradient 5s ease infinite;padding:60px;border-radius:20px;text-align:center;box-shadow:0 0 40px rgba(0,120,242,0.4)}
+@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.container{max-width:1920px;margin:auto;padding:0 40px 120px}
+.search-bar{width:100%;padding:18px;background:var(--card);border:1px solid #333;border-radius:12px;color:var(--text);font-size:1.1em;margin-bottom:24px}
+.filters{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto}
+.filter-btn{background:var(--card);border:1px solid #333;padding:14px 26px;border-radius:30px;color:var(--text);font-weight:800;cursor:pointer;font-size:1em;white-space:nowrap}
 .filter-btn.active{background:var(--blue);border-color:var(--blue)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:var(--card);border:1px solid #222;border-radius:14px;overflow:hidden}
-.card-img{width:100%;aspect-ratio:16/9;object-fit:cover}
-.card-body{padding:12px}.card-title{font-weight:900;font-size:0.95em;margin-bottom:4px;height:38px;overflow:hidden}
-.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-.price{color:var(--green);font-weight:900;font-size:1.2em}
-.btn{background:var(--blue);color:#fff;border:none;padding:8px 14px;border-radius:8px;font-weight:900;cursor:pointer;font-size:0.9em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--card);border:1px solid #222;border-radius:16px;overflow:hidden;transition:0.3s}
+.card:hover{transform:translateY(-8px);background:var(--card-hover);box-shadow:0 10px 30px rgba(0,120,242,0.25);border-color:var(--blue)}
+.card-img-wrapper{position:relative;aspect-ratio:16/9;background:#111}
+.card-img{width:100%;height:100%;object-fit:cover}
+.quick-actions{position:absolute;bottom:12px;right:12px;display:flex;gap:8px;opacity:0;transition:0.2s}
+.card:hover.quick-actions{opacity:1}
+.qbtn{background:rgba(0,0,0,0.8);color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:700}
+.card-body{padding:16px}.card-title{font-weight:900;font-size:1.1em;margin-bottom:6px;height:44px;overflow:hidden}
+.card-author{color:var(--text2);font-size:0.9em;margin-bottom:10px}
+.card-footer{display:flex;justify-content:space-between;align-items:center}
+.price{color:var(--green);font-weight:900;font-size:1.4em}
+.btn{background:var(--blue);color:#fff;border:none;padding:12px 22px;border-radius:8px;font-weight:900;cursor:pointer;font-size:1em}
+.btn:hover{background:#0090FF}
 .btn-green{background:var(--green);color:#000}
-
-/* مودال فول سكرين */
-.modal{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.98);z-index:9999;overflow-y:auto}
-.modal-content{background:var(--card);padding:20px;width:100%;min-height:100vh;border-radius:0;text-align:center}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #333;padding-bottom:12px}
-.modal-header h3{font-size:1.3em;font-weight:900}
-.close-btn{background:#333;border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.5em;cursor:pointer}
-
-input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:8px 0;font-size:1em;text-align:right}
-.toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#000;padding:14px 20px;border-radius:12px;font-weight:900;display:none;z-index:3000}
-.checkmark{font-size:60px;color:var(--green)}
-.action-btn{padding:14px;width:100%;margin:8px 0;border:none;border-radius:10px;cursor:pointer;font-weight:900;font-size:1.1em}
-
-.pay-option{display:flex;align-items:center;gap:12px;padding:14px;background:#000;border:2px solid #333;border-radius:12px;margin:8px 0;cursor:pointer;text-align:right}
+.btn-orange{background:var(--orange);color:#000}
+.btn-red{background:var(--red);color:#fff}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.96);justify-content:center;align-items:center;z-index:2000}
+.modal-content{background:var(--card);padding:32px;border-radius:16px;width:90%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid #333;text-align:center}
+input,textarea,select{width:100%;padding:14px;background:#000;border:1px solid #333;border-radius:10px;color:#fff;margin:10px 0;font-size:1em;text-align:right}
+.toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:#000;padding:18px 26px;border-radius:12px;font-weight:900;display:none;z-index:3000;font-size:1.1em}
+.checkmark{font-size:80px;color:var(--green);animation:pop 0.5s}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.action-btn{padding:14px 28px;margin:10px;border:none;border-radius:10px;cursor:pointer;font-weight:900;font-size:1.1em}
+.empty-state{text-align:center;padding:80px 20px;color:var(--text2)}.empty-state h2{font-size:2em;margin-bottom:12px;color:var(--text)}
+.pay-option{display:flex;align-items:center;gap:12px;padding:16px;background:#000;border:2px solid #333;border-radius:12px;margin:10px 0;cursor:pointer;transition:0.2s}
+.pay-option:hover{border-color:var(--blue)}
 .pay-option.selected{border-color:var(--green);background:rgba(0,255,136,0.05)}
-.pay-icon{font-size:1.8em;min-width:40px}
-.currency-select{width:100%;padding:14px;background:#000;border:2px solid var(--blue);border-radius:12px;color:#fff;font-size:1em;font-weight:900;margin:16px 0;max-height:300px}
-.total-box{background:#000;border:1px solid #333;border-radius:12px;padding:16px;margin:16px 0}
-.rate-info{color:var(--text2);font-size:0.8em;margin-top:8px}
+.pay-icon{font-size:2em}
+.currency-select{width:100%;padding:14px;background:#000;border:2px solid var(--blue);border-radius:12px;color:#fff;font-size:1.1em;font-weight:900;margin:20px 0}
+.total-box{background:#000;border:1px solid #333;border-radius:12px;padding:20px;margin:20px 0}
+.rate-info{color:var(--text2);font-size:0.85em;margin-top:8px}
+.loading{color:var(--orange);font-size:0.9em}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="icons">
-    <select id="langSelect"><option>🇸🇦 العربية</option></select>
-    <button onclick="checkPayment()">+ نشر</button>
-    <button style="position:relative" onclick="alert('السلة')">🛒<span class="badge" id="cartCount">0</span></button>
+    <select id="langSelect" onchange="changeLang(this.value)">
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="en">🇺🇸 English</option>
+      <option value="tr">🇹🇷 Türkçe</option>
+    </select>
+    <button onclick="showPage('home')">🏠</button>
+    <button onclick="checkPayment()">+ <span data-key="addProduct">نشر منتج</span></button>
+    <button onclick="showPage('fav')">❤️</button>
+    <button onclick="showPage('lib')">📦</button>
+    <button style="position:relative" onclick="showPage('cart')">🛒<span class="badge" id="cartCount">0</span></button>
   </div>
-  <div class="logo">SHADOWKING <span>FAB STORE</span></div>
+  <div class="logo">SHADOWKING <span data-key="fabStore">FAB STORE</span></div>
 </div>
 
-<div class="banner"><h1>🔥 عرض الاسبوع -50% 🔥</h1></div>
+<div class="banner"><div class="banner-card"><h1 style="font-size:3em;font-weight:900">🔥 عرض الاسبوع -50% 🔥</h1></div></div>
 
 <div class="container">
-  <input id="search" class="search-bar" placeholder="🔍 ابحث عن LUT, انتقال, AI...">
-  <div id="grid" class="grid"></div>
+  <input id="search" class="search-bar" onkeyup="render()" placeholder="🔍 ابحث عن LUT, انتقال, AI...">
+  <div class="filters">
+    <button class="filter-btn active" onclick="setCat('all',this)">الكل</button>
+    <button class="filter-btn" onclick="setCat('LUT',this)">LUT</button>
+    <button class="filter-btn" onclick="setCat('transition',this)">انتقالات</button>
+    <button class="filter-btn" onclick="setCat('AI',this)">AI</button>
+    <button class="filter-btn" onclick="setCat('free',this)">مجاني</button>
+  </div>
+  <div id="homePage"><div id="grid" class="grid"></div></div>
+  <div id="otherPage" style="display:none"></div>
 </div>
 
-<!-- مودال الدفع فول سكرين -->
-<div id="paymentModal" class="modal"><div class="modal-content">
-  <div class="modal-header">
-    <h3>💳 اتمام الدفع</h3>
-    <button class="close-btn" onclick="closeModal('paymentModal')">×</button>
-  </div>
-  
-  <h4 style="text-align:right;margin:12px 0">اختر طريقة الدفع</h4>
-  <div id="payMethods"></div>
+<div id="productModal" class="modal"><div class="modal-content" id="productContent"></div></div>
 
-  <h4 style="text-align:right;margin:16px 0 8px 0">اختر العملة</h4>
-  <select class="currency-select" id="currencySelect" onchange="convertCurrency()" size="8"></select>
+<!-- Modal الدفع الحقي ب Paddle -->
+<div id="paymentModal" class="modal"><div class="modal-content">
+  <h3>💳 اختر طريقة الدفع</h3>
+  <p style="color:var(--text2);font-size:0.9em">Paddle يدعم 200+ طريقة دفع عالمية اوتوماتيك</p>
+
+  <div id="payMethods">
+    <div class="pay-option selected">
+      <div class="pay-icon">🌍</div>
+      <div><b>الدفع عبر Paddle</b><div style="color:var(--text2);font-size:0.9em">بطاقات, بايبال, ابل باي, محافظ, تحويل بنكي</div></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">🌍 اختر العملة</h3>
+  <select class="currency-select" id="currencySelect" onchange="convertCurrency()">
+    <!-- هتتملي تلقائي من API -->
+  </select>
 
   <div class="total-box">
-    <div style="display:flex;justify-content:space-between"><span>رسوم النشر</span><span id="baseFee">جاري التحميل...</span></div>
-    <hr style="border-color:#333;margin:8px 0">
-    <div style="display:flex;justify-content:space-between;font-weight:900;font-size:1.2em"><span>الاجمالي</span><span style="color:var(--green)" id="totalFee">جاري التحميل...</span></div>
+    <div style="display:flex;justify-content:space-between"><span>رسوم النشر</span><span id="baseFee" class="loading">جاري التحميل...</span></div>
+    <hr style="border-color:#333;margin:10px 0">
+    <div style="display:flex;justify-content:space-between;font-weight:900;font-size:1.3em"><span>الاجمالي</span><span style="color:var(--green)" id="totalFee" class="loading">جاري التحميل...</span></div>
     <div class="rate-info" id="rateInfo">جاري جلب اسعار الصرف...</div>
   </div>
 
-  <button class="action-btn btn-green" onclick="payNow()">🔒 اكمال الدفع الامن</button>
-  <div style="color:var(--green);font-size:0.85em">🛡️ مشفر بواسطة Paddle</div>
+  <button class="action-btn btn-green" style="width:100%" onclick="openPaddleCheckout()">🔒 اكمال الدفع الامن</button>
+  <div style="color:var(--green);font-size:0.9em;margin-top:12px">🛡️ مشفر بواسطة Paddle</div>
+  <button class="action-btn" style="background:#333;width:100%;margin-top:10px" onclick="closeModal('paymentModal')">الغاء</button>
 </div></div>
 
-<!-- مودال النجاح -->
+<!-- باقي المودالات -->
 <div id="successModal" class="modal"><div class="modal-content">
-  <div class="modal-header"><h3>نشر منتج</h3><button class="close-btn" onclick="closeModal('successModal')">×</button></div>
-  <div class="checkmark">✓</div><h3>تم الدفع بنجاح</h3>
+  <div class="checkmark">✓</div><h3>تم الدفع بنجاح</h3><p>الأن يمكنك اضافة منتجك</p>
   <input id="n" placeholder="اسم المنتج"><input id="author" placeholder="اسم الاستوديو">
-  <textarea id="d" rows="3" placeholder="وصف المنتج"></textarea><input id="i" placeholder="رابط صورة">
-  <button class="action-btn btn-green" onclick="alert('تم الرفع')">رفع المنتج</button>
+  <textarea id="d" rows="3" placeholder="وصف المنتج"></textarea><input id="i" placeholder="رابط صورة الغلاف">
+  <input id="v" placeholder="رابط فيديو يوتيوب"><input id="f" placeholder="رابط التحميل Google Drive">
+  <select id="c"><option>LUT</option><option>انتقال</option><option>AI</option><option>قالب</option></select>
+  <input id="p" placeholder="السعر: 19.99 او مجاني">
+  <button class="action-btn btn-green" onclick="uploadFile()">رفع وفحص الملف</button>
 </div></div>
 
+<div id="scanModal" class="modal"><div class="modal-content"><h3>جارية فحص ملفك</h3><button class="action-btn btn-green" onclick="continueScan()">المتابعة</button><button class="action-btn btn-red" onclick="cancelUpload()">إلغاء</button></div></div>
+<div id="damageModal" class="modal"><div class="modal-content"><h3 style="color:var(--orange)">⚠️ هناك ضرر في ملفك</h3><button class="action-btn btn-orange" onclick="autoFix()">إصلاح</button><button class="action-btn btn-red" onclick="cancelUpload()">إلغاء</button></div></div>
+<div id="afterFixModal" class="modal"><div class="modal-content"><h3 style="color:var(--green)">تم إصلاح ملفك</h3><button class="action-btn btn-green" onclick="finalPublish()">نشر المنتج</button><button class="action-btn" style="background:var(--blue)" onclick="editProduct()">تعديل</button></div></div>
+<div id="publishedModal" class="modal"><div class="modal-content"><div class="checkmark">✅</div><h3>تم نشر منتجك</h3><button class="action-btn btn-green" onclick="goToStore()">متابعة</button></div></div>
 <div id="toast" class="toast"></div>
 
 <script>
-const BASE_PRICE = 5;
-const SERVER = "https://protection-cybersecurity.onrender.com";
+let ITEMS = JSON.parse(localStorage.getItem('sk_fab_v6')) || [];
+let CART = JSON.parse(localStorage.getItem('cart_fab_v6')) || [];
+let LIB = JSON.parse(localStorage.getItem('lib_fab_v6')) || [];
+let FAV = JSON.parse(localStorage.getItem('fav_fab_v6')) || [];
+let CAT = 'all';
+let PAID = sessionStorage.getItem('sk_paid_session') === 'true';
+let CURRENT_FILE = null;
 let RATES = {USD: 1};
-let SELECTED_PAY = 'card';
+const BASE_PRICE = 5; // 5 دولار ثابت
+const PADDLE_CLIENT_TOKEN = "YOUR_PADDLE_CLIENT_TOKEN"; // حط التوكن تبعك هنا
+const PADDLE_PRICE_ID = "pri_01YOUR_PRICE_ID"; // سوي منتج في Paddle وخد ال ID
 
-// 15 طريقة دفع عالمية
-const PAY_METHODS = [
-  {id:'card', name:'بطاقة ائتمان / مدى', desc:'Visa, Mastercard, Amex, Mada', icon:'💳'},
-  {id:'paypal', name:'PayPal', desc:'الدفع بحساب بايبال', icon:'🅿️'},
-  {id:'apple', name:'Apple Pay', desc:'دفع سريع للايفون', icon:'🍎'},
-  {id:'google', name:'Google Pay', desc:'دفع سريع للاندرويد', icon:'🟢'},
-  {id:'stripe', name:'Stripe', desc:'بطاقات دولية', icon:'💰'},
-  {id:'paddle', name:'Paddle', desc:'للشركات والافراد', icon:'🏢'},
-  {id:'crypto', name:'العملات الرقمية', desc:'USDT, BTC, ETH', icon:'₿'},
-  {id:'bank', name:'تحويل بنكي', desc:'SWIFT / IBAN', icon:'🏦'},
-  {id:'stc', name:'STC Pay', desc='محفظة STC', icon:'📱'},
-  {id:'tabby', name:'Tabby', desc='ادفع لاحقا', icon:'📅'},
-  {id:'tamara', name:'Tamara', desc='تقسيط 4 دفعات', icon:'🛍️'},
-  {id:'cashu', name:'CashU', desc='محفظة كاش يو', icon:'💵'},
-  {id:'onecard', name:'OneCard', desc='بطاقة مدفوعة', icon:'🎫'},
-  {id:'amazon', name:'Amazon Pay', desc='ادفع بامازون', icon:'📦'},
-  {id:'western', name:'Western Union', desc='تحويل فوري', icon:'🌍'}
-];
+// === تفعيل Paddle ===
+Paddle.Environment.set("sandbox"); // شيلها لما تطلع لايف
+Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN });
 
-function renderPayMethods(){
-  payMethods.innerHTML = PAY_METHODS.map((m,i)=>`
-    <div class="pay-option ${i==0?'selected':''}" data-method="${m.id}" onclick="selectPay(this)">
-      <div class="pay-icon">${m.icon}</div>
-      <div><b>${m.name}</b><div style="color:var(--text2);font-size:0.85em">${m.desc}</div></div>
-    </div>
-  `).join('');
-}
-
-// جلب كل العملات + الاسعار
+// === جلب كل العملات من API ===
 async function fetchRates(){
   try{
+    document.getElementById('rateInfo').innerText = "جاري تحديث الاسعار...";
     let res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
     let data = await res.json();
     RATES = data.rates;
-    
-    // نعبي كل العملات في select
-    const CURRENCIES = {
-      USD:'🇺🇸 دولار امريكي', EUR:'🇪🇺 يورو', GBP:'🇬🇧 جنيه استرليني', TRY:'🇹🇷 ليرة تركية',
-      SAR:'🇸🇦 ريال سعودي', AED:'🇦🇪 درهم اماراتي', EGP:'🇪🇬 جنيه مصري', QAR:'🇶🇦 ريال قطري',
-      KWD:'🇰🇼 دينار كويتي', BHD:'🇧🇭 دينار بحريني', OMR:'🇴🇲 ريال عماني', JOD:'🇯🇴 دينار اردني',
-      MAD:'🇲🇦 درهم مغربي', TND:'🇹🇳 دينار تونسي', DZD:'🇩🇿 دينار جزائري', IQD:'🇮🇶 دينار عراقي',
-      LBP:'🇱🇧 ليرة لبنانية', SYR:'🇸🇾 ليرة سورية', YER:'🇾🇪 ريال يمني', PKR:'🇵🇰 روبية باكستانية',
-      INR:'🇮🇳 روبية هندية', CNY:'🇨🇳 يوان صيني', JPY:'🇯🇵 ين ياباني', KRW:'🇰🇷 وون كوري'
-    };
-    
-    currencySelect.innerHTML = Object.keys(RATES).slice(0,160).map(code=>{
-      let name = CURRENCIES[code] || code;
-      let symbol = code;
-      return `<option value="${code}" data-symbol="${symbol}">${name} - ${code}</option>`
-    }).join('');
-    
-    convertCurrency();
-  }catch(e){ rateInfo.innerText = "فشل الاتصال بالانترنت" }
-}
 
+    let options = '';
+    for(let code in RATES){
+      options += `<option value="${code}">${code}</option>`;
+    }
+    currencySelect.innerHTML = options;
+    convertCurrency();
+  }catch(e){
+    document.getElementById('rateInfo').innerText = "فشل الاتصال. سيتم استخدام الدولار";
+  }
+}
+fetchRates();
+setInterval(fetchRates, 60000);
+
+function save(){localStorage.setItem('sk_fab_v6',JSON.stringify(ITEMS));localStorage.setItem('cart_fab_v6',JSON.stringify(CART));localStorage.setItem('lib_fab_v6',JSON.stringify(LIB));localStorage.setItem('fav_fab_v6',JSON.stringify(FAV));}
+function toast(msg){let e=document.getElementById('toast');e.innerText=msg;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}
+function setCat(c,btn){CAT=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+function closeModal(id){document.getElementById(id).style.display='none';}
+
+// === تحويل العملة اونلاين لحظي ===
 function convertCurrency(){
   let select = document.getElementById('currencySelect');
-  if(!select || !RATES) return;
+  if(!select ||!RATES) return;
   let currency = select.value;
   let rate = RATES[currency] || 1;
   let converted = (BASE_PRICE * rate).toFixed(2);
-  baseFee.innerText = converted + ' + currency;
-  totalFee.innerText = converted + ' + currency;
-  rateInfo.innerText = `1 USD = ${rate.toFixed(4)} ${currency} - محدث الان`;
+
+  document.getElementById('baseFee').innerText = converted + ' + currency;
+  document.getElementById('totalFee').innerText = converted + ' + currency;
+  document.getElementById('baseFee').classList.remove('loading');
+  document.getElementById('totalFee').classList.remove('loading');
+  document.getElementById('rateInfo').innerText = `1 USD = ${rate.toFixed(4)} ${currency} - محدث لحظيا`;
 }
 
-function selectPay(el){
-  document.querySelectorAll('.pay-option').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected');
-  SELECTED_PAY = el.dataset.method;
-}
-
-function closeModal(id){document.getElementById(id).style.display='none';}
-function checkPayment(){ paymentModal.style.display='block'; renderPayMethods(); fetchRates(); }
-function payNow(){
-  let currency = currencySelect.value;
+// === الدفع الحقي عبر Paddle ===
+function openPaddleCheckout(){
+  let currency = document.getElementById('currencySelect').value;
   let amount = (BASE_PRICE * (RATES[currency] || 1)).toFixed(2);
-  window.location.href = `${SERVER}/pay/Test?amount=${amount}&currency=${currency}&method=${SELECTED_PAY}`;
+
+  Paddle.Checkout.open({
+    items: [{ priceId: PADDLE_PRICE_ID, quantity: 1 }],
+    customer: { email: prompt("اكتب ايميلك للدفع:") },
+    customData: { currency: currency, amount: amount },
+    successCallback: function(data){
+      PAID = true;
+      sessionStorage.setItem('sk_paid_session', 'true');
+      closeModal('paymentModal');
+      successModal.style.display='flex';
+      toast("✅ تم الدفع بنجاح");
+    },
+    closeCallback: function(){
+      toast("تم الغاء الدفع");
+    }
+  });
 }
 
-window.onload = ()=>{ grid.innerHTML = '<div style="text-align:center;color:var(--text2)">السوق فاضي - انشر اول منتج</div>' }
+function checkPayment(){
+  if(PAID){ successModal.style.display='flex'; }
+  else {
+    paymentModal.style.display='flex';
+    if(RATES.USD) convertCurrency();
+  }
+}
+
+// === الرفع والفحص ===
+function uploadFile(){
+  let email = prompt("اكتب ايميلك:");
+  if(!email) return;
+  CURRENT_FILE = {n:n.value,author:author.value,d:d.value,i:i.value||DEFAULT_IMG,v:v.value,f:f.value,c:c.value,p:p.value, email:email};
+  fetch(`${SERVER}/api/save-draft`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email, file:CURRENT_FILE})});
+  closeModal('successModal'); scanModal.style.display='flex';
+}
+function continueScan(){
+  closeModal('scanModal');
+  fetch(`${SERVER}/api/upload-product`,{method: 'POST',headers: {'Content-Type':'application/json'},body: JSON.stringify({email: CURRENT_FILE.email, file: CURRENT_FILE})})
+ .then(r=>r.json()).then(data=>{ if(data.needRepair) damageModal.style.display='flex'; else { finalPublish(); } });
+}
+function cancelUpload(){closeModal('scanModal'); closeModal('damageModal'); if(PAID){ toast("تم الالغاء. تقدر ترجع تنشر"); }}
+function autoFix(){fetch(`${SERVER}/api/auto-fix`,{method: 'POST',headers: {'Content-Type':'application/json'},body: JSON.stringify({content: JSON.stringify(CURRENT_FILE)})}).then(r=>r.json()).then(data=>{ CURRENT_FILE = JSON.parse(data.fixed); closeModal('damageModal'); afterFixModal.style.display='flex'; });}
+function editProduct(){ closeModal('afterFixModal'); successModal.style.display='flex'; }
+function finalPublish(){
+  closeModal('afterFixModal');
+  fetch(`${SERVER}/api/final-publish`,{method: 'POST',headers: {'Content-Type':'application/json'},body: JSON.stringify({email: CURRENT_FILE.email, file: CURRENT_FILE})})
+ .then(r=>r.json()).then(data=>{ if(data.success){ ITEMS.unshift({id:Date.now(),...CURRENT_FILE,rating:5,reviews:[],downloads:0}); save(); PAID=false; sessionStorage.removeItem('sk_paid_session'); publishedModal.style.display='flex'; } });
+}
+function goToStore(){ closeModal('publishedModal'); render(); }
+function buy(x){if(!CART.find(i=>i.id==x.id))CART.push(x);save();updateCounts();toast("🛒 تمت الاضافة");}
+function download(x){x.downloads++;if(!LIB.find(i=>i.id==x.id))LIB.push(x);save();toast("📦 تم التحميل");}
+function fav(x){if(!FAV.find(i=>i.id==x.id))FAV.push(x);else FAV=FAV.filter(i=>i.id!=x.id);save();toast("❤️")}
+function showProduct(id){let x=ITEMS.find(i=>i.id==id);productContent.innerHTML=`<h2>${x.n}</h2><img src="${x.i}" style="width:100%;border-radius:12px"><p>${x.d}</p><div class="price">${x.p}</div><button class="btn" onclick="buy(${x.id})">شراء</button><button class="btn btn-green" onclick="download(${x.id})">تحميل</button>`;productModal.style.display='flex';}
+function card(x){return `<div class="card"><div class="card-img-wrapper"><img class="card-img" src="${x.i}" onclick="showProduct(${x.id})"></div><div class="card-body"><div class="card-title">${x.n}</div><div class="card-author">بواسطة ${x.author}</div><div class="card-footer"><div class="price">${x.p}</div><button class="btn" onclick='buy(${x.id})'>شراء</button></div></div></div>`}
+function render(){
+  let data=ITEMS;
+  if(CAT!='all'){if(CAT=='free')data=data.filter(x=>x.p.toLowerCase().includes('free')||x.p=='مجاني');else data=data.filter(x=>x.c==CAT);}
+  data=data.filter(x=>x.n.toLowerCase().includes(search.value.toLowerCase()));
+  grid.innerHTML = data.length? data.map(card).join('') : `<div class="empty-state"><h2>السوق فاضي حاليا</h2><p>كن اول شخص ينشر</p></div>`;
+}
+function showPage(p){homePage.style.display='none';otherPage.style.display='block';if(p=='cart')otherPage.innerHTML=`<h2>🛒 السلة</h2><div class="grid">${CART.map(card).join('')||'<p>فاضية</p>'}</div>`;if(p=='lib')otherPage.innerHTML=`<h2>📦 المكتبة</h2><div class="grid">${LIB.map(card).join('')||'<p>فاضية</p>'}</div>`;if(p=='fav')otherPage.innerHTML=`<h2>❤️ المفضلة</h2><div class="grid">${FAV.map(card).join('')||'<p>فاضية</p>'}</div>`;if(p=='home'){homePage.style.display='block';otherPage.style.display='none';}}
+function updateCounts(){cartCount.innerText=CART.length}
+
+window.onload = function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.get('paid') === 'true'){
+    PAID = true; sessionStorage.setItem('sk_paid_session', 'true'); toast("✅ تم الدفع!"); successModal.style.display='flex';
+  }
+  updateCounts(); render();
+}
 </script>
 </body>
 </html>
