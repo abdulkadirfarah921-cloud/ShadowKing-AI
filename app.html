@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head><meta charset="UTF-8"><title>Titan App Empire</title>
-<style>body{background:#000;color:#FFD700;font-family:Arial;padding:20px;text-align:center}h1{font-size:32px;text-shadow:0 0 20px #FFD700}.price{font-size:48px;color:#FFD700;margin:20px}.feature{border:2px solid #FFD700;border-radius:15px;padding:15px;margin:15px 0;text-align:right;background:#111}.btn{background:#FFD700;color:#000;padding:15px 40px;border:none;border-radius:20px;font-size:20px;font-weight:bold;cursor:pointer}.back{position:fixed;top:20px;left:20px;background:#FFD700;color:#000;padding:10px;border-radius:10px;text-decoration:none}</style>
-</head><body>
-<a href="index.html" class="back">رجوع</a>
-<h1>📱 Titan App Empire</h1>
-<div class="price">200$ / شهر</div>
-<p>فريق كامل يبني تطبيقك المليوني</p>
-<div class="feature">✅ AI Product Manager يحلل السوق</div>
-<div class="feature">✅ كود بدون اخطاء + سيرفرات سنة مجانا</div>
-<div class="feature">✅ ضمان 1000$ دخل اول شهر</div>
-<div class="feature">✅ نشر على Apple + Google</div>
-<button class="btn">اشترك الان</button>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>Titan App Empire</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>body{background:#000;color:#FFD700;font-family:'Cairo';padding:20px;text-align:center}h1{font-size:28px;text-shadow:0 0 20px #FFD700}.tabs{display:flex; gap:10px; justify-content:center; margin:20px 0}.tab{padding:10px 20px; border:2px solid #FFD700; border-radius:10px; cursor:pointer; background:#111}.tab.active{background:#FFD700; color:#000}.package{display:none; text-align:right}.package.active{display:block}.feature{border:1px solid #FFD70055; border-radius:12px; padding:12px; margin:10px 0; background:#111}.btn{background:#FFD700;color:#000;padding:14px 30px;border:none;border-radius:15px;font-size:18px;font-weight:bold;cursor:pointer; width:100%; margin-top:15px}.back{position:fixed;top:20px;left:20px;background:#FFD700;color:#000;padding:10px;border-radius:10px;text-decoration:none}</style></head>
+<body><a href="index.html" class="back">← رجوع</a><h1>📱 Titan App Empire</h1>
+<div class="tabs"><div class="tab active" onclick="showTab('free')">FREE</div><div class="tab" onclick="showTab('plus')">PLUS 49$</div><div class="tab" onclick="showTab('prem')">PREMIUM 200$</div></div>
+
+<div id="free" class="package active">
+  <div class="feature">✅ <b>3 تطبيقات</b> في الشهر</div><div class="feature">✅ <b>10 صفحات</b> + تسجيل دخول</div>
+  <div class="feature">✅ <b>قوالب ترند 2026</b> جاهزة</div><div class="feature">✅ <b>نشر على الويب</b> مجاني</div>
+  <div class="feature">✅ AI يولدلك الايقونة والوصف</div><div class="feature">✅ تحليلات اساسية</div>
+  <button class="btn" onclick="alert('توليد تطبيق FREE: اكتب الفكرة في الشات')">ابدأ تطبيق FREE</button>
+</div>
+<div id="plus" class="package"><div class="feature">✅ 10 تطبيقات</div><div class="feature">✅ بدون علامة مائية</div><div class="feature">✅ ربط Firebase + دفع</div><div class="feature">✅ نشر Google Play</div><button class="btn" onclick="alert('تم الترقية لـ PLUS')">اشترك 49$</button></div>
+<div id="prem" class="package"><div class="feature">✅ تطبيقات غير محدودة</div><div class="feature">✅ نشر Apple + Google</div><div class="feature">✅ AI Product Manager + تسويق</div><div class="feature">✅ سيرفرات سنة مجانا</div><button class="btn" onclick="alert('تم الترقية لـ PREMIUM 200$')">اشترك 200$</button></div>
+<script>function showTab(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.package').forEach(p=>p.classList.remove('active'));event.target.classList.add('active');document.getElementById(tab).classList.add('active');}</script>
 </body></html>

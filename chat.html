@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>Titan CEO Assistant</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-<style>body{background:#000;color:#FFD700;font-family:'Cairo';padding:20px;text-align:center}h1{font-size:32px;text-shadow:0 0 20px #FFD700}.price{font-size:48px;color:#FFD700;margin:20px}.feature{border:2px solid #FFD700;border-radius:15px;padding:15px;margin:15px 0;text-align:right;background:#111}.btn{background:#FFD700;color:#000;padding:15px 40px;border:none;border-radius:20px;font-size:20px;font-weight:bold;cursor:pointer}.back{position:fixed;top:20px;left:20px;background:#FFD700;color:#000;padding:10px;border-radius:10px;text-decoration:none}</style></head>
-<body><a href="index.html" class="back">← رجوع</a><h1>💬 Titan CEO Assistant</h1><div class="price">200$ / شهر</div>
-<p>مدير اعمالك الشخصي 24/7</p>
-<div class="feature">✅ يرد على الايميلات ويحجز اجتماعات</div><div class="feature">✅ محلل بيانات + مستشار قانوني</div>
-<div class="feature">✅ ذاكرة شركة كاملة + سرية CIA</div><div class="feature">✅ يتكلم 50 لغة وينفذ مهام</div>
-<button class="btn" onclick="alert('سيتم تحويلك للدفع')">اشترك الان</button></body></html>
+<style>body{background:#000;color:#FFD700;font-family:'Cairo';padding:20px;text-align:center}h1{font-size:28px;text-shadow:0 0 20px #FFD700}.tabs{display:flex; gap:10px; justify-content:center; margin:20px 0}.tab{padding:10px 20px; border:2px solid #FFD700; border-radius:10px; cursor:pointer; background:#111}.tab.active{background:#FFD700; color:#000}.package{display:none; text-align:right}.package.active{display:block}.feature{border:1px solid #FFD70055; border-radius:12px; padding:12px; margin:10px 0; background:#111}.btn{background:#FFD700;color:#000;padding:14px 30px;border:none;border-radius:15px;font-size:18px;font-weight:bold;cursor:pointer; width:100%; margin-top:15px}.back{position:fixed;top:20px;left:20px;background:#FFD700;color:#000;padding:10px;border-radius:10px;text-decoration:none}</style></head>
+<body><a href="index.html" class="back">← رجوع</a><h1>💬 Titan CEO Assistant</h1>
+<div class="tabs"><div class="tab active" onclick="showTab('free')">FREE</div><div class="tab" onclick="showTab('plus')">PLUS 49$</div><div class="tab" onclick="showTab('prem')">PREMIUM 200$</div></div>
+
+<div id="free" class="package active">
+  <div class="feature">✅ <b>200 رسالة</b> في اليوم</div><div class="feature">✅ <b>ذاكرة 7 ايام</b></div>
+  <div class="feature">✅ <b>بحث انترنت</b> + ملخص PDF</div><div class="feature">✅ <b>توليد صور</b> 10 في اليوم</div>
+  <div class="feature">✅ 5 شخصيات AI</div><div class="feature">✅ تصدير المحادثة PDF</div>
+  <button class="btn" onclick="window.location.href='index.html'">ابدأ شات FREE</button>
+</div>
+<div id="plus" class="package"><div class="feature">✅ 1000 رسالة</div><div class="feature">✅ ذاكرة شهر</div><div class="feature">✅ توليد فيديو</div><div class="feature">✅ 20 شخصية</div><button class="btn" onclick="alert('تم الترقية لـ PLUS')">اشترك 49$</button></div>
+<div id="prem" class="package"><div class="feature">✅ رسائل غير محدودة</div><div class="feature">✅ ذاكرة ابدية</div><div class="feature">✅ وكيل AI ينفذ مهام</div><div class="feature">✅ مستشار قانوني ومالي</div><button class="btn" onclick="alert('تم الترقية لـ PREMIUM 200$')">اشترك 200$</button></div>
+<script>function showTab(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.package').forEach(p=>p.classList.remove('active'));event.target.classList.add('active');document.getElementById(tab).classList.add('active');}</script>
+</body></html>

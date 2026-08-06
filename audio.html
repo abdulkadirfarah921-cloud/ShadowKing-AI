@@ -3,34 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOWKING AI</title>
+<title>SHADOWKING TITAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-body{background:#000;color:#FFC107;text-align:center;padding:40px}
-.container{max-width:480px;margin:0 auto;background:#0a0a0a;border:2px solid #FFC107;border-radius:25px;padding:30px;box-shadow:0 0 30px #FFC10733}
-h1{margin-bottom:20px;font-size:28px;text-shadow:0 0 15px #FFC107}
-.box{background:#1a1a1a;border-radius:15px;padding:20px;margin-bottom:20px;border:1px solid #222}
-.label{color:#FFC107;font-weight:700;margin-bottom:12px;font-size:16px}
-input{width:100%;padding:15px;background:#000;border:2px solid #333;border-radius:12px;color:#fff;font-size:16px;text-align:right;margin-bottom:15px;outline:none}
-input:focus{border-color:#FFC107;box-shadow:0 0 10px #FFC107}
-.btn{width:100%;padding:16px;background:#FFC107;border:none;border-radius:12px;color:#000;font-weight:900;font-size:16px;cursor:pointer;margin-bottom:12px;transition:0.2s}
-.btn:hover{background:#FFD700;transform:scale(1.03);box-shadow:0 0 15px #FFC107}
-.btn-outline{background:transparent;color:#FFC107;border:2px solid #FFC107}
-.btn-outline:hover{background:#FFC107;color:#000}
-.btn-video{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000;border:none}
-.btn-video:hover{box-shadow:0 0 15px #00ff88}
-.divider{color:#555;margin:15px 0;font-weight:700;font-size:14px}
-.back{background:#222;color:#aaa;border:none;margin-top:10px}
-.back:hover{background:#333;box-shadow:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',Arial}
+body{
+  background:radial-gradient(circle at 50% 50%, #1a0000 0%, #000 100%);
+  color:#FFD700;
+  text-align:center;
+  padding:40px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:
+    radial-gradient(circle at 20% 30%, #ff000022 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, #ff000022 0%, transparent 50%);
+  animation:fire 8s infinite alternate;
+  pointer-events:none;
+}
+@keyframes fire{
+  0%{opacity:0.3} 100%{opacity:0.7}
+}
+
+.container{
+  max-width:500px;
+  margin:0 auto;
+  background:linear-gradient(145deg, #0a0a0a, #1a0a0a);
+  border:3px solid #FFD700;
+  border-radius:30px;
+  padding:35px;
+  box-shadow:0 0 40px #FFD70055, inset 0 0 20px #000;
+  position:relative;
+  z-index:1;
+}
+.container::before{
+  content:'';
+  position:absolute;
+  top:-3px; left:-3px; right:-3px; bottom:-3px;
+  background:linear-gradient(45deg, #FFD700, #ff0000, #FFD700);
+  border-radius:30px;
+  z-index:-1;
+  filter:blur(10px);
+  animation:borderGlow 3s linear infinite;
+}
+@keyframes borderGlow{
+ 0%,100%{opacity:0.5} 50%{opacity:1}
+}
+
+h1{
+  margin-bottom:25px;
+  font-size:32px;
+  font-weight:900;
+  color:#FFD700;
+  text-shadow:0 0 20px #FFD700, 0 0 40px #ff0000;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+ 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)}
+}
+
+.box{
+  background:linear-gradient(145deg, #111, #1a1a1a);
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:25px;
+  border:2px solid #333;
+  box-shadow:inset 0 0 15px #000;
+  transition:0.3s;
+}
+.box:hover{
+  border-color:#FFD700;
+  box-shadow:0 0 20px #FFD70033, inset 0 0 15px #000;
+  transform:translateY(-3px);
+}
+
+.label{
+  color:#FFD700;
+  font-weight:900;
+  margin-bottom:15px;
+  font-size:17px;
+  text-shadow:0 0 10px #FFD700;
+}
+
+input{
+  width:100%;
+  padding:16px;
+  background:#000;
+  border:2px solid #444;
+  border-radius:15px;
+  color:#FFD700;
+  font-size:16px;
+  text-align:right;
+  margin-bottom:18px;
+  outline:none;
+  transition:0.3s;
+}
+input:focus{
+  border-color:#FFD700;
+  box-shadow:0 0 20px #FFD70066;
+  background:#0a0a0a;
+}
+
+.btn{
+  width:100%;
+  padding:18px;
+  background:linear-gradient(90deg, #FFD700, #ffaa00);
+  border:none;
+  border-radius:15px;
+  color:#000;
+  font-weight:900;
+  font-size:17px;
+  cursor:pointer;
+  margin-bottom:15px;
+  transition:0.3s;
+  box-shadow:0 4px 15px #FFD70044;
+}
+.btn:hover{
+  background:linear-gradient(90deg, #FFD700, #ff0000);
+  transform:scale(1.05);
+  box-shadow:0 0 25px #FFD700;
+}
+
+.btn-outline{
+  background:transparent;
+  color:#FFD700;
+  border:3px solid #FFD700;
+  box-shadow:none;
+}
+.btn-outline:hover{
+  background:#FFD700;
+  color:#000;
+  box-shadow:0 0 25px #FFD700;
+}
+
+.btn-video{
+  background:linear-gradient(90deg,#ff0000,#ff6600);
+  color:#fff;
+  border:none;
+}
+.btn-video:hover{
+  background:linear-gradient(90deg,#ff6600,#ff0000);
+  box-shadow:0 0 25px #ff0000;
+}
+
+.divider{
+  color:#ff0000;
+  margin:20px 0;
+  font-weight:900;
+  font-size:15px;
+  text-shadow:0 0 10px #ff0000;
+  position:relative;
+}
+.divider::before,.divider::after{
+  content:'⚡';
+  margin:0 10px;
+}
+
+.back{
+  background:#111;
+  color:#aaa;
+  border:2px solid #333;
+  margin-top:15px;
+  box-shadow:none;
+}
+.back:hover{
+  background:#222;
+  border-color:#FFD700;
+  color:#FFD700;
+  box-shadow:none;
+  transform:scale(1.02);
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>🎙️ SHADOWKING AI</h1>
+<h1>👑 SHADOWKING TITAN 👑</h1>
 
 <div class="box">
-<div class="label">صنع صوت جديد بالذكاء الاصطناعي</div>
+<div class="label">صنع صوت جديد بالذكاء الاصطناعي الشيطاني</div>
 <input type="text" id="aiPrompt" placeholder="اكتب وصف الصوت: مثال صوت ملكي غاضب">
 <button class="btn" onclick="makeAI()">⚡ توليد الصوت</button>
 </div>
@@ -73,16 +229,16 @@ function makeAI(){
   localStorage.setItem('audioData', url);
   localStorage.setItem('audioName', prompt);
 
-  alert('تم توليد الصوت! سيتم نقلك للمحر الان');
-  window.location.href = 'audio-editor.html'; // هون بدو يدخل على المحر
+  alert('تم توليد الصوت الشيطاني! سيتم نقلك للمحر الان');
+  window.location.href = 'audio-editor.html';
 }
 
 function goToEditor(){
-  window.location.href = 'audio-editor.html'; // ملف محر الصوت
+  window.location.href = 'audio-editor.html';
 }
 
 function goToVideo(){
-  window.location.href = 'video-editor.html'; // ملف محر الفيديو
+  window.location.href = 'video-editor.html';
 }
 
 function toWav(buffer){
