@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadowking AI 👑</title>
+<title>Shadowking AI TITAN 👑</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
   body { background:#000; color:#fff; font-family: Arial; overflow:hidden; height:100vh; }
@@ -29,12 +29,12 @@
 <body>
 
 <div class="header">
-  <div class="menu-btn" onclick="alert('القائمة الملكية')">☰</div>
-  <h1>👑 Shadowking AI - 2.8T</h1>
+  <div class="menu-btn" onclick="alert('القائمة الملكية TITAN')">☰</div>
+  <h1>👑 Shadowking AI - TITAN 200$</h1>
 </div>
 
 <div class="welcome">
-  مرحبا انا Shadowking AI. اسحب من تحت لاختيار المود<br>
+  مرحبا انا Shadowking AI TITAN. اسحب من تحت لاختيار المود<br>
   دوس على الميك 🎤 عشان تتكلم
 </div>
 
@@ -48,12 +48,12 @@
 
 <div id="modes">
   <div class="handle"></div>
-  <h3>اختر المود</h3>
-  <div class="mode-btn" onclick="setMode('')"><span>💬</span> دردشة عادية</div>
-  <div class="mode-btn" onclick="setMode('[app]')"><span>📱</span> صنع تطبيق</div>
-  <div class="mode-btn" onclick="setMode('[game]')"><span>🎮</span> صنع لعبة</div>
-  <div class="mode-btn" onclick="setMode('[code]')"><span>💻</span> كتابة كود</div>
-  <div class="mode-btn" onclick="goToAudio()"><span>🎛️</span> هندسة صوت</div>
+  <h3>اختر المود TITAN</h3>
+  <div class="mode-btn" onclick="goToChat()"><span>💬</span> دردشة عادية</div>
+  <div class="mode-btn" onclick="goToApp()"><span>📱</span> Titan App Empire</div>
+  <div class="mode-btn" onclick="goToGame()"><span>🎮</span> Titan Game Studio</div>
+  <div class="mode-btn" onclick="goToCode()"><span>💻</span> Titan Code Factory</div>
+  <div class="mode-btn" onclick="goToAudio()"><span>🎛️</span> Titan Media Empire</div>
 </div>
 
 <script>
@@ -77,7 +77,10 @@ function speak(text){
   speechSynthesis.speak(utter);
 }
 
-function setMode(m){currentMode = m; document.getElementById('msg').value=m+' '; document.getElementById('modes').classList.remove('show');}
+function goToChat(){ window.location.href = 'chat.html'; }
+function goToApp(){ window.location.href = 'app.html'; }
+function goToGame(){ window.location.href = 'game.html'; }
+function goToCode(){ window.location.href = 'code.html'; }
 function goToAudio(){ window.location.href = 'audio.html'; }
 
 async function send(){
