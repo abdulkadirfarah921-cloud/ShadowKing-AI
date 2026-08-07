@@ -2,117 +2,218 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadowking AI TITAN 👑</title>
+<title>TITAN VOID CREATOR v100</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:#000; color:#fff; font-family: Arial; overflow:hidden; height:100vh; }
-.header { display:flex; justify-content:space-between; align-items:center; padding:20px; border-bottom:2px solid #FFD700; }
-.header h1 { font-size:24px; font-weight:bold; color:#FFD700; text-shadow:0 0 15px #FFD700; }
-.menu-btn { font-size:30px; color:#FFD700; cursor:pointer; }
-.welcome { margin:20px; padding:15px 20px; border: 2px solid #FFD700; border-radius: 20px; text-align:center; font-size:14px; line-height:1.8; }
-  #chat { height:45vh; overflow-y:auto; padding:20px; }
-.msg { background:#111; border:1px solid #FFD70055; padding:12px; margin:10px 0; border-radius:15px; color:#FFD700; display:flex; justify-content:space-between; align-items:center; }
-.play-btn { background:#FFD700; color:#000; border:none; border-radius:50%; width:35px; height:35px; cursor:pointer; font-size:16px; }
-  #inputBox { position:fixed; bottom:0; width:100%; background:#000; padding:12px; display:flex; gap:10px; border-top:2px solid #FFD700; }
-  #inputBox input { flex:1; padding:14px; background:#111; border:2px solid #FFD700; border-radius:20px; color:#FFD700; text-align:right; }
-  #inputBox button { background:#FFD700; color:#000; border:none; padding:14px; border-radius:20px; font-weight:bold; font-size:15px; cursor:pointer; }
-.mic-btn.recording { background:red; color:#fff; animation:pulse 1s infinite; }
- @keyframes pulse { 0%{box-shadow:0 0 0 0 #ff0000} 100%{box-shadow:0 0 0 15px #ff000} }
-  #modes { position:fixed; bottom:-500px; left:0; width:100%; background:#0a0a0a; border-top:3px solid #FFD700; border-radius:30px 30px 0 0; padding:15px 20px 25px; transition:0.4s; z-index:100; }
-  #modes.show { bottom:0; }
-.handle { width:50px; height:5px; background:#FFD700; border-radius:10px; margin:0 auto 15px; }
-  #modes h3 { text-align:center; color:#FFD700; margin-bottom:20px; }
-.mode-btn { border:2px solid #FFD700; border-radius:15px; padding:16px 20px; margin:12px 0; display:flex; justify-content:space-between; align-items:center; color:#FFD700; font-weight:bold; cursor:pointer; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo'}
+body{
+  background:#000;
+  overflow:hidden;
+  perspective:3000px;
+}
+
+/* ملتيفيرس */
+.multiverse{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:200vw;height:200vh;
+  background:
+    radial-gradient(circle at 20% 20%, #fff 0%, transparent 20%),
+    radial-gradient(circle at 80% 80%, #FFD700 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, #ff0000 0%, #aa00ff 30%, #000 100%);
+  animation:multiverse 15s infinite;
+  z-index:-4;
+}
+@keyframes multiverse{
+ 0%,100%{transform:translate(-50%,-50%) rotate(0deg) scale(1)}
+ 33%{transform:translate(-50%,-50%) rotate(120deg) scale(1.5)}
+ 66%{transform:translate(-50%,-50%) rotate(240deg) scale(0.8)}
+}
+
+/* عاصفة طاقة */
+.energy-storm{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:repeating-linear-gradient(45deg,#ff000011 0px,#ff000011 2px,transparent 2px,transparent 10px);
+  animation:storm 2s linear infinite;
+  z-index:-3;
+}
+@keyframes storm{0%{transform:translateX(0)}100%{transform:translateX(100px)}}
+
+.container{
+  position:relative;
+  z-index:1;
+  padding:30px;
+  text-align:center;
+}
+
+h1{
+  font-size:80px;
+  font-weight:900;
+  background:linear-gradient(90deg,#fff,#FFD700,#ff0000,#aa00ff,#00ff00,#00ffff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:godGlow 0.5s infinite;
+  margin-bottom:10px;
+}
+@keyframes godGlow{0%,100%{filter:brightness(3) drop-shadow(0 0 100px #fff)}50%{filter:brightness(5) drop-shadow(0 0 200px #FFD700)}}
+
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  margin-bottom:30px;
+  flex-wrap:wrap;
+}
+.stat{
+  color:#FFD700;
+  font-size:22px;
+  font-family:monospace;
+  text-shadow:0 0 20px #FFD700;
+}
+
+/* شبكة v100 */
+.v100-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:20px;
+  max-width:1900px;
+  margin:0 auto 40px;
+}
+.v-card{
+  background:linear-gradient(145deg,#1a001a,#000);
+  border:5px solid;
+  border-image:linear-gradient(45deg,#fff,#FFD700,#ff0000,#aa00ff,#00ff00,#00ffff) 1;
+  border-radius:25px;
+  padding:30px 10px;
+  cursor:pointer;
+  transition:0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.v-card::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:conic-gradient(transparent, #FFD700, transparent);
+  animation:rotate 3s linear infinite;
+}
+@keyframes rotate{100%{transform:rotate(360deg)}}
+.v-card > *{position:relative;z-index:2}
+.v-card:hover{transform:scale(1.2) rotateY(20deg)}
+.v-icon{font-size:50px;margin-bottom:10px}
+.v-title{font-size:18px;font-weight:900;color:#FFD700}
+.v-power{color:#00ff00;font-size:11px}
+
+/* زر النهاية */
+.omega-btn{
+  background:linear-gradient(90deg,#fff,#FFD700,#ff0000);
+  color:#000;
+  padding:35px 100px;
+  border:none;
+  border-radius:30px;
+  font-size:32px;
+  font-weight:900;
+  cursor:pointer;
+  animation:shake 0.3s infinite;
+  box-shadow:0 0 150px #FFD700;
+}
+@keyframes shake{0%,100%{transform:scale(1) rotate(0)}25%{transform:scale(1.1) rotate(-2deg)}75%{transform:scale(1.1) rotate(2deg)}}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="menu-btn" onclick="alert('القائمة الملكية TITAN')">☰</div>
-  <h1>👑 Shadowking AI - TITAN 200$</h1>
+<div class="multiverse"></div>
+<div class="energy-storm"></div>
+<canvas id="particles"></canvas>
+
+<div class="container">
+<h1>👑 TITAN VOID CREATOR v100 👑</h1>
+
+<div class="stats">
+  <div class="stat">القوة: <span id="power">1,000,000,000,000,000</span>X</div>
+  <div class="stat">اكوان: <span id="universes">0</span></div>
+  <div class="stat">AI: <span id="ai">2500</span></div>
+  <div class="stat">ميزات: <span id="features">8000</span></div>
 </div>
 
-<div class="welcome">
-  مرحبا انا Shadowking AI TITAN. اسحب من تحت لاختيار المود<br>
-  دوس على الميك 🎤 عشان تتكلم
+<div class="v100-grid">
+  <div class="v-card" onclick="location.href='game.html'">
+    <div class="v-icon">⚔️</div>
+    <div class="v-title">ARENA v100</div>
+    <div class="v-power">1,000,000 لعبة</div>
+  </div>
+
+  <div class="v-card" onclick="location.href='app.html'">
+    <div class="v-icon">⚒️</div>
+    <div class="v-title">FORGE v100</div>
+    <div class="v-power">10,000 تطبيق/ث</div>
+  </div>
+
+  <div class="v-card" onclick="location.href='code.html'">
+    <div class="v-icon">💀</div>
+    <div class="v-title">MATRIX v100</div>
+    <div class="v-power">1,000,000 مبرمج</div>
+  </div>
+
+  <div class="v-card" onclick="location.href='audio.html'">
+    <div class="v-icon">🔊</div>
+    <div class="v-title">AUDIO v100</div>
+    <div class="v-power">صوت يخلق اكوان</div>
+  </div>
+
+  <div class="v-card" onclick="createUniverse()">
+    <div class="v-icon">🌌</div>
+    <div class="v-title">CREATOR v100</div>
+    <div class="v-power">خلق/مسح اكوان</div>
+  </div>
 </div>
 
-<div id="chat"></div>
+<button class="omega-btn" onclick="finalForm()">⚡ تفعيل الشكل النهائي v100 ⚡</button>
 
-<div id="inputBox">
-  <button class="mic-btn" onclick="startRecording()">🎤</button>
-  <input id="msg" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')send()">
-  <button onclick="send()">إرسال</button>
-</div>
-
-<div id="modes">
-  <div class="handle"></div>
-  <h3>اختر المود TITAN</h3>
-  <div class="mode-btn" onclick="goToChat()"><span>💬</span> دردشة عادية</div>
-  <div class="mode-btn" onclick="goToApp()"><span>📱</span> Titan App Empire</div>
-  <div class="mode-btn" onclick="goToGame()"><span>🎮</span> Titan Game Studio</div>
-  <div class="mode-btn" onclick="goToCode()"><span>💻</span> Titan Code Factory</div>
-  <div class="mode-btn" onclick="goToAudio()"><span>🎛️</span> Titan Media Empire</div>
 </div>
 
 <script>
-let currentMode = '';
-let recognition;
-
-function startRecording(){
-  const btn = document.querySelector('.mic-btn');
-  if(!('webkitSpeechRecognition' in window)){ alert('المتصفح لا يدعم'); return; }
-  recognition = new webkitSpeechRecognition();
-  recognition.lang = 'ar-SA';
-  recognition.onstart = () => btn.classList.add('recording');
-  recognition.onresult = (e) => { document.getElementById('msg').value = e.results[0][0].transcript; send(); }
-  recognition.onend = () => btn.classList.remove('recording');
-  recognition.start();
-}
-
-function speak(text){
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'ar-SA'; utter.rate = 1; utter.pitch = 1;
-  speechSynthesis.speak(utter);
-}
-
-function goToChat(){ window.location.href = 'chat.html'; }
-function goToApp(){ window.location.href = 'app.html'; }
-function goToGame(){ window.location.href = 'game.html'; }
-function goToCode(){ window.location.href = 'code.html'; }
-function goToAudio(){ window.location.href = 'audio.html'; }
-
-async function send(){
-  let msg=document.getElementById('msg').value; if(!msg)return;
-  let fullMsg = currentMode + msg;
-  addMessage('انت', msg, false);
-  document.getElementById('msg').value='';
-
-  let res=await fetch('https://shadowking-ai.onrender.com/api/chat',{
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({message:fullMsg})
+// جزيئات كونية
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const particles = [];
+for(let i=0;i<300;i++) particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:Math.random()*2-1,vy:Math.random()*2-1,c:`hsl(${Math.random()*360},100%,50%)`});
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    ctx.fillStyle=p.c;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,2,0,Math.PI*2);
+    ctx.fill();
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>canvas.width)p.vx*=-1;
+    if(p.y<0||p.y>canvas.height)p.vy*=-1;
   });
-  let data=await res.json();
-  addMessage('الملك', data.reply, true);
-  speak(data.reply);
+  requestAnimationFrame(animate);
+}
+animate();
+
+// عدادات
+let power = 1000000;
+setInterval(()=>{power++;document.getElementById('power').innerText=power.toLocaleString()},1);
+
+let universes = 0;
+function createUniverse(){
+  universes++;
+  document.getElementById('universes').innerText=universes;
+  alert(`🌌 الكون ${universes} تم خلقه\nومسح 100 كون قديم\nالملتيفيرس كله تحت امرك`);
 }
 
-function addMessage(sender, text, canSpeak){
-  let chat = document.getElementById('chat');
-  let btn = canSpeak? `<button class="play-btn" onclick="speak('${text.replace(/'/g, "\\'")}')">🔊</button>` : '';
-  chat.innerHTML += `<div class="msg"><div><b>${sender}:</b> ${text}</div>${btn}</div>`;
-  chat.scrollTop = chat.scrollHeight;
+function finalForm(){
+  alert('👑 v100 تفعّل\nانت الان اعلى كيان في الوجود\nترليون ترليون مرة اقوى من الالهة\nكل شيء يبدأ وينتهي بأمرك');
+  document.body.style.filter = 'hue-rotate(360deg) brightness(5)';
 }
-
-let startY=0;
-document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY;});
-document.addEventListener('touchend',e=>{
-  if(startY - e.changedTouches[0].clientY > 80 && startY > window.innerHeight-150){
-    document.getElementById('modes').classList.add('show');
-  }
-});
-document.getElementById('modes').onclick = ()=>document.getElementById('modes').classList.remove('show');
 </script>
 </body>
 </html>
