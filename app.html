@@ -1,17 +1,106 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>Titan App Empire</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-<style>body{background:#000;color:#FFD700;font-family:'Cairo';padding:20px;text-align:center}h1{font-size:28px;text-shadow:0 0 20px #FFD700}.tabs{display:flex; gap:10px; justify-content:center; margin:20px 0}.tab{padding:10px 20px; border:2px solid #FFD700; border-radius:10px; cursor:pointer; background:#111}.tab.active{background:#FFD700; color:#000}.package{display:none; text-align:right}.package.active{display:block}.feature{border:1px solid #FFD70055; border-radius:12px; padding:12px; margin:10px 0; background:#111}.btn{background:#FFD700;color:#000;padding:14px 30px;border:none;border-radius:15px;font-size:18px;font-weight:bold;cursor:pointer; width:100%; margin-top:15px}.back{position:fixed;top:20px;left:20px;background:#FFD700;color:#000;padding:10px;border-radius:10px;text-decoration:none}</style></head>
-<body><a href="index.html" class="back">← رجوع</a><h1>📱 Titan App Empire</h1>
-<div class="tabs"><div class="tab active" onclick="showTab('free')">FREE</div><div class="tab" onclick="showTab('plus')">PLUS 49$</div><div class="tab" onclick="showTab('prem')">PREMIUM 200$</div></div>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+body{background:radial-gradient(circle at 50% 50%, #1a0000 0%, #000 100%);color:#FFD700;font-family:'Cairo';padding:20px;text-align:center;min-height:100vh}
+h1{font-size:28px;text-shadow:0 0 20px #FFD700,0 0 40px #ff0000;margin-bottom:20px}
+.tabs{display:flex; gap:10px; justify-content:center; margin:20px 0}
+.tab{padding:10px 20px; border:2px solid #FFD700; border-radius:10px; cursor:pointer; background:#111}
+.tab.active{background:#FFD700; color:#000}
+.screen{display:none}
+.screen.active{display:block}
+.feature{border:1px solid #FFD70055; border-radius:12px; padding:12px; margin:10px 0; background:#111; text-align:right}
+.btn{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000;padding:14px 30px;border:none;border-radius:15px;font-size:18px;font-weight:900;cursor:pointer; width:100%; margin:10px 0}
+.btn:hover{transform:scale(1.05);box-shadow:0 0 20px #FFD700}
+.back{position:fixed;top:20px;left:20px;background:#FFD700;color:#000;padding:10px;border-radius:10px;text-decoration:none}
+.grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px; margin-top:20px}
+.card{background:#111;border:2px solid #FFD700;border-radius:15px;padding:15px;text-align:right}
+.code-box{background:#000;border:2px solid #ff0000;border-radius:10px;padding:15px;text-align:left;direction:ltr;max-height:400px;overflow:auto;color:#00ff00;font-family:monospace;font-size:12px}
+.preview-box{background:#222;border:2px solid #FFD700;border-radius:15px;padding:20px;min-height:300px}
+input,textarea{width:100%; padding:12px; background:#000; border:2px solid #FFD700; border-radius:10px; color:#FFD700; margin:10px 0;}
+</style></head>
+<body>
+<a href="index.html" class="back">← رجوع</a>
+<h1>📱 Titan App Empire - 2500 مبرمج</h1>
 
-<div id="free" class="package active">
-  <div class="feature">✅ <b>3 تطبيقات</b> في الشهر</div><div class="feature">✅ <b>10 صفحات</b> + تسجيل دخول</div>
-  <div class="feature">✅ <b>قوالب ترند 2026</b> جاهزة</div><div class="feature">✅ <b>نشر على الويب</b> مجاني</div>
-  <div class="feature">✅ AI يولدلك الايقونة والوصف</div><div class="feature">✅ تحليلات اساسية</div>
-  <button class="btn" onclick="alert('توليد تطبيق FREE: اكتب الفكرة في الشات')">ابدأ تطبيق FREE</button>
+<div class="tabs">
+  <div class="tab active" onclick="showScreen('idea')">1. الفكرة</div>
+  <div class="tab" onclick="showScreen('preview')">2. المعاينة</div>
+  <div class="tab" onclick="showScreen('servers')">3. السيرفرات</div>
 </div>
-<div id="plus" class="package"><div class="feature">✅ 10 تطبيقات</div><div class="feature">✅ بدون علامة مائية</div><div class="feature">✅ ربط Firebase + دفع</div><div class="feature">✅ نشر Google Play</div><button class="btn" onclick="alert('تم الترقية لـ PLUS')">اشترك 49$</button></div>
-<div id="prem" class="package"><div class="feature">✅ تطبيقات غير محدودة</div><div class="feature">✅ نشر Apple + Google</div><div class="feature">✅ AI Product Manager + تسويق</div><div class="feature">✅ سيرفرات سنة مجانا</div><button class="btn" onclick="alert('تم الترقية لـ PREMIUM 200$')">اشترك 200$</button></div>
-<script>function showTab(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.package').forEach(p=>p.classList.remove('active'));event.target.classList.add('active');document.getElementById(tab).classList.add('active');}</script>
+
+<div id="idea" class="screen active">
+  <div class="card">
+    <h3>🤖 2500 مبرمج خبراء جاهزين</h3>
+    <textarea id="appIdea" placeholder="اكتب فكرتك: مثال تطبيق توصيل طعام"></textarea>
+    <button class="btn" onclick="askAI()">⚡ اسأل الـ AI عن التفاصيل</button>
+    <div id="aiQuestions"></div>
+  </div>
+</div>
+
+<div id="preview" class="screen">
+  <div class="grid">
+    <div class="card">
+      <h3>👁️ المعاينة</h3>
+      <div class="preview-box" id="appPreview">
+        <h4>تطبيقك جاهز</h4>
+        <p>هون رح تشوف التصميم</p>
+      </div>
+      <button class="btn" onclick="downloadZIP()">📦 تحميل ZIP</button>
+    </div>
+    <div class="card" style="grid-column:span 2">
+      <h3>💻 الكود SRC كامل</h3>
+      <div class="code-box" id="appCode">// الكود رح يظهر هون
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;My App&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/body&gt;
+&lt;/html&gt;</div>
+    </div>
+  </div>
+</div>
+
+<div id="servers" class="screen">
+  <div class="card">
+    <h3>🗄️ قاعدة البيانات + السيرفرات</h3>
+    <div class="feature">✅ تم انشاء Firebase Database</div>
+    <div class="feature">✅ 300 صلاحية مستخدم جاهزة</div>
+    <div class="feature">✅ API Keys + Authentication</div>
+    <div class="feature">✅ سيرفر Node.js على Render</div>
+    <button class="btn" onclick="alert('تم نشر التطبيق')">🚀 نشر التطبيق</button>
+  </div>
+</div>
+
+<script>
+function showScreen(s){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(s).classList.add('active');
+}
+
+function askAI(){
+  let idea = document.getElementById('appIdea').value;
+  if(!idea) return alert('اكتب فكرتك');
+  document.getElementById('aiQuestions').innerHTML = `
+    <div class="feature">🤖 الـ 2500 مبرمج سألو: 
+    <br>1. بدك تسجيل دخول؟
+    <br>2. بدك دفع الكتروني؟
+    <br>3. كم لغة بدك؟
+    </div>
+    <button class="btn" onclick="generateApp()">✅ توليد التطبيق</button>
+  `;
+}
+
+function generateApp(){
+  document.getElementById('appPreview').innerHTML = '<h4>✅ تم توليد التطبيق</h4><p>تصميم شيطاني TITAN</p>';
+  document.getElementById('appCode').innerText = '<!DOCTYPE html>\n<html>\n<head><title>TITAN APP</title>\n<style>body{background:#000;color:#FFD700}</style>\n</head>\n<body><h1>Welcome to TITAN</h1></body>\n</html>';
+  alert('تم توليد التطبيق بواسطة 2500 مبرمج');
+  showScreen('preview');
+}
+
+function downloadZIP(){
+  alert('📦 جاري تحميل project.zip\nيحتوي: index.html, style.css, script.js, database.json');
+}
+</script>
 </body></html>
