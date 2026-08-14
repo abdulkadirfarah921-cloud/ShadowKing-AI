@@ -3,120 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TITAN AI</title>
+<title>TITAN GOD</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#050509; --card:#0f0f1a; --border:#1f1f2e; 
-  --neon1:#00f5ff; --neon2:#ff00e5; --text:#e0e0ff;
+  --bg:#030307; --card:#0a0a12; --border:#2a2a4a; 
+  --neon1:#00f5ff; --neon2:#ff00e5; --gold:#FFD700; --text:#e0e0ff;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:radial-gradient(circle at 50% 0%, #1a0033 0%, var(--bg) 50%);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body{background:radial-gradient(circle at 50% -20%, #2a0044 0%, var(--bg) 60%);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-/* الهيدر */
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#00000050;border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
-.logo{font-size:22px;font-weight:900;background:linear-gradient(90deg,var(--neon1),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.battle-btn{background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#000;border:none;padding:8px 18px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:0 0 15px var(--neon1)}
-.battle-btn:hover{transform:scale(1.05)}
+/* الهيدر النار */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#00070;border-bottom:1px solid var(--border);backdrop-filter:blur(15px)}
+.logo{font-size:24px;font-weight:900;background:linear-gradient(90deg,var(--neon1),var(--gold),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glow 2s infinite}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 5px var(--neon1))}50%{filter:drop-shadow(0 0 15px var(--neon2))}}
+.battle-btn{background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#000;border:none;padding:10px 20px;border-radius:14px;font-weight:900;cursor:pointer;box-shadow:0 0 20px var(--neon1)}
 
 /* المنطقة الرئيسية */
 .main{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;align-items:center}
-.title{font-size:36px;font-weight:900;margin-bottom:5px;text-align:center}
-.subtitle{color:#888;margin-bottom:30px;text-align:center}
+.title{font-size:40px;font-weight:900;margin:20px 0 10px;text-align:center}
+.subtitle{color:#888;margin-bottom:30px}
 
-/* شبكة المودات */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;width:100%;max-width:900px;margin-bottom:30px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center;cursor:pointer;transition:0.3s}
-.card:hover{border-color:var(--neon1);transform:translateY(-5px);box-shadow:0 0 20px #00f5ff30}
-.card .icon{font-size:35px;margin-bottom:8px}
-.card .name{font-weight:900;font-size:15px}
+/* زر المودات النار */
+.fab-btn{position:fixed;bottom:90px;right:20px;background:linear-gradient(135deg,var(--gold),#ff5500);width:65px;height:65px;border-radius:50%;border:none;font-size:30px;cursor:pointer;box-shadow:0 0 25px #FFD70080;z-index:999}
+.fab-btn:hover{transform:scale(1.1) rotate(90deg)}
+
+.modes-menu{display:none;position:fixed;bottom:165px;right:20px;background:var(--card);border:2px solid var(--border);border-radius:20px;padding:15px;width:280px;box-shadow:0 0 30px #000;z-index:999}
+.modes-menu.show{display:block;animation:pop 0.3s}
+@keyframes pop{from{transform:scale(0.8);opacity:0}}
+.mode-item{background:#111;border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:700}
+.mode-item:hover{background:linear-gradient(90deg,#111, #1a001a);border-color:var(--neon2);transform:translateX(-5px)}
 
 /* صندوق الادخال */
-.input-wrap{width:100%;max-width:800px;position:relative}
+.input-wrap{width:95%;max-width:800px;position:fixed;bottom:20px}
 .input-box{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:15px;display:flex;align-items:center;gap:10px}
-.input-box:focus-within{border-color:var(--neon1);box-shadow:0 0 20px #00f5ff30}
+.input-box:focus-within{border-color:var(--neon1);box-shadow:0 0 20px #00f5ff40}
 .input-box input{flex:1;background:transparent;border:none;outline:none;font-size:17px;color:var(--text)}
 .tools{display:flex;gap:8px}
-.tool-btn{background:#1a1a2a;border:1px solid var(--border);border-radius:12px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px}
-.tool-btn:hover{background:#2a2a3a;border-color:var(--neon2)}
-.send{background:linear-gradient(90deg,var(--neon1),var(--neon2));border:none;border-radius:12px;width:42px;height:42px;color:#000;font-size:20px;font-weight:900;cursor:pointer}
+.tool-btn{background:#1a1a2a;border:1px solid var(--border);border-radius:12px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.send{background:linear-gradient(90deg,var(--neon1),var(--neon2));border:none;border-radius:12px;width:42px;height:42px;color:#000;font-weight:900;cursor:pointer}
 
-/* الشريط السفلي */
-.footer{display:flex;justify-content:center;gap:20px;padding:15px;font-size:12px;color:#666}
+/* ثيمات */
+body.light{--bg:#f5f5f5; --card:#fff; --text:#111; --border:#ddd}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo">⚡ TITAN AI</div>
-  <button class="battle-btn" onclick="battleMode()">⚔️ Battle Mode</button>
+  <div class="logo">⚡ TITAN GOD</div>
+  <div>
+    <button onclick="toggleTheme()" class="battle-btn">🌙</button>
+    <button onclick="battleMode()" class="battle-btn">⚔️ Battle</button>
+  </div>
 </div>
 
 <div class="main">
-  <div class="title">ماذا سنصنع اليوم؟</div>
-  <div class="subtitle">اختر مصنع او اسأل TITAN مباشرة</div>
-
-  <div class="grid">
-    <div class="card" onclick="location.href='app.html'">
-      <div class="icon">📱</div><div class="name">مصنع التطبيقات</div>
-    </div>
-    <div class="card" onclick="location.href='site.html'">
-      <div class="icon">🌐</div><div class="name">مصنع المواقع</div>
-    </div>
-    <div class="card" onclick="location.href='image.html'">
-      <div class="icon">🖼️</div><div class="name">مصنع الصور</div>
-    </div>
-    <div class="card" onclick="location.href='video-editor.html'">
-      <div class="icon">🎬</div><div class="name">مصنع الفيديو</div>
-    </div>
-    <div class="card" onclick="location.href='game.html'">
-      <div class="icon">🎮</div><div class="name">مصنع الالعاب</div>
-    </div>
-    <div class="card" onclick="location.href='bot.html'">
-      <div class="icon">🤖</div><div class="name">مصنع البوتات</div>
-    </div>
-    <div class="card" onclick="location.href='code.html'">
-      <div class="icon"><></div><div class="name">مولد الكود</div>
-    </div>
-    <div class="card" onclick="location.href='design.html'">
-      <div class="icon">🎨</div><div class="name">مصمم UI/UX</div>
-    </div>
-  </div>
-
-  <div class="input-wrap">
-    <div class="input-box">
-      <input type="text" id="prompt" placeholder="اسأل TITAN عن اي شيء...">
-      <div class="tools">
-        <button class="tool-btn" title="رفع ملف">📎</button>
-        <button class="tool-btn" title="بحث بالويب">🌐</button>
-        <button class="tool-btn" title="تفكير عميق">🧠</button>
-        <button class="tool-btn" title="صوت">🎤</button>
-      </div>
-      <button class="send" onclick="send()">➤</button>
-    </div>
-  </div>
+  <div class="title">TITAN GOD READY</div>
+  <div class="subtitle">دوس زر النار تحت واختار المصنع</div>
+  <div id="chatBox" style="width:100%;max-width:800px"></div>
 </div>
 
-<div class="footer">
-  <span>TITAN AI v2.0</span>
-  <span>|</span>
-  <span>Powered by You 👑</span>
+<!-- زر النار + القائمة -->
+<button class="fab-btn" onclick="toggleModes()">🔥</button>
+<div class="modes-menu" id="modesMenu">
+  <div class="mode-item" onclick="openPage('app.html')">📱 مصنع التطبيقات</div>
+  <div class="mode-item" onclick="openPage('site.html')">🌐 مصنع المواقع</div>
+  <div class="mode-item" onclick="openPage('image.html')">🖼️ مصنع الصور</div>
+  <div class="mode-item" onclick="openPage('video-editor.html')">🎬 مصنع الفيديو</div>
+  <div class="mode-item" onclick="openPage('game.html')">🎮 مصنع الالعاب</div>
+  <div class="mode-item" onclick="openPage('bot.html')">🤖 مصنع البوتات</div>
+  <div class="mode-item" onclick="openPage('code.html')"><> مولد الكود</div>
+  <div class="mode-item" onclick="autoEmpire()">👑 زر فجر الدنيا</div>
+</div>
+
+<div class="input-wrap">
+  <div class="input-box">
+    <input type="text" id="prompt" placeholder="امر يا قائد...">
+    <div class="tools">
+      <button class="tool-btn" onclick="alert('رفع ملف')">📎</button>
+      <button class="tool-btn" onclick="alert('بحث')">🌐</button>
+      <button class="tool-btn" onclick="alert('تفكير عميق')">🧠</button>
+      <button class="tool-btn" onclick="voice()">🎤</button>
+    </div>
+    <button class="send" onclick="send()">➤</button>
+  </div>
 </div>
 
 <script>
+function toggleModes(){
+  document.getElementById('modesMenu').classList.toggle('show');
+}
+function openPage(p){location.href=p}
 function send(){
   let val = document.getElementById('prompt').value;
   if(!val) return;
-  alert("TITAN يفكر في: " + val + "\n\nهنا بنربطه بـ API حقي");
+  document.getElementById('chatBox').innerHTML += `<p><b>انت:</b> ${val}</p><p><b>TITAN:</b> جاري التنفيذ... ${val}</p>`;
   document.getElementById('prompt').value = '';
 }
-
-function battleMode(){
-  alert("⚔️ Battle Mode مفعل\n\nTITAN vs GEMINI vs GPT\nسيتم اختيار افضل رد تلقائيا");
+function battleMode(){alert("⚔️ Battle Mode: TITAN vs GPT vs GEMINI مفعل")}
+function toggleTheme(){document.body.classList.toggle('light')}
+function voice(){alert("🎤 امرني صوتيا")}
+function autoEmpire(){
+  alert("👑 زر فجر الدنيا\nسيتم انشاء: تطبيق + موقع + لوجو + فيديو + صفحة سوشيال\nفي 60 ثانية");
 }
 
-document.getElementById('prompt').addEventListener('keypress', e => {
-  if(e.key === 'Enter') send();
+// اغلاق القائمة عند الضغط برا
+document.addEventListener('click', e => {
+  if(!e.target.closest('.fab-btn') && !e.target.closest('.modes-menu')){
+    document.getElementById('modesMenu').classList.remove('show');
+  }
 });
 </script>
 
