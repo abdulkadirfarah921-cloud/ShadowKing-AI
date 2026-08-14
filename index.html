@@ -3,80 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GENESIS AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<title>TITAN AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#050509; --card:#0f0f1a; --border:#1f1f2e; 
+  --neon1:#00f5ff; --neon2:#ff00e5; --text:#e0e0ff;
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:#0a0a0f;color:#e5e5e5;display:flex;flex-direction:column;height:100vh}
-header{background:#111118;padding:15px 20px;border-bottom:1px solid #222;display:flex;align-items:center;gap:10px}
-header .logo{font-size:24px;font-weight:900;background:linear-gradient(90deg,#00ff88,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.chat-box{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:15px}
-.msg{max-width:75%;padding:14px 18px;border-radius:18px;line-height:1.6}
-.user{background:#00aaff;align-self:flex-end;border-bottom-right-radius:4px}
-.ai{background:#1a1a22;align-self:flex-start;border:1px solid #2a2a35;border-bottom-left-radius:4px}
-.input-area{display:flex;gap:10px;padding:15px;background:#111118;border-top:1px solid #222}
-.input-area input{flex:1;background:#1a1a22;border:1px solid #333;border-radius:12px;padding:14px;color:#fff;font-size:16px;outline:none}
-.input-area button{background:linear-gradient(90deg,#00ff88,#00aaff);border:none;border-radius:12px;padding:0 25px;color:#000;font-weight:900;cursor:pointer;font-size:16px}
-.input-area button:hover{opacity:0.8}
-.code-block{background:#000;padding:12px;border-radius:8px;overflow-x:auto;font-family:monospace;font-size:13px;color:#00ff88;margin-top:10px}
+body{background:radial-gradient(circle at 50% 0%, #1a0033 0%, var(--bg) 50%);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* الهيدر */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#00000050;border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+.logo{font-size:22px;font-weight:900;background:linear-gradient(90deg,var(--neon1),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.battle-btn{background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#000;border:none;padding:8px 18px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:0 0 15px var(--neon1)}
+.battle-btn:hover{transform:scale(1.05)}
+
+/* المنطقة الرئيسية */
+.main{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;align-items:center}
+.title{font-size:36px;font-weight:900;margin-bottom:5px;text-align:center}
+.subtitle{color:#888;margin-bottom:30px;text-align:center}
+
+/* شبكة المودات */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;width:100%;max-width:900px;margin-bottom:30px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center;cursor:pointer;transition:0.3s}
+.card:hover{border-color:var(--neon1);transform:translateY(-5px);box-shadow:0 0 20px #00f5ff30}
+.card .icon{font-size:35px;margin-bottom:8px}
+.card .name{font-weight:900;font-size:15px}
+
+/* صندوق الادخال */
+.input-wrap{width:100%;max-width:800px;position:relative}
+.input-box{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:15px;display:flex;align-items:center;gap:10px}
+.input-box:focus-within{border-color:var(--neon1);box-shadow:0 0 20px #00f5ff30}
+.input-box input{flex:1;background:transparent;border:none;outline:none;font-size:17px;color:var(--text)}
+.tools{display:flex;gap:8px}
+.tool-btn{background:#1a1a2a;border:1px solid var(--border);border-radius:12px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px}
+.tool-btn:hover{background:#2a2a3a;border-color:var(--neon2)}
+.send{background:linear-gradient(90deg,var(--neon1),var(--neon2));border:none;border-radius:12px;width:42px;height:42px;color:#000;font-size:20px;font-weight:900;cursor:pointer}
+
+/* الشريط السفلي */
+.footer{display:flex;justify-content:center;gap:20px;padding:15px;font-size:12px;color:#666}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">⚡ GENESIS AI</div>
-</header>
+<div class="topbar">
+  <div class="logo">⚡ TITAN AI</div>
+  <button class="battle-btn" onclick="battleMode()">⚔️ Battle Mode</button>
+</div>
 
-<div class="chat-box" id="chatBox">
-  <div class="msg ai">
-    مرحبا يا ملك 👑<br>
-    انا GENESIS AI. شو بدك نبني اليوم؟
+<div class="main">
+  <div class="title">ماذا سنصنع اليوم؟</div>
+  <div class="subtitle">اختر مصنع او اسأل TITAN مباشرة</div>
+
+  <div class="grid">
+    <div class="card" onclick="location.href='app.html'">
+      <div class="icon">📱</div><div class="name">مصنع التطبيقات</div>
+    </div>
+    <div class="card" onclick="location.href='site.html'">
+      <div class="icon">🌐</div><div class="name">مصنع المواقع</div>
+    </div>
+    <div class="card" onclick="location.href='image.html'">
+      <div class="icon">🖼️</div><div class="name">مصنع الصور</div>
+    </div>
+    <div class="card" onclick="location.href='video-editor.html'">
+      <div class="icon">🎬</div><div class="name">مصنع الفيديو</div>
+    </div>
+    <div class="card" onclick="location.href='game.html'">
+      <div class="icon">🎮</div><div class="name">مصنع الالعاب</div>
+    </div>
+    <div class="card" onclick="location.href='bot.html'">
+      <div class="icon">🤖</div><div class="name">مصنع البوتات</div>
+    </div>
+    <div class="card" onclick="location.href='code.html'">
+      <div class="icon"><></div><div class="name">مولد الكود</div>
+    </div>
+    <div class="card" onclick="location.href='design.html'">
+      <div class="icon">🎨</div><div class="name">مصمم UI/UX</div>
+    </div>
+  </div>
+
+  <div class="input-wrap">
+    <div class="input-box">
+      <input type="text" id="prompt" placeholder="اسأل TITAN عن اي شيء...">
+      <div class="tools">
+        <button class="tool-btn" title="رفع ملف">📎</button>
+        <button class="tool-btn" title="بحث بالويب">🌐</button>
+        <button class="tool-btn" title="تفكير عميق">🧠</button>
+        <button class="tool-btn" title="صوت">🎤</button>
+      </div>
+      <button class="send" onclick="send()">➤</button>
+    </div>
   </div>
 </div>
 
-<div class="input-area">
-  <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
-  <button onclick="sendMessage()">ارسال</button>
+<div class="footer">
+  <span>TITAN AI v2.0</span>
+  <span>|</span>
+  <span>Powered by You 👑</span>
 </div>
 
 <script>
-const chatBox = document.getElementById('chatBox');
-const userInput = document.getElementById('userInput');
-
-function addMessage(text, sender){
-  const msg = document.createElement('div');
-  msg.className = 'msg ' + sender;
-  msg.innerHTML = text;
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
+function send(){
+  let val = document.getElementById('prompt').value;
+  if(!val) return;
+  alert("TITAN يفكر في: " + val + "\n\nهنا بنربطه بـ API حقي");
+  document.getElementById('prompt').value = '';
 }
 
-function sendMessage(){
-  const text = userInput.value.trim();
-  if(!text) return;
-  
-  addMessage(text, 'user');
-  userInput.value = '';
-  
-  // رد AI وهمي هلق - بعدين نربطه بـ API حقي
-  setTimeout(()=>{
-    let reply = "فهمت عليك. ";
-    if(text.includes("كود") || text.includes("code")){
-      reply += "هذا كود لك:<div class='code-block'>function hello(){<br>&nbsp;&nbsp;console.log('Hello GENESIS');<br>}</div>";
-    } else if(text.includes("لعبة")){
-      reply += "تمام نبني لعبة. تحب FPS ولا 2D؟";
-    } else {
-      reply += "انا جاهز اساعدك. اطلب اي شي: كود، تصميم، فكرة";
-    }
-    addMessage(reply, 'ai');
-  }, 800);
+function battleMode(){
+  alert("⚔️ Battle Mode مفعل\n\nTITAN vs GEMINI vs GPT\nسيتم اختيار افضل رد تلقائيا");
 }
 
-// ارسال بالـ Enter
-userInput.addEventListener('keypress', e => {
-  if(e.key === 'Enter') sendMessage();
+document.getElementById('prompt').addEventListener('keypress', e => {
+  if(e.key === 'Enter') send();
 });
 </script>
 
-</body>
-</html>
+</body></html>
