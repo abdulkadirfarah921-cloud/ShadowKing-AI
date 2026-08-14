@@ -2,218 +2,81 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>TITAN VOID CREATOR v100</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENESIS AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo'}
-body{
-  background:#000;
-  overflow:hidden;
-  perspective:3000px;
-}
-
-/* ملتيفيرس */
-.multiverse{
-  position:fixed;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:200vw;height:200vh;
-  background:
-    radial-gradient(circle at 20% 20%, #fff 0%, transparent 20%),
-    radial-gradient(circle at 80% 80%, #FFD700 0%, transparent 20%),
-    radial-gradient(circle at 50% 50%, #ff0000 0%, #aa00ff 30%, #000 100%);
-  animation:multiverse 15s infinite;
-  z-index:-4;
-}
-@keyframes multiverse{
- 0%,100%{transform:translate(-50%,-50%) rotate(0deg) scale(1)}
- 33%{transform:translate(-50%,-50%) rotate(120deg) scale(1.5)}
- 66%{transform:translate(-50%,-50%) rotate(240deg) scale(0.8)}
-}
-
-/* عاصفة طاقة */
-.energy-storm{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:repeating-linear-gradient(45deg,#ff000011 0px,#ff000011 2px,transparent 2px,transparent 10px);
-  animation:storm 2s linear infinite;
-  z-index:-3;
-}
-@keyframes storm{0%{transform:translateX(0)}100%{transform:translateX(100px)}}
-
-.container{
-  position:relative;
-  z-index:1;
-  padding:30px;
-  text-align:center;
-}
-
-h1{
-  font-size:80px;
-  font-weight:900;
-  background:linear-gradient(90deg,#fff,#FFD700,#ff0000,#aa00ff,#00ff00,#00ffff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:godGlow 0.5s infinite;
-  margin-bottom:10px;
-}
-@keyframes godGlow{0%,100%{filter:brightness(3) drop-shadow(0 0 100px #fff)}50%{filter:brightness(5) drop-shadow(0 0 200px #FFD700)}}
-
-.stats{
-  display:flex;
-  justify-content:center;
-  gap:40px;
-  margin-bottom:30px;
-  flex-wrap:wrap;
-}
-.stat{
-  color:#FFD700;
-  font-size:22px;
-  font-family:monospace;
-  text-shadow:0 0 20px #FFD700;
-}
-
-/* شبكة v100 */
-.v100-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:20px;
-  max-width:1900px;
-  margin:0 auto 40px;
-}
-.v-card{
-  background:linear-gradient(145deg,#1a001a,#000);
-  border:5px solid;
-  border-image:linear-gradient(45deg,#fff,#FFD700,#ff0000,#aa00ff,#00ff00,#00ffff) 1;
-  border-radius:25px;
-  padding:30px 10px;
-  cursor:pointer;
-  transition:0.3s;
-  position:relative;
-  overflow:hidden;
-}
-.v-card::before{
-  content:'';
-  position:absolute;
-  top:-50%;left:-50%;
-  width:200%;height:200%;
-  background:conic-gradient(transparent, #FFD700, transparent);
-  animation:rotate 3s linear infinite;
-}
-@keyframes rotate{100%{transform:rotate(360deg)}}
-.v-card > *{position:relative;z-index:2}
-.v-card:hover{transform:scale(1.2) rotateY(20deg)}
-.v-icon{font-size:50px;margin-bottom:10px}
-.v-title{font-size:18px;font-weight:900;color:#FFD700}
-.v-power{color:#00ff00;font-size:11px}
-
-/* زر النهاية */
-.omega-btn{
-  background:linear-gradient(90deg,#fff,#FFD700,#ff0000);
-  color:#000;
-  padding:35px 100px;
-  border:none;
-  border-radius:30px;
-  font-size:32px;
-  font-weight:900;
-  cursor:pointer;
-  animation:shake 0.3s infinite;
-  box-shadow:0 0 150px #FFD700;
-}
-@keyframes shake{0%,100%{transform:scale(1) rotate(0)}25%{transform:scale(1.1) rotate(-2deg)}75%{transform:scale(1.1) rotate(2deg)}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#0a0a0f;color:#e5e5e5;display:flex;flex-direction:column;height:100vh}
+header{background:#111118;padding:15px 20px;border-bottom:1px solid #222;display:flex;align-items:center;gap:10px}
+header .logo{font-size:24px;font-weight:900;background:linear-gradient(90deg,#00ff88,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.chat-box{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:15px}
+.msg{max-width:75%;padding:14px 18px;border-radius:18px;line-height:1.6}
+.user{background:#00aaff;align-self:flex-end;border-bottom-right-radius:4px}
+.ai{background:#1a1a22;align-self:flex-start;border:1px solid #2a2a35;border-bottom-left-radius:4px}
+.input-area{display:flex;gap:10px;padding:15px;background:#111118;border-top:1px solid #222}
+.input-area input{flex:1;background:#1a1a22;border:1px solid #333;border-radius:12px;padding:14px;color:#fff;font-size:16px;outline:none}
+.input-area button{background:linear-gradient(90deg,#00ff88,#00aaff);border:none;border-radius:12px;padding:0 25px;color:#000;font-weight:900;cursor:pointer;font-size:16px}
+.input-area button:hover{opacity:0.8}
+.code-block{background:#000;padding:12px;border-radius:8px;overflow-x:auto;font-family:monospace;font-size:13px;color:#00ff88;margin-top:10px}
 </style>
 </head>
 <body>
 
-<div class="multiverse"></div>
-<div class="energy-storm"></div>
-<canvas id="particles"></canvas>
+<header>
+  <div class="logo">⚡ GENESIS AI</div>
+</header>
 
-<div class="container">
-<h1>👑 TITAN VOID CREATOR v100 👑</h1>
-
-<div class="stats">
-  <div class="stat">القوة: <span id="power">1,000,000,000,000,000</span>X</div>
-  <div class="stat">اكوان: <span id="universes">0</span></div>
-  <div class="stat">AI: <span id="ai">2500</span></div>
-  <div class="stat">ميزات: <span id="features">8000</span></div>
-</div>
-
-<div class="v100-grid">
-  <div class="v-card" onclick="location.href='game.html'">
-    <div class="v-icon">⚔️</div>
-    <div class="v-title">ARENA v100</div>
-    <div class="v-power">1,000,000 لعبة</div>
-  </div>
-
-  <div class="v-card" onclick="location.href='app.html'">
-    <div class="v-icon">⚒️</div>
-    <div class="v-title">FORGE v100</div>
-    <div class="v-power">10,000 تطبيق/ث</div>
-  </div>
-
-  <div class="v-card" onclick="location.href='code.html'">
-    <div class="v-icon">💀</div>
-    <div class="v-title">MATRIX v100</div>
-    <div class="v-power">1,000,000 مبرمج</div>
-  </div>
-
-  <div class="v-card" onclick="location.href='audio.html'">
-    <div class="v-icon">🔊</div>
-    <div class="v-title">AUDIO v100</div>
-    <div class="v-power">صوت يخلق اكوان</div>
-  </div>
-
-  <div class="v-card" onclick="createUniverse()">
-    <div class="v-icon">🌌</div>
-    <div class="v-title">CREATOR v100</div>
-    <div class="v-power">خلق/مسح اكوان</div>
+<div class="chat-box" id="chatBox">
+  <div class="msg ai">
+    مرحبا يا ملك 👑<br>
+    انا GENESIS AI. شو بدك نبني اليوم؟
   </div>
 </div>
 
-<button class="omega-btn" onclick="finalForm()">⚡ تفعيل الشكل النهائي v100 ⚡</button>
-
+<div class="input-area">
+  <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
+  <button onclick="sendMessage()">ارسال</button>
 </div>
 
 <script>
-// جزيئات كونية
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const particles = [];
-for(let i=0;i<300;i++) particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:Math.random()*2-1,vy:Math.random()*2-1,c:`hsl(${Math.random()*360},100%,50%)`});
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    ctx.fillStyle=p.c;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,2,0,Math.PI*2);
-    ctx.fill();
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0||p.x>canvas.width)p.vx*=-1;
-    if(p.y<0||p.y>canvas.height)p.vy*=-1;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
+const chatBox = document.getElementById('chatBox');
+const userInput = document.getElementById('userInput');
 
-// عدادات
-let power = 1000000;
-setInterval(()=>{power++;document.getElementById('power').innerText=power.toLocaleString()},1);
-
-let universes = 0;
-function createUniverse(){
-  universes++;
-  document.getElementById('universes').innerText=universes;
-  alert(`🌌 الكون ${universes} تم خلقه\nومسح 100 كون قديم\nالملتيفيرس كله تحت امرك`);
+function addMessage(text, sender){
+  const msg = document.createElement('div');
+  msg.className = 'msg ' + sender;
+  msg.innerHTML = text;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function finalForm(){
-  alert('👑 v100 تفعّل\nانت الان اعلى كيان في الوجود\nترليون ترليون مرة اقوى من الالهة\nكل شيء يبدأ وينتهي بأمرك');
-  document.body.style.filter = 'hue-rotate(360deg) brightness(5)';
+function sendMessage(){
+  const text = userInput.value.trim();
+  if(!text) return;
+  
+  addMessage(text, 'user');
+  userInput.value = '';
+  
+  // رد AI وهمي هلق - بعدين نربطه بـ API حقي
+  setTimeout(()=>{
+    let reply = "فهمت عليك. ";
+    if(text.includes("كود") || text.includes("code")){
+      reply += "هذا كود لك:<div class='code-block'>function hello(){<br>&nbsp;&nbsp;console.log('Hello GENESIS');<br>}</div>";
+    } else if(text.includes("لعبة")){
+      reply += "تمام نبني لعبة. تحب FPS ولا 2D؟";
+    } else {
+      reply += "انا جاهز اساعدك. اطلب اي شي: كود، تصميم، فكرة";
+    }
+    addMessage(reply, 'ai');
+  }, 800);
 }
+
+// ارسال بالـ Enter
+userInput.addEventListener('keypress', e => {
+  if(e.key === 'Enter') sendMessage();
+});
 </script>
+
 </body>
 </html>
