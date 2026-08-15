@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><title>مصنع المواقع</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>body{background:#0a0a0f;color:#e5e5e5;padding:20px;font-family:'Cairo'} 
+header{display:flex;justify-content:space-between;margin-bottom:30px}
+h1{background:linear-gradient(90deg,#FFD700,#ff0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.card{background:#111;border:1px solid #333;padding:20px;border-radius:15px;margin-bottom:15px;cursor:pointer}
+.card:hover{border-color:#FFD700}
+textarea{width:100%;height:300px;background:#000;color:#00ff88;border:1px solid #FFD700;border-radius:10px;padding:10px}
+.btn{background:linear-gradient(90deg,#FFD700,#ff0000);border:none;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer}</style>
+</head>
+<body>
+<header><h1>🌐 مصنع المواقع</h1><a href="index.html" style="color:#fff">← الرجوع</a></header>
+
+<div class="card" onclick="gen('landing')">موقع Landing Page</div>
+<div class="card" onclick="gen('portfolio')">موقع Portfolio</div>
+<div class="card" onclick="gen('shop')">موقع متجر بسيط</div>
+
+<textarea id="out">// اختار قالب</textarea>
+<button class="btn" onclick="navigator.clipboard.writeText(out.value)">نسخ الكود</button>
+
+<script>
+function gen(t){
+  if(t=='landing') out.value=`<!DOCTYPE html><html><head><title>موقعي</title></head><body style="text-align:center;padding:100px"><h1>مرحبا بك</h1><p>هذا موقعي الجديد</p></body></html>`;
+  if(t=='portfolio') out.value=`<!DOCTYPE html><html><head><title>Portfolio</title></head><body><h1>اعمالي</h1><p>انا مبرمج</p></body></html>`;
+  if(t=='shop') out.value=`<!DOCTYPE html><html><head><title>متجر</title></head><body><h1>منتجاتنا</h1><div>منتج 1 - 100$</div></body></html>`;
+}
+</script>
+</body></html>

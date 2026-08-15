@@ -1,0 +1,20 @@
+{
+  "users": [],
+  "products": [
+    {
+      "id": 1,
+      "title": "Cinematic LUT Pack",
+      "price": 0,
+      "file": "demo.zip",
+      "img": "placeholder.png"
+    },
+    {
+      "id": 2,
+      "title": "AI Avatar Pack",
+      "price": 0,
+      "file": "avatar.zip",
+      "img": "placeholder.png"
+    }
+  ],
+  "orders": []
+}

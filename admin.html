@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN TITAN MATRIX</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--card:rgba(0,20,0,0.8);--neon:#00ff41;--text:#e0ffe0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#000;color:var(--text);display:flex;align-items:center;justify-content:center;height:100vh}
+#matrix-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.3}
+.login-box,.admin-panel{background:var(--card);border:2px solid var(--neon);border-radius:20px;padding:30px;width:90%;max-width:500px;backdrop-filter:blur(20px);box-shadow:0 0 30px var(--neon)40}
+h2{color:var(--neon);text-align:center;margin-bottom:20px;text-shadow:0 0 10px var(--neon)}
+input,button,textarea{width:100%;padding:12px;margin-bottom:12px;background:#0a0a0a;border:1px solid var(--neon)50;border-radius:10px;color:var(--text);font-size:16px}
+button{background:linear-gradient(90deg,var(--neon),#fff);color:#000;font-weight:900;cursor:pointer}
+button:hover{box-shadow:0 0 20px var(--neon)}
+.hidden{display:none}
+.tab{display:flex;gap:10px;margin-bottom:20px}
+.tab-btn{flex:1;background:#0a0a0a;color:var(--neon);border:1px solid var(--neon)}
+.tab-btn.active{background:var(--neon);color:#000}
+.product-list{max-height:300px;overflow-y:auto}
+.product-item{background:#050505;border:1px solid var(--neon)30;padding:10px;border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<canvas id="matrix-bg"></canvas>
+
+<!-- شاشة تسجيل الدخول -->
+<div class="login-box" id="loginBox">
+  <h2>⚡ ADMIN LOGIN</h2>
+  <input type="password" id="pass" placeholder="ادخل كلمة السر">
+  <button onclick="login()">دخول</button>
+</div>
+
+<!-- لوحة التحكم -->
+<div class="admin-panel hidden" id="adminPanel">
+  <h2>👑 TITAN CONTROL PANEL</h2>
+
+  <div class="tab">
+    <button class="tab-btn active" onclick="showTab('products')">📦 المنتجات</button>
+    <button class="tab-btn" onclick="showTab('settings')">⚙️ الاعدادات</button>
+  </div>
+
+  <!-- تبويب المنتجات -->
+  <div id="products-tab">
+    <h3>رفع منتج جديد</h3>
+    <input type="text" id="pTitle" placeholder="اسم المنتج">
+    <input type="file" id="pFile">
+    <button onclick="addProduct()">+ رفع المنتج</button>
+    <hr style="border-color:var(--neon)30;margin:15px 0">
+    <h3>المنتجات الحالية</h3>
+    <div class="product-list" id="productList"></div>
+  </div>
+
+  <!-- تبويب الاعدادات -->
+  <div id="settings-tab" class="hidden">
+    <h3>مميزات الاعدادات</h3>
+    <label><input type="checkbox" id="maintenance"> وضع الصيانة</label><br><br>
+    <label><input type="checkbox" id="allowUpload" checked> السماح برفع المنتجات</label><br><br>
+    <label>اسم الموقع: <input type="text" id="siteName" value="DESIGN ARENA TITAN"></label>
+    <label>كلمة السر: <input type="text" id="adminPass" value="titan123"></label>
+    <button onclick="saveSettings()">💾 حفظ الاعدادات</button>
+  </div>
+
+  <button onclick="logout()" style="background:#ff0044;color:#fff;margin-top:20px">تسجيل خروج</button>
+</div>
+
+<script>
+// خلفية ماتركس
+const matrix = document.getElementById('matrix-bg');
+const mctx = matrix.getContext('2d');
+matrix.width = window.innerWidth; matrix.height = window.innerHeight;
+let mchars = "01ADMIN".split("");let mfont = 14;let mcols = matrix.width/mfont;let mdrops = [];
+for(let x=0;x<mcols;x++) mdrops[x]=1;
+setInterval(()=>{mctx.fillStyle="rgba(0,0,0,0.05)";mctx.fillRect(0,0,matrix.width,matrix.height);
+mctx.fillStyle="#00ff41";mctx.font=mfont+"px monospace";
+for(let i=0;i<mdrops.length;i++){mctx.fillText(mchars[Math.floor(Math.random()*mchars.length)],i*mfont,mdrops[i]*mfont);
+if(mdrops[i]*mfont>matrix.height&&Math.random()>0.975) mdrops[i]=0;mdrops[i]++;}},33);
+
+const ADMIN_PASS = "titan123"; // غير الباسورد من هنا
+
+function login(){
+  if(document.getElementById('pass').value === ADMIN_PASS){
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('adminPanel').classList.remove('hidden');
+    loadProducts();
+    loadSettings();
+  } else alert("كلمة السر خطأ");
+}
+function logout(){location.reload()}
+function showTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('products-tab').classList.add('hidden');
+  document.getElementById('settings-tab').classList.add('hidden');
+  document.getElementById(tab+'-tab').classList.remove('hidden');
+}
+
+async function loadProducts(){
+  const res = await fetch('/api/products');
+  const products = await res.json();
+  document.getElementById('productList').innerHTML = products.map(p=>`
+    <div class="product-item"><span>${p.title}</span><span>مجاناً</span></div>
+  `).join('');
+}
+
+async function addProduct(){
+  const title = document.getElementById('pTitle').value;
+  const file = document.getElementById('pFile').files[0];
+  if(!title ||!file) return alert("اكمل البيانات");
+  const form = new FormData();
+  form.append('title', title);
+  form.append('file', file);
+  await fetch('/api/add-product', {method:'POST', body:form});
+  alert("تم الرفع");
+  loadProducts();
+}
+
+function loadSettings(){
+  const settings = JSON.parse(localStorage.getItem('titanSettings') || '{}');
+  document.getElementById('maintenance').checked = settings.maintenance || false;
+  document.getElementById('allowUpload').checked = settings.allowUpload!== false;
+  document.getElementById('siteName').value = settings.siteName || "DESIGN ARENA TITAN";
+  document.getElementById('adminPass').value = settings.adminPass || "titan123";
+}
+function saveSettings(){
+  const settings = {
+    maintenance: document.getElementById('maintenance').checked,
+    allowUpload: document.getElementById('allowUpload').checked,
+    siteName: document.getElementById('siteName').value,
+    adminPass: document.getElementById('adminPass').value
+  };
+  localStorage.setItem('titanSettings', JSON.stringify(settings));
+  alert("تم الحفظ");
+}
+</script>
+</body>
+</html>

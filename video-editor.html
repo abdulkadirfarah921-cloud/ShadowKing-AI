@@ -2,55 +2,63 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>SHADOWKING VIDEO PRO v16</title>
+<title>SHADOWKING VIDEO PRO v16 MATRIX</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--neon:#00e5ff;--neon2:#00ff88;--glass:rgba(20,20,30,0.7)}
+:root{--neon:#00e5ff;--neon2:#00ff88;--matrix:#00ff41;--glass:rgba(10,10,20,0.65)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:radial-gradient(circle at 50% 0%,#1a1a2e 0%,#000 100%);color:#fff;overflow-x:auto}
+body{background:#000;color:#fff;overflow-x:auto}
+
+/* 1. خلفية ماتركس جديدة */
+#matrix-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;opacity:0.25}
 #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
-.topbar{padding:12px 20px;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--neon)44;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between}
-.logo{font-size:1.6em;font-weight:900;color:var(--neon)}
+
+.topbar{padding:12px 20px;background:var(--glass);backdrop-filter:blur(20px);border-bottom:2px solid var(--matrix);position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;box-shadow:0 0 20px var(--matrix)40}
+.logo{font-size:1.6em;font-weight:900;color:var(--matrix);text-shadow:0 0 10px var(--matrix)}
 .container{max-width:1800px;margin:15px auto;padding:15px}
 .main-grid{display:grid;grid-template-columns:1fr 460px;gap:15px}
 
-.preview-area{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:10px;position:relative;min-height:300px;overflow:hidden}
-.dropzone{border:2px dashed var(--neon);border-radius:12px;padding:20px;text-align:center;margin-bottom:10px;opacity:0.6}
-video{width:100%;height:240px;object-fit:cover;border-radius:12px;background:#000;border:2px solid var(--neon)}
+.preview-area{background:var(--glass);border:1px solid var(--matrix)66;border-radius:15px;padding:10px;position:relative;min-height:300px;overflow:hidden;box-shadow:0 0 30px var(--matrix)30}
+.dropzone{border:2px dashed var(--matrix);border-radius:12px;padding:20px;text-align:center;margin-bottom:10px;opacity:0.6;color:var(--matrix)}
+video{width:100%;height:240px;object-fit:cover;border-radius:12px;background:#000;border:2px solid var(--matrix);box-shadow:0 0 20px var(--matrix)50}
 
 .particle{position:absolute;width:10px;height:10px;background:var(--neon2);border-radius:50%;pointer-events:none;animation:fall 3s linear infinite}
 @keyframes fall{to{transform:translateY(300px);opacity:0}}
 
-.sidebar{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:15px;max-height:90vh;overflow-y:auto}
+.sidebar{background:var(--glass);border:1px solid var(--matrix)66;border-radius:15px;padding:15px;max-height:90vh;overflow-y:auto;box-shadow:0 0 30px var(--matrix)30}
 .tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}
-.tab-btn{flex:1;background:rgba(0,229,255,0.1);color:var(--neon);padding:10px;border:1px solid var(--neon);border-radius:10px;cursor:pointer;font-weight:900;font-size:0.8em}
-.tab-btn.active{background:linear-gradient(90deg,#00ff88,#00e5ff);color:#000}
+.tab-btn{flex:1;background:rgba(0,255,65,0.1);color:var(--matrix);padding:10px;border:1px solid var(--matrix);border-radius:10px;cursor:pointer;font-weight:900;font-size:0.8em;transition:0.3s}
+.tab-btn.active{background:linear-gradient(90deg,var(--matrix),var(--neon));color:#000;box-shadow:0 0 15px var(--matrix)}
 .tab{display:none}.tab.active{display:block}
-.card{background:rgba(0,0,0,0.4);border:1px solid var(--neon)33;border-radius:12px;padding:15px;margin-bottom:12px}
-h3{color:var(--neon2);margin-bottom:10px;font-size:1em;border-right:3px solid var(--neon2);padding-right:10px}
-.btn{width:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:5px 0}
-.btn-export{background:linear-gradient(90deg,#00ff88,#00e5ff);box-shadow:0 0 25px var(--neon2)}
-select,input,textarea{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#fff;border:1px solid var(--neon);border-radius:8px;margin:5px 0}
+.card{background:rgba(0,0,0,0.5);border:1px solid var(--matrix)33;border-radius:12px;padding:15px;margin-bottom:12px}
+h3{color:var(--neon2);margin-bottom:10px;font-size:1em;border-right:3px solid var(--matrix);padding-right:10px}
+.btn{width:100%;background:linear-gradient(90deg,var(--matrix),var(--neon));color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;cursor:pointer;margin:5px 0;transition:0.3s}
+.btn:hover{box-shadow:0 0 20px var(--matrix)}
+.btn-export{background:linear-gradient(90deg,var(--matrix),#fff);box-shadow:0 0 25px var(--matrix)}
+select,input,textarea{width:100%;padding:10px;background:rgba(0,0,0,0.6);color:#00ff41;border:1px solid var(--matrix);border-radius:8px;margin:5px 0}
 
+/* 2. سكرول ماتركس */
 .scroll-controls{position:fixed;right:25px;top:280px;display:flex;flex-direction:column;gap:12px;z-index:9999}
-.scroll-btn{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#000;border:none;padding:18px 20px;border-radius:15px;font-size:2.2em;font-weight:900;cursor:pointer}
+.scroll-btn{background:linear-gradient(135deg,var(--matrix),var(--neon));color:#000;border:none;padding:18px 20px;border-radius:15px;font-size:2.2em;font-weight:900;cursor:pointer;box-shadow:0 0 20px var(--matrix)}
 
-.timeline-wrap{background:var(--glass);border:1px solid var(--neon)44;border-radius:15px;padding:10px;margin-top:15px}
-.timeline-track{height:80px;background:#050505;border-radius:10px;position:relative;overflow-x:auto}
+.timeline-wrap{background:var(--glass);border:1px solid var(--matrix)66;border-radius:15px;padding:10px;margin-top:15px}
+.timeline-track{height:80px;background:#020202;border:1px solid var(--matrix)44;border-radius:10px;position:relative;overflow-x:auto}
 .track-row{height:40px;position:relative;display:flex;align-items:center;min-width:5000px}
-.clip-item{height:35px;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:8px;margin:0 3px;padding:5px;min-width:100px;font-size:0.8em;display:flex;align-items:center}
-.audio-track{height:35px;background:linear-gradient(90deg,#ff00ff,#00e5ff);margin-top:5px}
+.clip-item{height:35px;background:linear-gradient(90deg,var(--matrix),var(--neon));border-radius:8px;margin:0 3px;padding:5px;min-width:100px;font-size:0.8em;display:flex;align-items:center;border:1px solid #fff}
+.audio-track{height:35px;background:linear-gradient(90deg,#ff00ff,var(--matrix));margin-top:5px}
 
-.watermark{position:absolute;bottom:15px;right:15px;background:rgba(0,0,0,0.3);color:var(--neon);padding:8px 15px;border-radius:15px;font-size:0.9em;font-weight:900;opacity:0.7;pointer-events:none;z-index:50}
+.watermark{position:absolute;bottom:15px;right:15px;background:rgba(0,255,65,0.1);color:var(--matrix);padding:8px 15px;border-radius:15px;font-size:0.9em;font-weight:900;opacity:0.7;pointer-events:none;z-index:50;border:1px solid var(--matrix)}
 .outro-screen{position:absolute;top:0;left:0;width:100%;height:100%;background:#000;display:none;flex-direction:column;justify-content:center;align-items:center;z-index:100}
-#title3D{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3em;font-weight:900;color:var(--neon2);text-shadow:0 0 30px var(--neon2);display:none;z-index:60}
+#title3D{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3em;font-weight:900;color:var(--matrix);text-shadow:0 0 30px var(--matrix);display:none;z-index:60}
 </style>
 </head>
 <body>
+<!-- 3. كانفاس الماتركس الجديد -->
+<canvas id="matrix-bg"></canvas>
 <canvas id="particles"></canvas>
 
 <div class="topbar">
-  <div class="logo">🎬 SHADOWKING VIDEO PRO v16</div>
+  <div class="logo">🎬 SHADOWKING VIDEO PRO v16 MATRIX</div>
   <div><button class="btn" onclick="saveProject()" style="width:auto;padding:8px 15px">💾 حفظ</button></div>
 </div>
 
@@ -140,7 +148,7 @@ select,input,textarea{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#
       </div>
       <div class="card">
         <h3>🧩 Plugin Store</h3>
-        <!-- هنا التعديل الوحيد -->
+        <!-- زي ما طلبت بالظبط -->
         <button class="btn" onclick="window.open('market.html','_blank')">🏪 فتح متجر Fab الجديد</button>
       </div>
     </div>
@@ -150,58 +158,65 @@ select,input,textarea{width:100%;padding:10px;background:rgba(0,0,0,0.5);color:#
 </div>
 
 <script>
-// خلفية
+// 4. سكربت الماتركس الاخضر
+const matrix = document.getElementById('matrix-bg');
+const mctx = matrix.getContext('2d');
+matrix.width = window.innerWidth; matrix.height = window.innerHeight;
+let mchars = "01SHADOWKINGMATRIX".split("");
+let mfont = 14;
+let mcols = matrix.width/mfont;
+let mdrops = [];
+for(let x=0;x<mcols;x++) mdrops[x]=1;
+function mdraw(){
+  mctx.fillStyle="rgba(0,0,0,0.05)";
+  mctx.fillRect(0,0,matrix.width,matrix.height);
+  mctx.fillStyle="#00ff41";
+  mctx.font=mfont+"px monospace";
+  for(let i=0;i<mdrops.length;i++){
+    let text=mchars[Math.floor(Math.random()*mchars.length)];
+    mctx.fillText(text,i*mfont,mdrops[i]*mfont);
+    if(mdrops[i]*mfont>matrix.height&&Math.random()>0.975) mdrops[i]=0;
+    mdrops[i]++;
+  }
+}
+setInterval(mdraw,33);
+
+// كودك القديم كله زي ما هو
 const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;canvas.height=window.innerHeight;
 let particles=[];for(let i=0;i<100;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.4,dy:(Math.random()-0.5)*0.4})}
-function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00e5ff22';particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1});requestAnimationFrame(animate)}animate();
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00ff4122';particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1});requestAnimationFrame(animate)}animate();
 
 const video=document.getElementById('preview');
-
-// 1. AI Video Expand v16 جديد
 function aiExpand(){alert('🧠 AI: تم تحليل اخر فريم وتمديد الفيديو +20 ثانية بنفس المشهد')}
-
-// 2. AI Style Transfer v16 جديد
 function aiStyle(){
   const style=document.getElementById('style').value;
   video.style.filter = style=='انمي'?'contrast(1.4) saturate(2)':style=='لوحة فنية'?'sepia(0.8) contrast(1.2)':'hue-rotate(60deg)';
   alert(`🎨 AI: تم تحويل الفيديو لستايل ${style}`)
 }
-
-// 3. 3D Particles v16 جديد
 function addParticles(type){
   const area=document.getElementById('previewArea');
   for(let i=0;i<20;i++){
     const p=document.createElement('div');p.className='particle';
     p.style.left=Math.random()*100+'%';p.style.top='0px';
-    p.style.background = type=='fire'?'#ff5500':type=='rain'?'#00e5ff':'#fff';
+    p.style.background = type=='fire'?'#ff5500':type=='rain'?'#00ff41':'#fff';
     area.appendChild(p);setTimeout(()=>p.remove(),3000)
   }
 }
-
-// 4. Lens Flare v16 جديد
 function addLensFlare(){
   const flare=document.createElement('div');
-  flare.style.cssText='position:absolute;top:20%;left:50%;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,0.8)0%,transparent70%);border-radius:50%;pointer-events:none;z-index:55';
+  flare.style.cssText='position:absolute;top:20%;left:50%;width:200px;height:200px;background:radial-gradient(circle,rgba(0,255,65,0.8)0%,transparent70%);border-radius:50%;pointer-events:none;z-index:55';
   document.getElementById('previewArea').appendChild(flare);
   setTimeout(()=>flare.remove(),2000)
 }
-
-// 5. Audio Mixer v16 جديد
 function setVolume(type,val){alert(`🎚️ تم ضبط صوت ${type} الى ${val}%`)}
 function beatSync(){alert('🎵 AI: تم وضع 15 علامة على دقات الموسيقى في التايم لين')}
-
-// 6. Direct Upload + Plugin Store
 function upload(platform){alert(`🌐 جاري الرفع على ${platform}... تم!`)}
-function openPluginStore(){window.open('market.html','_blank')} // عدلتها عشان تفتح الصفحة
-
-// 7. الباقي
 function openTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active')}
 function aiAvatar(){alert(`🎭 AI Avatar: "${document.getElementById('avatarText').value}" تم الانشاء`)}
 function saveProject(){localStorage.setItem('svp',video.src);alert('💾 تم الحفظ')}
 function exportVideo(){document.getElementById('outroScreen').style.display='flex';setTimeout(()=>document.getElementById('outroScreen').style.display='none',3000);alert('🚀 تم التصدير مع العلامة والاوترو')}
 
-// سكرول
 let scrollInterval=null;function startScroll(d){scrollInterval=setInterval(()=>window.scrollBy({left:d*70}),20)}
 function stopScroll(){clearInterval(scrollInterval)}
 document.getElementById('scrollLeft').onmousedown=()=>startScroll(-1);

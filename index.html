@@ -3,54 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TITAN GOD</title>
+<title>DESIGN ARENA TITAN MATRIX</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#030307; --card:#0a0a12; --border:#2a2a4a; 
-  --neon1:#00f5ff; --neon2:#ff00e5; --gold:#FFD700; --text:#e0e0ff;
+  --bg:#000; --card:rgba(0,20,0,0.7); --border:#00ff41;
+  --neon:#00ff41; --text:#e0ffe0;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:radial-gradient(circle at 50% -20%, #2a0044 0%, var(--bg) 60%);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-/* الهيدر النار */
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#00070;border-bottom:1px solid var(--border);backdrop-filter:blur(15px)}
-.logo{font-size:24px;font-weight:900;background:linear-gradient(90deg,var(--neon1),var(--gold),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glow 2s infinite}
-@keyframes glow{0%,100%{filter:drop-shadow(0 0 5px var(--neon1))}50%{filter:drop-shadow(0 0 15px var(--neon2))}}
-.battle-btn{background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#000;border:none;padding:10px 20px;border-radius:14px;font-weight:900;cursor:pointer;box-shadow:0 0 20px var(--neon1)}
+/* 1. خلفية ماتركس */
+#matrix-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.4}
+
+/* الهيدر الزجاجي */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(0,0,0,0.6);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);box-shadow:0 0 20px var(--neon)20}
+.logo{font-size:24px;font-weight:900;color:var(--neon);text-shadow:0 0 15px var(--neon);animation:glow 2s infinite}
+@keyframes glow{0%,100%{text-shadow:0 0 10px var(--neon)}50%{text-shadow:0 0 25px var(--neon)}}
+.battle-btn{background:linear-gradient(90deg,var(--neon),#fff);color:#000;border:none;padding:10px 20px;border-radius:14px;font-weight:900;cursor:pointer;box-shadow:0 0 20px var(--neon);transition:0.3s}
+.battle-btn:hover{transform:scale(1.05)}
 
 /* المنطقة الرئيسية */
-.main{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;align-items:center}
-.title{font-size:40px;font-weight:900;margin:20px 0 10px;text-align:center}
-.subtitle{color:#888;margin-bottom:30px}
+.main{flex:1;overflow-y:auto;padding:30px 20px;display:flex;flex-direction:column;align-items:center}
+.title{font-size:48px;font-weight:900;margin:20px 0 10px;text-align:center;color:var(--neon);text-shadow:0 0 20px var(--neon)}
+.subtitle{color:#aaa;margin-bottom:40px;font-size:18px}
 
-/* زر المودات النار */
-.fab-btn{position:fixed;bottom:90px;right:20px;background:linear-gradient(135deg,var(--gold),#ff5500);width:65px;height:65px;border-radius:50%;border:none;font-size:30px;cursor:pointer;box-shadow:0 0 25px #FFD70080;z-index:999}
-.fab-btn:hover{transform:scale(1.1) rotate(90deg)}
+/* 2. شبكة المصانع */
+.factories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;width:100%;max-width:1200px}
+.factory-card{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;
+  backdrop-filter:blur(15px);cursor:pointer;transition:0.3s;
+  box-shadow:0 0 15px #000;
+}
+.factory-card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--neon);box-shadow:0 0 30px var(--neon)50}
+.f-icon{font-size:40px;margin-bottom:10px}
+.f-title{font-size:20px;font-weight:900;margin-bottom:8px;color:var(--neon)}
+.f-desc{color:#aaa;font-size:14px;line-height:1.6}
 
-.modes-menu{display:none;position:fixed;bottom:165px;right:20px;background:var(--card);border:2px solid var(--border);border-radius:20px;padding:15px;width:280px;box-shadow:0 0 30px #000;z-index:999}
+/* زر النار + القائمة */
+.fab-btn{position:fixed;bottom:90px;right:20px;background:linear-gradient(135deg,var(--neon),#fff);width:70px;height:70px;border-radius:50%;border:none;font-size:32px;cursor:pointer;box-shadow:0 0 30px var(--neon);z-index:999;transition:0.4s}
+.fab-btn:hover{transform:scale(1.15) rotate(180deg)}
+
+.modes-menu{display:none;position:fixed;bottom:170px;right:20px;background:rgba(0,10,0,0.9);border:2px solid var(--border);border-radius:20px;padding:15px;width:300px;box-shadow:0 0 40px var(--neon)30;z-index:999;backdrop-filter:blur(20px)}
 .modes-menu.show{display:block;animation:pop 0.3s}
 @keyframes pop{from{transform:scale(0.8);opacity:0}}
-.mode-item{background:#111;border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:700}
-.mode-item:hover{background:linear-gradient(90deg,#111, #1a001a);border-color:var(--neon2);transform:translateX(-5px)}
+.mode-item{background:#050505;border:1px solid var(--border)50;border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;font-weight:700;transition:0.2s}
+.mode-item:hover{background:var(--neon);color:#000;border-color:var(--neon);transform:translateX(-8px)}
 
 /* صندوق الادخال */
-.input-wrap{width:95%;max-width:800px;position:fixed;bottom:20px}
-.input-box{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:15px;display:flex;align-items:center;gap:10px}
-.input-box:focus-within{border-color:var(--neon1);box-shadow:0 0 20px #00f5ff40}
+.input-wrap{width:95%;max-width:900px;position:fixed;bottom:20px;left:50%;transform:translateX(-50%)}
+.input-box{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:15px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(20px)}
+.input-box:focus-within{border-color:var(--neon);box-shadow:0 0 25px var(--neon)40}
 .input-box input{flex:1;background:transparent;border:none;outline:none;font-size:17px;color:var(--text)}
 .tools{display:flex;gap:8px}
-.tool-btn{background:#1a1a2a;border:1px solid var(--border);border-radius:12px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.send{background:linear-gradient(90deg,var(--neon1),var(--neon2));border:none;border-radius:12px;width:42px;height:42px;color:#000;font-weight:900;cursor:pointer}
+.tool-btn{background:#0a0a0a;border:1px solid var(--border)50;border-radius:12px;width:45px;height:45px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:0.2s}
+.tool-btn:hover{border-color:var(--neon)}
+.send{background:linear-gradient(90deg,var(--neon),#fff);border:none;border-radius:12px;width:45px;height:45px;color:#000;font-weight:900;cursor:pointer}
 
 /* ثيمات */
-body.light{--bg:#f5f5f5; --card:#fff; --text:#111; --border:#ddd}
+body.light{--bg:#f0f0f0; --card:rgba(255,255,255,0.8); --text:#111; --border:#00cc33}
 </style>
 </head>
 <body>
+<canvas id="matrix-bg"></canvas>
 
 <div class="topbar">
-  <div class="logo">⚡ TITAN GOD</div>
+  <div class="logo">⚡ DESIGN ARENA TITAN</div>
   <div>
     <button onclick="toggleTheme()" class="battle-btn">🌙</button>
     <button onclick="battleMode()" class="battle-btn">⚔️ Battle</button>
@@ -58,9 +76,38 @@ body.light{--bg:#f5f5f5; --card:#fff; --text:#111; --border:#ddd}
 </div>
 
 <div class="main">
-  <div class="title">TITAN GOD READY</div>
-  <div class="subtitle">دوس زر النار تحت واختار المصنع</div>
-  <div id="chatBox" style="width:100%;max-width:800px"></div>
+  <div class="title">TITAN MATRIX STUDIO</div>
+  <div class="subtitle">اختر مصنعك واصنع امبراطورية في 60 ثانية</div>
+
+  <!-- شبكة المصانع -->
+  <div class="factories-grid">
+    <div class="factory-card" onclick="openPage('app.html')">
+      <div class="f-icon">📱</div><div class="f-title">مصنع التطبيقات</div>
+      <div class="f-desc">اصنع تطبيق اندرويد + ايفون بالذكاء الاصطناعي</div>
+    </div>
+    <div class="factory-card" onclick="openPage('site.html')">
+      <div class="f-icon">🌐</div><div class="f-title">مصنع المواقع</div>
+      <div class="f-desc">موقع احترافي + متجر الكتروني في دقيقة</div>
+    </div>
+    <div class="factory-card" onclick="openPage('video-editor.html')">
+      <div class="f-icon">🎬</div><div class="f-title">مصنع الفيديو</div>
+      <div class="f-desc">مونتاج + مؤثرات + AI Avatar</div>
+    </div>
+    <div class="factory-card" onclick="openPage('audio-editor.html')">
+      <div class="f-icon">🎙️</div><div class="f-title">مصنع الصوت</div>
+      <div class="f-desc">استوديو صوت TITAN MATRIX كامل</div>
+    </div>
+    <div class="factory-card" onclick="openPage('market.html')">
+      <div class="f-icon">🏪</div><div class="f-title">FAB STORE</div>
+      <div class="f-desc">متجر القوالب والمنتجات المجانية</div>
+    </div>
+    <div class="factory-card" onclick="openPage('image.html')">
+      <div class="f-icon">🖼️</div><div class="f-title">مصنع الصور</div>
+      <div class="f-desc">توليد صور + لوجو + ثامبنيل</div>
+    </div>
+  </div>
+
+  <div id="chatBox" style="width:100%;max-width:900px;margin-top:30px"></div>
 </div>
 
 <!-- زر النار + القائمة -->
@@ -70,9 +117,12 @@ body.light{--bg:#f5f5f5; --card:#fff; --text:#111; --border:#ddd}
   <div class="mode-item" onclick="openPage('site.html')">🌐 مصنع المواقع</div>
   <div class="mode-item" onclick="openPage('image.html')">🖼️ مصنع الصور</div>
   <div class="mode-item" onclick="openPage('video-editor.html')">🎬 مصنع الفيديو</div>
+  <div class="mode-item" onclick="openPage('audio-editor.html')">🎙️ مصنع الصوت</div>
   <div class="mode-item" onclick="openPage('game.html')">🎮 مصنع الالعاب</div>
-  <div class="mode-item" onclick="openPage('bot.html')">🤖 مصنع البوتات</div>
   <div class="mode-item" onclick="openPage('code.html')"><> مولد الكود</div>
+  <div class="mode-item" onclick="openPage('market.html')">🏪 FAB STORE</div>
+  <div class="mode-item" onclick="openPage('admin.html')">👑 لوحة التحكم</div>
+  <div class="mode-item" onclick="openPage('settings.html')">⚙️ الاعدادات</div>
   <div class="mode-item" onclick="autoEmpire()">👑 زر فجر الدنيا</div>
 </div>
 
@@ -90,6 +140,22 @@ body.light{--bg:#f5f5f5; --card:#fff; --text:#111; --border:#ddd}
 </div>
 
 <script>
+// خلفية ماتركس
+const matrix = document.getElementById('matrix-bg');
+const mctx = matrix.getContext('2d');
+matrix.width = window.innerWidth; matrix.height = window.innerHeight;
+let mchars = "01DESIGN".split("");let mfont = 14;let mcols = matrix.width/mfont;let mdrops = [];
+for(let x=0;x<mcols;x++) mdrops[x]=1;
+function mdraw(){
+  mctx.fillStyle="rgba(0,0,0,0.05)";mctx.fillRect(0,0,matrix.width,matrix.height);
+  mctx.fillStyle="#00ff41";mctx.font=mfont+"px monospace";
+  for(let i=0;i<mdrops.length;i++){
+    mctx.fillText(mchars[Math.floor(Math.random()*mchars.length)],i*mfont,mdrops[i]*mfont);
+    if(mdrops[i]*mfont>matrix.height&&Math.random()>0.975) mdrops[i]=0;mdrops[i]++;
+  }
+}
+setInterval(mdraw,33);
+
 function toggleModes(){
   document.getElementById('modesMenu').classList.toggle('show');
 }
@@ -97,7 +163,7 @@ function openPage(p){location.href=p}
 function send(){
   let val = document.getElementById('prompt').value;
   if(!val) return;
-  document.getElementById('chatBox').innerHTML += `<p><b>انت:</b> ${val}</p><p><b>TITAN:</b> جاري التنفيذ... ${val}</p>`;
+  document.getElementById('chatBox').innerHTML += `<p style="margin:10px 0"><b style="color:var(--neon)">انت:</b> ${val}</p><p style="margin:10px 0"><b style="color:var(--neon)">TITAN:</b> جاري التنفيذ... ${val}</p>`;
   document.getElementById('prompt').value = '';
 }
 function battleMode(){alert("⚔️ Battle Mode: TITAN vs GPT vs GEMINI مفعل")}
@@ -109,7 +175,7 @@ function autoEmpire(){
 
 // اغلاق القائمة عند الضغط برا
 document.addEventListener('click', e => {
-  if(!e.target.closest('.fab-btn') && !e.target.closest('.modes-menu')){
+  if(!e.target.closest('.fab-btn') &&!e.target.closest('.modes-menu')){
     document.getElementById('modesMenu').classList.remove('show');
   }
 });
